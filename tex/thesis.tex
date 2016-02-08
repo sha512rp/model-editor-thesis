@@ -1,6 +1,10 @@
 \documentclass[FM,DP]{tulthesis}
+
 \usepackage[czech]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\onehalfspacing
+
 \TULtitle{Editor konfiguračních souborů Flow123d}{Editor for Flow123d configuration files}
 \TULprogramme{N2612}{Elektrotechnika a informatika}%
 {Electrotechnology and informatics}
@@ -9,24 +13,107 @@
 \TULauthor{Bc. Tomáš Křížek}
 \TULsupervisor{doc. Ing. Jiřina Královcová, Ph.D.}  %TODO uvadet vsechny tituly?
 \TULyear{2016}
+
 \begin{document}
 \ThesisStart{male}
+
 \begin{abstractCZ}
 Český abstrakt
 \end{abstractCZ}
+
 \vspace{2cm}
 \begin{abstractEN}
 English abstract
 \end{abstractEN}
+
 \begin{acknowledgement}
-Vám poděkování a lásku vám.
+
 \end{acknowledgement}
+
 \tableofcontents
 \clearpage
+
 \begin{abbrList}
 \textbf{EU} & Evropská unie \\
 \end{abbrList}
+
 \chapter{Úvod}
-Ve své diplomové práci...
+
+Existuje celá řada softwarů, která ke své činnosti potřebuje správné nastavení, podle kterého daný program nakonfiguruje svoji činnost. Může se jednat o~počáteční, jako je tomu například u~serverových aplikací, e-mailových klientů. Tato konfigurace se dále mění pouze v~případě, že se má změnit činnost aplikace.
+
+Oproti tomu existují programy, od kterých se očekává, že budou spouštěny v~různých konfiguracích. U~těchto aplikací se typicky konfigurace předává při spuštění jako jeden ze vstupních parametrů. Takové programy pak přizpůsobují svoji činnost dle zadaného nastavení. Příkladem je například validátor XML, který určí, zda dokument odpovídá danému DTD či XML schématu.
+
+Takovou aplikací je i simulátor Flow123d, který pracuje se zadanou výpočetní sítí, na které provádí výpočty dle definované úlohy. Úloha se definuje pomocí konfiguračního souboru, která pak spolu s~výpočetní sítí a ostatními daty tvoří vstupní data pro aplikaci Flow123d.
+
+Kromě toho, že je nutné každou úlohu konfigurovat zvlášť vyvstává i otázka toho, zda je vůbec zvolená konfirace validní. Chyba může nastat hned na několika úrovních. V~nejběžnějším případě může jít o~překlep. V~konfiguraci však může být i logická chyba, kdy jsou sice splněny všechny syntaktické požadavky, ale kombinace některých hodnot je nepřípustná.
+
+%TODO logicka vs semanticka chyba?
+
+Náročnost odhalení těchto chyb závisí na složitosti možného nastavení. V~případě Flow123d má samotná referenční příručka, která popisuje formát konfiguračních souborů, několik desítek stran. Pro uživatele tedy není triviální rozhodnout, zda je jím nadefinovaná úloha správně zadaná, nebo jestli např. zapomněl vyplnit nějaký povinný atribut. Na uživatele jsou tedy kladeny velké nároky -- buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit čas hledáním a pročítáním dokumentace.
+
+Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí funkce softwaru Flow123d. Některé změny bohužel nejsou ani zpětně kompatibilní. Tím pádem soubor, který byl validní pro starší verzi už nemusí být validní pro nově vydanou verzi. Uživatele tedy opět čeká studium rozsáhlé referenční dokumentace, aby zjistil, jaké změny má provést.
+
+%TODO zlepsit flow cteni, odstanit logicky skok
+V~případě, že uživatel spustí Flow123d, tak se o~chybě dozví. Jelikož se ale jedná o~výpočetně náročné úlohy, které se často pouští na vzdáleném výpočetním clusteru, je tento proces poměrně zdlouhavý. Pokud se úloha spouští vzdáleně, musí dojít k~navázání komunikace a přidělení zdrojů, než může být vůbec úloha spuštěna. Odhalování takovýchto chyb je pak časově náročné a uživatelsky nepříjemné.
+
+Tyto důvody byly hlavní motivací ke vzniku speciálního editoru, který značně zjednoduší práci s~konfiguračními soubory pro Flow123d. Aplikace by měla poskytovat přívětivé rozhraní, které uživateli zjednoduší přístup k~dokumentaci. Místo hledání příslušné sekce v~několika stránkové referenční dokumentaci by měl mít uživatel k~dispozici tu část dokumentace, která bezprostředně souvisí s~tou části konfiguračního souboru, kterou upravuje.
+
+Editor by měl dále usnadnit a zrychlit proces odstranění chyb v~konfiguračních souborech. Vzhledem k~tomu, že apliakce Flow123d může být časově náročná na spuštění, obzvlášť pokud je spouštěna vzdáleně, by bylo ideální chybám předcházet a odhalit je ještě před tím, než je konfigurační soubor předložen aplikaci Flow123d. Editor by měl umožňovat ověření, zda v~konfiguračním souboru nejsou chyby, které jsou buď syntaktické, nebo v~rozporu s~formátem, který Flow123d očekává.
+
+Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konfigurační soubor. Kromě toho se od editoru očekávají základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a další. Editor by měl podporovat platformy Windows a GNU/Linux. %TODO vyhledavani/nahrazeni - mezery u lomitka?
+
+%TODO zminit strukturu prace - rozcestnik?
+
+
+\chapter{Rešerše}
+
+\section{Datové struktury pro popis dat}
+Obecny popis struktur - pole, zaznam, hodnota.
+
+%TODO jak to nazvat, aby nikdo neocekaval, ze tady zacnu rozebirat binarni stromy? 
+%TODO zduraznit, ze je jedna o pohled ze strany jazyku pro popis dat
+
+Vnorovani dat - stromove struktury.
+
+
+\section{Formát dat}
+Semantika - pridani vyznamu datum.
+
+Specificke pro aplikacni domenu.
+
+\section{Jazyky pro popis dat}
+XML, DTD, XMLSchema
+JSON, JSON Schema
+YAML
+
+
+\chapter{Analýza}
+
+
+\section{Konfigurační soubory}
+Priblizeni konfiguracnich souboru a jejich formatu.
+
+Stary format CON a prechod na novy format YAML.
+
+Diskuze XML/YAML(JSON). 
+
+\section{Input Structure Tree}
+Popis formatu datovych souboru.
+
+Definice konkretnich datovych typu.
+
+Specifikovat mozne atributy.
+
+\section{Autokonverze}
+Popsat mozne konverze, uvest do souvislosti s~XML transformacemi?
+
+
+\chapter{Návrh}
+Diagramy pro zpracovani YAML (inspirace SAX vs DOM).
+
+
+
+
+\chapter{Implementace}
 
 \end{document}

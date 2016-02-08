@@ -10,5 +10,6 @@
     "tulthesis"
     "tulthesis10"
     "babel"
-    "inputenc")))
+    "inputenc"
+    "setspace")))
 
