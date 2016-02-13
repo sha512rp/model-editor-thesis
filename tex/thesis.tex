@@ -41,26 +41,30 @@ English abstract
 
 \chapter*{Úvod}
 
-Existuje celá řada softwarů, která ke své činnosti potřebuje správné nastavení, podle kterého daný program nakonfiguruje svoji činnost. Může se jednat o~počáteční, jako je tomu například u~serverových aplikací, e-mailových klientů. Tato konfigurace se dále mění pouze v~případě, že se má změnit činnost aplikace.
+%TODO - formulace "mel by"? nebude lepsi to psat jinak?
 
-Oproti tomu existují programy, od kterých se očekává, že budou spouštěny v~různých konfiguracích. U~těchto aplikací se typicky konfigurace předává při spuštění jako jeden ze vstupních parametrů. Takové programy pak přizpůsobují svoji činnost dle zadaného nastavení. Příkladem je například validátor XML, který určí, zda dokument odpovídá danému DTD či XML schématu.
+Existuje celá řada softwarů, která pro zajištění požadované funkce potřebuje správné nastavení, podle kterého pak daný program přizpůsobí svoji činnost. Může se jednat o~počáteční konfiguraci, jako je tomu například u~serverových aplikací nebo e-mailových klientů. Tato konfigurace se zpravidla dále nemění, pokud nedojde k nějakým podstatným změnám.
 
-Takovou aplikací je i simulátor Flow123d, který pracuje se zadanou výpočetní sítí, na které provádí výpočty dle definované úlohy. Úloha se definuje pomocí konfiguračního souboru, která pak spolu s~výpočetní sítí a ostatními daty tvoří vstupní data pro aplikaci Flow123d.
+Oproti tomu existují programy, od kterých se očekává, že budou spouštěny s širokou škálou různých nastavení. U~těchto aplikací se typicky konfigurace předává při spuštění jako jeden ze vstupních parametrů. Činnost těchto programů se pak zásadně liší dle zvolené konfigurace.
 
-Kromě toho, že je nutné každou úlohu konfigurovat zvlášť vyvstává i otázka toho, zda je vůbec zvolená konfirace validní. Chyba může nastat hned na několika úrovních. V~nejběžnějším případě může jít o~překlep. V~konfiguraci však může být i logická chyba, kdy jsou sice splněny všechny syntaktické požadavky, ale kombinace některých hodnot je nepřípustná.
+%TODO jak popsat flow?
+%TODO jake jsou mozne typy uloh?
+Takovou aplikací je například simulátor Flow123d, který pracuje se zadanou výpočetní sítí, na které provádí výpočty dle definované úlohy. Úloha se definuje pomocí konfiguračního souboru, který pak spolu s~výpočetní sítí a ostatními daty tvoří vstupní data pro aplikaci Flow123d.
+
+Vzhledem k tomu, že Flow123d podporuje různé typy úloh a obsahuje rozsáhlé dílčí nastavení, vyvstává otázka toho, zda je zvolená konfigurace validní. Uživatel může omylem zvolit kombinace hodnot, které nejsou přípustné, ať už taková chyba vznikne logicky nebo například kopírováním. Dalším běžným případem chyby je překlep, kterého si uživatel nemusí všimnout.
 
 %TODO logicka vs semanticka chyba?
 
-Náročnost odhalení těchto chyb závisí na složitosti možného nastavení. V~případě Flow123d má samotná referenční příručka, která popisuje formát konfiguračních souborů, několik desítek stran. Pro uživatele tedy není triviální rozhodnout, zda je jím nadefinovaná úloha správně zadaná, nebo jestli např. zapomněl vyplnit nějaký povinný atribut. Na uživatele jsou tedy kladeny velké nároky -- buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit čas hledáním a pročítáním dokumentace.
+Formát konfiguračních souborů pro Flow123d je poměrně rozsáhlý -- samotná referenční příručka, která ho popisuje, obsahuje několik desítek stran. Čím je složitější formát pro konfiguraci, tím je pro člověka náročnější ověřit, zda byly zadány všechny povinné parametry, nebo zda při upravování souboru nedošlo k nějaké nepatrné změně, která do souboru zanesla chybu. Vzhledem ke složitosti formátu jsou na uživatele kladeny velké nároky -- buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit čas prohledáváním dokumentace.
 
-Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí funkce softwaru Flow123d. Některé změny bohužel nejsou ani zpětně kompatibilní. Tím pádem soubor, který byl validní pro starší verzi už nemusí být validní pro nově vydanou verzi. Uživatele tedy opět čeká studium rozsáhlé referenční dokumentace, aby zjistil, jaké změny má provést.
+%TODO je to vhodna formulace?
+Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí funkce softwaru Flow123d. Některé změny ani nejsou zpětně kompatibilní. Tím pádem soubor, který byl validní pro starší verzi už nemusí být validní pro nově vydanou verzi. Uživatele tedy opět čeká studium rozsáhlé referenční dokumentace, aby zjistil, jaké změny má provést.
 
-%TODO zlepsit flow cteni, odstanit logicky skok
-V~případě, že uživatel spustí Flow123d, tak se o~chybě dozví. Jelikož se ale jedná o~výpočetně náročné úlohy, které se často pouští na vzdáleném výpočetním clusteru, je tento proces poměrně zdlouhavý. Pokud se úloha spouští vzdáleně, musí dojít k~navázání komunikace a přidělení zdrojů, než může být vůbec úloha spuštěna. Odhalování takovýchto chyb je pak časově náročné a uživatelsky nepříjemné.
+Pokud se stane, že uživatel spustí Flow123d s nevalidní konfigurací, tak během inicializaci dojde k chybě, o které se uživatel dozví pomocí textového rozhraní, ve kterém se Flow123d spouští. Jelikož se může jednat o~výpočetně náročné úlohy, které se často pouští na vzdáleném výpočetním clusteru, je tento proces poměrně zdlouhavý. Pokud se úloha spouští vzdáleně, musí dojít k~navázání komunikace a přidělení zdrojů, než může vůbec dojít k inicializaci úlohy, při které pak může dojít k chybě. Odhalování takových chyb je pak časově náročné a uživatelsky nepříjemné.
 
-Tyto důvody byly hlavní motivací ke vzniku speciálního editoru, který značně zjednoduší práci s~konfiguračními soubory pro Flow123d. Aplikace by měla poskytovat přívětivé rozhraní, které uživateli zjednoduší přístup k~dokumentaci. Místo hledání příslušné sekce v~několika stránkové referenční dokumentaci by měl mít uživatel k~dispozici tu část dokumentace, která bezprostředně souvisí s~tou části konfiguračního souboru, kterou upravuje.
+Tyto důvody byly hlavní motivací ke vzniku speciálního editoru pro konfigurační soubory Flow123d, který práci s nimi značně zjednoduší a usnadní. Aplikace by měla zrychlit proces odstranění chyb v~konfiguračních souborech tím, že je umožní odhalit už v průběhu jejich vytváření nebo upravování. To dává uživateli možnost chyby opravit ještě před tím, než předloží konfigurační soubor softwaru Flow123d. To vede ke značné časové úspoře obzvlášť v případech, kdy se výpočetní úloha spouští vzdáleně.
 
-Editor by měl dále usnadnit a zrychlit proces odstranění chyb v~konfiguračních souborech. Vzhledem k~tomu, že apliakce Flow123d může být časově náročná na spuštění, obzvlášť pokud je spouštěna vzdáleně, by bylo ideální chybám předcházet a odhalit je ještě před tím, než je konfigurační soubor předložen aplikaci Flow123d. Editor by měl umožňovat ověření, zda v~konfiguračním souboru nejsou chyby, které jsou buď syntaktické, nebo v~rozporu s~formátem, který Flow123d očekává.
+Editor by měl uživateli poskytovat přívětivé uživatelské rozhraní, které mu zjednoduší přístup k~dokumentaci. V rámci aplikace by měl mít uživatel k dispozici dokumentaci, která bezprostředně souvisí s právě upravovanou částí konfiguračního souboru. Tato forma nápovědy by měla uživateli poskytnou alternativu k manuálnímu prohledávání několika stránkové referenční dokumentace.
 
 Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konfigurační soubor. Kromě toho se od editoru očekávají základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a další. Editor by měl podporovat platformy Windows a Linux. %TODO vyhledavani/nahrazeni - mezery u lomitka?
 
@@ -120,6 +124,19 @@ Diagramy pro zpracovani YAML (inspirace SAX vs DOM).
 
 
 \chapter*{Závěr}
+V rámci této diplomové práce byl vytvořen editor konfiguračních souborů pro Flow123d. Jedná se o samostatně funkční aplikaci, která je ovšem navržena s ohledem na její použití jako součást softwarového balíku GeoMop, který obsahuje další nástroje, které usnadňují práci uživatelům Flow123d.
+%TODO zminovat GeoMop?
+
+Editor uživatelům zjednodušuje vytváření a upravování konfiguračních souborů. Umožňuje ověřit správnost zadané konfigurace pro zvolenou verzi Flow123d a případně uživatele upozornit na detekované chyby. Tato funkce uživateli přináší časovou úsporu a uživatelsky příjemnější rozhraní při odhalování chyb.
+
+Editor dále uživatelům poskytuje kontextovou dokumentaci a našeptávač. Obě tyto funkce přizpůsobují svůj obsah na základě pozice kurzoru v textu, tedy oblasti, kterou uživatel zrovna upravuje. Pro uživatele to představuje značné zjednodušení, jelikož může využít tyto funkce místo prohledávání rozsáhlé dokumentace.
+
+V neposlední řadě editor obsahuje komponentu pro grafické znázornění datové struktury, která poskytuje alternativní pohled na zadaná data, a umožňuje rychlejší orientaci v rozsáhlých konfiguračních souborech. Kromě těchto stěžejních funkcí editor poskytuje i běžné nástroje pro manipulaci s textem, jako jsou například operace se schránkou, možnost vracení provedených změn, vyhledávání a nahrazení nebo změna úrovně odsazení.
+
+%TODO zmenit formulaci
+Aplikace je multiplatformní a podporuje systémy Windows (XP nebo novější) a Linux. S ohledem na požadavek multiplatformní aplikace byl pro vývoj použit jazyk Python~3 a grafická knihovna PyQt~5. K aplikaci byly vytvořeny instalační balíčky pro Windows a Debian.
+
+V rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná se např. o zlepšení zvýraznění syntaxe, které se by se mohlo přizpůsobit přímo formátu Flow123d. Další možné vylepšení spočívá v rozšíření funkcionality komponenty pro vizualizaci datové struktury. Ta by mohla v budoucnu podporovat kromě zobrazení i editaci dat nebo vylepšené zobrazení speciálních datových typů.
 
 
 
