@@ -1,7 +1,7 @@
 \documentclass[FM,DP]{tulthesis}
 
-\usepackage[czech]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
 \usepackage{setspace}
 \onehalfspacing
 
@@ -18,6 +18,7 @@
 \ThesisStart{male}
 
 \begin{abstractCZ}
+\thispagestyle{empty}
 Český abstrakt
 \end{abstractCZ}
 
@@ -26,6 +27,7 @@
 English abstract
 \end{abstractEN}
 
+\clearpage
 \begin{acknowledgement}
 
 \end{acknowledgement}
@@ -37,7 +39,7 @@ English abstract
 \textbf{EU} & Evropská unie \\
 \end{abbrList}
 
-\chapter{Úvod}
+\chapter*{Úvod}
 
 Existuje celá řada softwarů, která ke své činnosti potřebuje správné nastavení, podle kterého daný program nakonfiguruje svoji činnost. Může se jednat o~počáteční, jako je tomu například u~serverových aplikací, e-mailových klientů. Tato konfigurace se dále mění pouze v~případě, že se má změnit činnost aplikace.
 
@@ -60,7 +62,7 @@ Tyto důvody byly hlavní motivací ke vzniku speciálního editoru, který zna�
 
 Editor by měl dále usnadnit a zrychlit proces odstranění chyb v~konfiguračních souborech. Vzhledem k~tomu, že apliakce Flow123d může být časově náročná na spuštění, obzvlášť pokud je spouštěna vzdáleně, by bylo ideální chybám předcházet a odhalit je ještě před tím, než je konfigurační soubor předložen aplikaci Flow123d. Editor by měl umožňovat ověření, zda v~konfiguračním souboru nejsou chyby, které jsou buď syntaktické, nebo v~rozporu s~formátem, který Flow123d očekává.
 
-Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konfigurační soubor. Kromě toho se od editoru očekávají základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a další. Editor by měl podporovat platformy Windows a GNU/Linux. %TODO vyhledavani/nahrazeni - mezery u lomitka?
+Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konfigurační soubor. Kromě toho se od editoru očekávají základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a další. Editor by měl podporovat platformy Windows a Linux. %TODO vyhledavani/nahrazeni - mezery u lomitka?
 
 %TODO zminit strukturu prace - rozcestnik?
 
@@ -115,5 +117,10 @@ Diagramy pro zpracovani YAML (inspirace SAX vs DOM).
 
 
 \chapter{Implementace}
+
+
+\chapter*{Závěr}
+
+
 
 \end{document}
