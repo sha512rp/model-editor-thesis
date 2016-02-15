@@ -79,16 +79,62 @@ Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konf
 
 
 
-\section{Datové struktury pro popis dat}
+\section{Software Flow123d}
 
-%TODO uvod do flow na urovni znalosti potrebne pro moji praci
-% nastinit autokonverze, abstraktni zaznamy (zminit ze nemaji dedicnost, spise interface)
-% serializace dat -> zaznamy, pole, hodnoty ... obrazek stromu?
-% vztah a vznik souboru s formatem - zavislost na verzi
+Flow123d je software, který slouží pro simulaci toků podzemních vod a transportu tepla. Jedná se o aplikaci, která je orientována na práci s daty. Vzhledem k tomu neobsahuje ani žádné grafické uživatelské rozhraní a uživatel s aplikací pracuje pouze pomocí předávání souborů a parametrů pomocí příkazové řádky.
+%TODO odkaz na stranku flow
+%TODO VERIFY existuje nejake GUI pro flow?
+
+Vzhledem k povaze úloh, které Flow123d řeší, je absence grafického uživatelského rozhraní pochopitelná. Simulace, které software provádí, jsou výpočetně náročné. Z pohledu uživatele je podstatný především výsledek této simulace, spíše než její průběh. Náročné úlohy jsou typicky spouštěny na vzdáleném výpočetním clusteru, kde by grafické rozhraní použití aplikace pouze komplikovalo.
+
+Typický uživatel Flow123d si pomocí konfiguračních a dalších datových souborů vytvoří úlohu, kterou poté aplikaci předloží a ta provede simulaci nad zadanými daty. Po dokončení simulace má uživatel k dispozici výstupní datové soubory s výsledky simulace.
+
+Uživatel ovšem potřebuje s datovými a konfiguračními soubory nějak pracovat. Pokud se nejedná o nějakou triviální úlohu, bylo by prakticky nemožné pracovat s výpočetní sítí bez pomoci nějakých dalších nástrojů, které jsou pro to určené. Obdobně jsou potřeba i nějaké specializované nástroje pro reprezentaci výstupních dat.
+%TODO jak se definuje vypocetni sit? neni uz zadana?
+%TODO jake jsou ruzne vstupni soubory pro flow? co je vystupem?
+
+Pro práci s datovými soubory je k dispozici několik softwarů, které lze použít. Pro práci v s výpočetní sítí lze například použít software GMSH. Tvorbou aplikace pro vizualizaci výsledků jednoho typu úlohy jsem se zabýval ve své bakalářské práci. Vytvořená aplikace umožňovala generovat mapy koncentrací pro různé řezy výpočetní sítí a vytvářet grafy koncentrací pro jednotlivé elementy.
+%TODO odkaz na gmsh - hyperlink nebo zdroj?
+%TODO odkaz na bakalarku
+%TODO nejake softwary pro reprezentaci vysledku
+
+Doposud však neexistoval žádný nástroj, který by pracoval s konfiguračními soubory, pomocí kterých se úloha definuje. Definice této úlohy spočívá v inicializaci tříd ve Flow123d, které pak zajišťují samotnou simulaci. Úkolem konfiguračního souboru je tedy doručit těmto třídám korektní data, z kterých se mohou inicializovat.
+
+Tento proces je ovšem poměrně komplikovaný. Je potřeba si uvědomit, že vytváření úloh, tedy i tvorbu konfiguračních souborů, provádí lidé. Na druhé straně je pak samotný software Flow123d, pro který jsou podstatná pouze konkrétní data a hodnoty, ze kterých pak inicializuje potřebné třídy v C++. Je tedy potřeba, aby člověk komunikoval se softwarem pomocí nějakého rozhraní či specifikace.
+%TODO je flow napsan v C++? 
+
+Jelikož se pro předávání dat používají soubory, existují v principu dvě možnosti, jak předat tyto data. Formát souboru může být buď binární, nebo textový. Vzhledem k tomu, že soubory mají vytvářet lidé, tak by bylo krajně nepraktické, kdyby se použil binární formát souboru.
+
+Textová reprezentace konfiguračních souborů s sebou kromě čitelnosti přináší i další výhody. Oproti binárnímu formátu není závislá na architektuře, jelikož všechna data jsou kódována ve formě textu. Navíc díky tomu, že textový soubor umožňuje kromě přenosu samotných dat i tyto data nějakým způsobem popsat, tak změny v interní struktuře Flow123d se nemusí nutně projevit ve formátu konfiguračních souborů.
 
 %TODO jak to nazvat, aby nikdo neocekaval, ze tady zacnu rozebirat binarni stromy? 
 
 \section{Jazyky pro popis dat}
+
+Použití textového formátu konfiguračních souborů s sebou však přináší otázku, jakým způsobem tato data v textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou strukturu tříd v C++. Takové třídy obsahují atributy, které mají název (dále označován jako klíč), typ a hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje typ. Potom je tedy dostačující ukládat dvojici klíč a hodnota.
+
+Existují i situace, kdy z názvu atributu nelze jednoznačně určit jeho typ. To je způsobené použitím polymorfismu. Z klíče lze tedy odvodit pouze jakého typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný typ explicitně uvést. Tyto situace prozatím zanedbám, jelikož se jim věnuje samostatná kapitola.
+%TODO reference na kapitolu s abstract
+
+Je tedy potřeba ukládat dvojice klíč a hodnota. Hodnotou může být buď jednoduchého nebo složeného datového typu. Reprezentace jednoduchých datových typů je většinou triviální. Jediným problémem, či omezením, je přesnost reprezentace desetinných čísel.
+
+%TODO slozene datove typy - opravdu to je spravne oznaceni pro pole a objekty?
+Složeným datovým typem může být v jazyce C++ buď homogenní pole, nebo jiný objekt. Tím pádem vzniká hierarchická datová struktura, která může mít teoreticky nekonečný počet vnořených úrovní. V praxi je samozřejmě počet úrovní vždy konečný, ale důležité je, aby použitý formát umožňoval reprezentovat libovolný počet vnoření.
+
+\begin{center}
+\line(1,0){250}
+\end{center}
+
+Existuje celá řada možností. Pokud by konfigurační soubory byly triviální, dal by se použít například formát INI, který umožňuje jednoduchým způsobem zapisovat kombinace klíč a hodnota. Vzhledem k tomu, že konfigurační data pro Flow123d mohou tvořit složité hierarchické struktury, jsou však INI soubory nedostačující.
+%TODO zkratka INI
+
+ Hierarchické datové struktury lze vhodně popsat například pomocí formátu JSON, YAML nebo jazyka XML. 
+
+
+%TODO najit vhodne umisteni - spise na konec, k diskuzi, co pouzit?
+Flow123d v minulosti používal pro konfigurační soubory vlastní formát CON, který je podobný formátu JSON, ale mírně se od něj odlišuje. Díky tomu však nebyl příliš přenositelný, protože se pro jeho čtení nedaly přímo použít klasické knihovny, které umí číst formát JSON. To byl jeden z důvodů, proč došlo k rozhodnutí použít od verze Flow123d 2.0 jiný formát konfiguračních souborů. 
+%TODO zkratka
+
 %TODO moznosti pro serializaci objektu a repr. konf. souboru
 % binarni vs textovy format
 % XML, DTD, XMLSchema
@@ -99,6 +145,9 @@ Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konf
 \section{Formát konfiguračních souborů}
 % o co se jedna, jak to vypada (JSON)
 % jakym zpusobem popisuje data - hiearchicka stromova struktura
+% nastinit autokonverze, abstraktni zaznamy (zminit ze nemaji dedicnost, spise interface)
+% serializace dat -> zaznamy, pole, hodnoty ... obrazek stromu?
+% vztah a vznik souboru s formatem - zavislost na verzi
 % datove typy - scalar, array, record, abstract
 % autokonverze + priklady?
 
