@@ -66,31 +66,41 @@ Tyto důvody byly hlavní motivací ke vzniku speciálního editoru pro konfigur
 
 Editor by měl uživateli poskytovat přívětivé uživatelské rozhraní, které mu zjednoduší přístup k~dokumentaci. V rámci aplikace by měl mít uživatel k dispozici dokumentaci, která bezprostředně souvisí s právě upravovanou částí konfiguračního souboru. Tato forma nápovědy by měla uživateli poskytnou alternativu k manuálnímu prohledávání několika stránkové referenční dokumentace.
 
-Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konfigurační soubor. Kromě toho se od editoru očekávají základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a další. Editor by měl podporovat platformy Windows a Linux. %TODO vyhledavani/nahrazeni - mezery u lomitka?
+Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konfigurační soubor. Kromě toho se od editoru očekávají základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a další. Editor by měl podporovat platformy Windows a Linux.
 
 %TODO zminit strukturu prace - rozcestnik?
 
 
 \chapter{Rešerše}
 
+%TODO nastaveni flow - serializace objektu - binarni vs textovy format
+
+%TODO nekde zminit - jednosmerna konverze, protoze neplati WYSIWYG, nepracuje se s DOM ale primo s textem
+
+
+
 \section{Datové struktury pro popis dat}
-Obecny popis struktur - pole, zaznam, hodnota.
+
+%TODO uvod do flow na urovni znalosti potrebne pro moji praci
+% nastinit autokonverze, abstraktni zaznamy (zminit ze nemaji dedicnost, spise interface)
+% serializace dat -> zaznamy, pole, hodnoty ... obrazek stromu?
+% vztah a vznik souboru s formatem - zavislost na verzi
 
 %TODO jak to nazvat, aby nikdo neocekaval, ze tady zacnu rozebirat binarni stromy? 
-%TODO zduraznit, ze je jedna o pohled ze strany jazyku pro popis dat
-
-Vnorovani dat - stromove struktury.
-
-
-\section{Formát dat}
-Semantika - pridani vyznamu datum.
-
-Specificke pro aplikacni domenu.
 
 \section{Jazyky pro popis dat}
-XML, DTD, XMLSchema
-JSON, JSON Schema
-YAML
+%TODO moznosti pro serializaci objektu a repr. konf. souboru
+% binarni vs textovy format
+% XML, DTD, XMLSchema
+% JSON, JSON Schema
+% YAML
+% proc byl zvolen YAML, diskuze ostatnich moznosti
+
+\section{Formát konfiguračních souborů}
+% o co se jedna, jak to vypada (JSON)
+% jakym zpusobem popisuje data - hiearchicka stromova struktura
+% datove typy - scalar, array, record, abstract
+% autokonverze + priklady?
 
 
 \chapter{Analýza}
