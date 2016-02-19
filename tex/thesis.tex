@@ -3,6 +3,20 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage{setspace}
+\usepackage{graphicx}
+
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thefigure}{\arabic{figure}}
+
+\newcommand{\includeumlgraph}[2]{%
+\begin{figure}
+	\centering
+    \includegraphics{../img/graphs/#1.pdf}
+    \caption{#2}
+	\label{uml:#1}
+\end{figure}
+}
+
 \onehalfspacing
 
 \TULtitle{Editor konfiguračních souborů Flow123d}{Editor for Flow123d configuration files}
@@ -36,19 +50,33 @@ English abstract
 \clearpage
 
 \begin{abbrList}
-\textbf{EU} & Evropská unie \\
+%\textbf{EU} & Evropská unie \\
 \end{abbrList}
 
 \chapter*{Úvod}
-
-%TODO - formulace "mel by"? nebude lepsi to psat jinak?
 
 Existuje celá řada softwarů, která pro zajištění požadované funkce potřebuje správné nastavení, podle kterého pak daný program přizpůsobí svoji činnost. Může se jednat o~počáteční konfiguraci, jako je tomu například u~serverových aplikací nebo e-mailových klientů. Tato konfigurace se zpravidla dále nemění, pokud nedojde k nějakým podstatným změnám.
 
 Oproti tomu existují programy, od kterých se očekává, že budou spouštěny s širokou škálou různých nastavení. U~těchto aplikací se typicky konfigurace předává při spuštění jako jeden ze vstupních parametrů. Činnost těchto programů se pak zásadně liší dle zvolené konfigurace.
 
 %TODO jak popsat flow?
+% vypocet rozlozeni velicin ve 3D
+% k tomu je potreba sit elementu
+% definice ulohy, ktere se na siti pocita
+% parametry, ktere jsou potreba pro vypocet ulohy
+% 2 zakladni vstupy - sit, konfigurace; konfigurace muze obsahovat odkaz na dalsi soubory
+
 %TODO jake jsou mozne typy uloh?
+% vypocet proudeni - tlaky, vektory rychlosti
+% proudeni se meni nebo nemeni v case - steady, unsteady
+% proudeni s kapalinou se muze sirit nejaka latka - transport
+% -> proudeni, transport rozpustenych latek
+% - vypocet sorpce, difuze, radioaktivni rozpad
+% modelovani procesu v horninovem prostredi
+% 1. proudeni v poreznim medium
+% 2. transport latek - difuze, disperze, sorpce, rozpad latek
+% 3. transport tepla
+
 Takovou aplikací je například simulátor Flow123d, který pracuje se zadanou výpočetní sítí, na které provádí výpočty dle definované úlohy. Úloha se definuje pomocí konfiguračního souboru, který pak spolu s~výpočetní sítí a ostatními daty tvoří vstupní data pro aplikaci Flow123d.
 
 Vzhledem k tomu, že Flow123d podporuje různé typy úloh a obsahuje rozsáhlé dílčí nastavení, vyvstává otázka toho, zda je zvolená konfigurace validní. Uživatel může omylem zvolit kombinace hodnot, které nejsou přípustné, ať už taková chyba vznikne logicky nebo například kopírováním. Dalším běžným případem chyby je překlep, kterého si uživatel nemusí všimnout.
@@ -58,9 +86,16 @@ Vzhledem k tomu, že Flow123d podporuje různé typy úloh a obsahuje rozsáhlé
 Formát konfiguračních souborů pro Flow123d je poměrně rozsáhlý -- samotná referenční příručka, která ho popisuje, obsahuje několik desítek stran. Čím je složitější formát pro konfiguraci, tím je pro člověka náročnější ověřit, zda byly zadány všechny povinné parametry, nebo zda při upravování souboru nedošlo k nějaké nepatrné změně, která do souboru zanesla chybu. Vzhledem ke složitosti formátu jsou na uživatele kladeny velké nároky -- buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit čas prohledáváním dokumentace.
 
 %TODO je to vhodna formulace?
-Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí funkce softwaru Flow123d. Některé změny ani nejsou zpětně kompatibilní. Tím pádem soubor, který byl validní pro starší verzi už nemusí být validní pro nově vydanou verzi. Uživatele tedy opět čeká studium rozsáhlé referenční dokumentace, aby zjistil, jaké změny má provést.
+% jak se vyviji nove a upresnuji stavajici funkcionality Flow123d
+% -> muze dojit k tomu, ze nektere zmeny nemusi byt zpetne kompatibilni
+Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí funkce softwaru Flow123d. Některé změny ani nejsou zpětně kompatibilní. Tím pádem soubor, který byl validní pro starší verzi už nemusí být validní pro nově vydanou verzi.
+% uzivatel znovu potrebuje prostudovat ---, aby zjistil, jakym zpusobem zadat drive realizovanou ulohu pro novou verzi Flow123d
+Uživatele tedy opět čeká studium rozsáhlé referenční dokumentace, aby zjistil, jaké změny má provést.
 
+%TODO misto tak napsat potom
 Pokud se stane, že uživatel spustí Flow123d s nevalidní konfigurací, tak během inicializaci dojde k chybě, o které se uživatel dozví pomocí textového rozhraní, ve kterém se Flow123d spouští. Jelikož se může jednat o~výpočetně náročné úlohy, které se často pouští na vzdáleném výpočetním clusteru, je tento proces poměrně zdlouhavý. Pokud se úloha spouští vzdáleně, musí dojít k~navázání komunikace a přidělení zdrojů, než může vůbec dojít k inicializaci úlohy, při které pak může dojít k chybě. Odhalování takových chyb je pak časově náročné a uživatelsky nepříjemné.
+%TODO vzdalene spousteni - neni vubec interaktivni odezva, pouze se zaradi do fronty - bud se spusti okamzite, nebo se ceka na spusteni; teprve potom se projevi chyby konfiguracniho souboru - tim padem nemohlo ani dojit k inicializci, natoz k provedeni vypoctu
+%TODO validace syntakticka i semanticka - (semantika - vyznam - k zadanym parametrum, kontext pouziti, vyznam dat; syntaxe = validni format yaml)
 
 Tyto důvody byly hlavní motivací ke vzniku speciálního editoru pro konfigurační soubory Flow123d, který práci s nimi značně zjednoduší a usnadní. Aplikace by měla zrychlit proces odstranění chyb v~konfiguračních souborech tím, že je umožní odhalit už v průběhu jejich vytváření nebo upravování. To dává uživateli možnost chyby opravit ještě před tím, než předloží konfigurační soubor softwaru Flow123d. To vede ke značné časové úspoře obzvlášť v případech, kdy se výpočetní úloha spouští vzdáleně.
 
@@ -83,7 +118,12 @@ Dále by editor měl umožnit vizualizaci datové struktury, která tvoří konf
 
 Flow123d je software, který slouží pro simulaci toků podzemních vod a transportu tepla. Jedná se o aplikaci, která je orientována na práci s daty. Vzhledem k tomu neobsahuje ani žádné grafické uživatelské rozhraní a uživatel s aplikací pracuje pouze pomocí předávání souborů a parametrů pomocí příkazové řádky.
 %TODO odkaz na stranku flow
-%TODO VERIFY existuje nejake GUI pro flow?
+% gmsh/salome
+% (msh, con) -> flow123d -> vystup (msh - gmsh | vtk -> paraview)
+% + jednoucelove programy - uprava site, zpracovani vystupu
+% preprocessing _ postprocessing - flow neresi
+% riskflow - nepodporoval con, resil analyzu vysledku 
+% geomop - analyza, kalibrace
 
 Vzhledem k povaze úloh, které Flow123d řeší, je absence grafického uživatelského rozhraní pochopitelná. Simulace, které software provádí, jsou výpočetně náročné. Z pohledu uživatele je podstatný především výsledek této simulace, spíše než její průběh. Náročné úlohy jsou typicky spouštěny na vzdáleném výpočetním clusteru, kde by grafické rozhraní použití aplikace pouze komplikovalo.
 
@@ -91,7 +131,9 @@ Typický uživatel Flow123d si pomocí konfiguračních a dalších datových so
 
 Uživatel ovšem potřebuje s datovými a konfiguračními soubory nějak pracovat. Pokud se nejedná o nějakou triviální úlohu, bylo by prakticky nemožné pracovat s výpočetní sítí bez pomoci nějakých dalších nástrojů, které jsou pro to určené. Obdobně jsou potřeba i nějaké specializované nástroje pro reprezentaci výstupních dat.
 %TODO jak se definuje vypocetni sit? neni uz zadana?
+% tvorba geometrie -> generovani site 
 %TODO jake jsou ruzne vstupni soubory pro flow? co je vystupem?
+
 
 Pro práci s datovými soubory je k dispozici několik softwarů, které lze použít. Pro práci v s výpočetní sítí lze například použít software GMSH. Tvorbou aplikace pro vizualizaci výsledků jednoho typu úlohy jsem se zabýval ve své bakalářské práci. Vytvořená aplikace umožňovala generovat mapy koncentrací pro různé řezy výpočetní sítí a vytvářet grafy koncentrací pro jednotlivé elementy.
 %TODO odkaz na gmsh - hyperlink nebo zdroj?
@@ -114,26 +156,32 @@ Textová reprezentace konfiguračních souborů s sebou kromě čitelnosti přin
 Použití textového formátu konfiguračních souborů s sebou však přináší otázku, jakým způsobem tato data v textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou strukturu tříd v C++. Takové třídy obsahují atributy, které mají název (dále označován jako klíč), typ a hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje typ. Potom je tedy dostačující ukládat dvojici klíč a hodnota.
 
 Existují i situace, kdy z názvu atributu nelze jednoznačně určit jeho typ. To je způsobené použitím polymorfismu. Z klíče lze tedy odvodit pouze jakého typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný typ explicitně uvést. Tyto situace prozatím zanedbám, jelikož se jim věnuje samostatná kapitola.
+%TODO je vhodne pouzit formulaci v 1. osobe? - mel by byt jednotny zpusob projevu
 %TODO reference na kapitolu s abstract
 
 Je tedy potřeba ukládat dvojice klíč a hodnota. Hodnotou může být buď jednoduchého nebo složeného datového typu. Reprezentace jednoduchých datových typů je většinou triviální. Jediným problémem, či omezením, je přesnost reprezentace desetinných čísel.
 
 %TODO slozene datove typy - opravdu to je spravne oznaceni pro pole a objekty?
+%TODO string - z pohledu konfiguraku je strin ndelitelny - primitivni hodnota
 Složeným datovým typem může být v jazyce C++ buď homogenní pole, nebo jiný objekt. Tím pádem vzniká hierarchická datová struktura, která může mít teoreticky nekonečný počet vnořených úrovní. V praxi je samozřejmě počet úrovní vždy konečný, ale důležité je, aby použitý formát umožňoval reprezentovat libovolný počet vnoření.
 
-\begin{center}
-\line(1,0){250}
-\end{center}
+\includeumlgraph{attribute_options}{Příklad složeného datového typu s různými typy atributů}
+%TODO cislovani obrazku - postupne nebo podle kapitol?
+% Odlisit obrazek vs diagram?
 
-Existuje celá řada možností. Pokud by konfigurační soubory byly triviální, dal by se použít například formát INI, který umožňuje jednoduchým způsobem zapisovat kombinace klíč a hodnota. Vzhledem k tomu, že konfigurační data pro Flow123d mohou tvořit složité hierarchické struktury, jsou však INI soubory nedostačující.
-%TODO zkratka INI
-
- Hierarchické datové struktury lze vhodně popsat například pomocí formátu JSON, YAML nebo jazyka XML. 
-
-
-%TODO najit vhodne umisteni - spise na konec, k diskuzi, co pouzit?
-Flow123d v minulosti používal pro konfigurační soubory vlastní formát CON, který je podobný formátu JSON, ale mírně se od něj odlišuje. Díky tomu však nebyl příliš přenositelný, protože se pro jeho čtení nedaly přímo použít klasické knihovny, které umí číst formát JSON. To byl jeden z důvodů, proč došlo k rozhodnutí použít od verze Flow123d 2.0 jiný formát konfiguračních souborů. 
-%TODO zkratka
+%\begin{center}
+%\line(1,0){250}
+%\end{center}
+%
+%Existuje celá řada možností. Pokud by konfigurační soubory byly triviální, dal by se použít například formát INI, který umožňuje jednoduchým způsobem zapisovat kombinace klíč a hodnota. Vzhledem k tomu, že konfigurační data pro Flow123d mohou tvořit složité hierarchické struktury, jsou však INI soubory nedostačující.
+%%TODO zkratka INI
+%
+% Hierarchické datové struktury lze vhodně popsat například pomocí formátu JSON, YAML nebo jazyka XML. 
+%
+%
+%%TODO najit vhodne umisteni - spise na konec, k diskuzi, co pouzit?
+%Flow123d v minulosti používal pro konfigurační soubory vlastní formát CON, který je podobný formátu JSON, ale mírně se od něj odlišuje. Díky tomu však nebyl příliš přenositelný, protože se pro jeho čtení nedaly přímo použít klasické knihovny, které umí číst formát JSON. To byl jeden z důvodů, proč došlo k rozhodnutí použít od verze Flow123d 2.0 jiný formát konfiguračních souborů. 
+%%TODO zkratka
 
 %TODO moznosti pro serializaci objektu a repr. konf. souboru
 % binarni vs textovy format
@@ -142,7 +190,7 @@ Flow123d v minulosti používal pro konfigurační soubory vlastní formát CON,
 % YAML
 % proc byl zvolen YAML, diskuze ostatnich moznosti
 
-\section{Formát konfiguračních souborů}
+%\section{Formát konfiguračních souborů}
 % o co se jedna, jak to vypada (JSON)
 % jakym zpusobem popisuje data - hiearchicka stromova struktura
 % nastinit autokonverze, abstraktni zaznamy (zminit ze nemaji dedicnost, spise interface)
@@ -152,34 +200,34 @@ Flow123d v minulosti používal pro konfigurační soubory vlastní formát CON,
 % autokonverze + priklady?
 
 
-\chapter{Analýza}
-
-
-\section{Konfigurační soubory}
-Priblizeni konfiguracnich souboru a jejich formatu.
-
-Stary format CON a prechod na novy format YAML.
-
-Diskuze XML/YAML(JSON). 
-
-\section{Input Structure Tree}
-Popis formatu datovych souboru.
-
-Definice konkretnich datovych typu.
-
-Specifikovat mozne atributy.
-
-\section{Autokonverze}
-Popsat mozne konverze, uvest do souvislosti s~XML transformacemi?
-
-
-\chapter{Návrh}
-Diagramy pro zpracovani YAML (inspirace SAX vs DOM).
-
-
-
-
-\chapter{Implementace}
+%\chapter{Analýza}
+%
+%
+%\section{Konfigurační soubory}
+%Priblizeni konfiguracnich souboru a jejich formatu.
+%
+%Stary format CON a prechod na novy format YAML.
+%
+%Diskuze XML/YAML(JSON). 
+%
+%\section{Input Structure Tree}
+%Popis formatu datovych souboru.
+%
+%Definice konkretnich datovych typu.
+%
+%Specifikovat mozne atributy.
+%
+%\section{Autokonverze}
+%Popsat mozne konverze, uvest do souvislosti s~XML transformacemi?
+%
+%
+%\chapter{Návrh}
+%Diagramy pro zpracovani YAML (inspirace SAX vs DOM).
+%
+%
+%
+%
+%\chapter{Implementace}
 
 
 \chapter*{Závěr}
