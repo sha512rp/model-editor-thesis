@@ -3,17 +3,27 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage{setspace}
+\usepackage[export]{adjustbox}
 \usepackage{graphicx}
 
 \renewcommand{\thetable}{\arabic{table}}
 \renewcommand{\thefigure}{\arabic{figure}}
 
 \newcommand{\includeumlgraph}[2]{%
-\begin{figure}
+\begin{figure}[h]
 	\centering
-    \includegraphics{../img/graphs/#1.pdf}
+    \includegraphics[max width=\textwidth]{../img/graphs/#1.pdf}
     \caption{#2}
 	\label{uml:#1}
+\end{figure}
+}
+
+\newcommand{\includeimg}[2]{%
+\begin{figure}[h]
+	\centering
+    \includegraphics[max width=\textwidth]{../img/#1.pdf}
+    \caption{#2}
+	\label{img:#1}
 \end{figure}
 }
 
@@ -94,6 +104,9 @@ Dále bude editor umožňovat zobrazit datovou strukturu, která tvoří konfigu
 %Simulátor je možné použít k výpočtu proudění v porézním médiu, transportu látek nebo transportu tepla.
 
 Flow123d je software, který slouží pro simulaci toků podzemních vod a transportu tepla. Jedná se o aplikaci, která je orientována na práci s daty. Vzhledem k tomu neobsahuje ani žádné grafické uživatelské rozhraní a uživatel s aplikací pracuje pouze pomocí předávání souborů a parametrů pomocí příkazové řádky.
+
+\includeimg{flow123d}{Simulátor Flow123d a pomocný software}
+
 %TODO odkaz na stranku flow
 % gmsh/salome
 % (msh, con) -> flow123d -> vystup (msh - gmsh | vtk -> paraview)
@@ -143,6 +156,7 @@ Je tedy potřeba ukládat dvojice klíč a hodnota. Hodnotou může být buď je
 Složeným datovým typem může být v jazyce C++ buď homogenní pole, nebo jiný objekt. Tím pádem vzniká hierarchická datová struktura, která může mít teoreticky nekonečný počet vnořených úrovní. V praxi je samozřejmě počet úrovní vždy konečný, ale důležité je, aby použitý formát umožňoval reprezentovat libovolný počet vnoření.
 
 \includeumlgraph{attribute_options}{Příklad složeného datového typu s různými typy atributů}
+
 %TODO cislovani obrazku - postupne nebo podle kapitol?
 % Odlisit obrazek vs diagram?
 
