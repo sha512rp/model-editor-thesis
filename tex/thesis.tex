@@ -1,4 +1,4 @@
-\documentclass[FM,DP]{tulthesis}
+\documentclass[FM,bw,DP]{tulthesis}
 
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
@@ -91,7 +91,7 @@ Dále bude editor umožňovat zobrazit datovou strukturu, která tvoří konfigu
 %TODO zminit strukturu prace - rozcestnik?
 
 
-\chapter{Rešerše}
+\chapter{Analýza}
 
 %TODO nastaveni flow - serializace objektu - binarni vs textovy format
 
@@ -101,39 +101,30 @@ Dále bude editor umožňovat zobrazit datovou strukturu, která tvoří konfigu
 
 \section{Software Flow123d}
 
-%Simulátor je možné použít k výpočtu proudění v porézním médiu, transportu látek nebo transportu tepla.
-
-Flow123d je software, který slouží pro simulaci toků podzemních vod a transportu tepla. Jedná se o aplikaci, která je orientována na práci s daty. Vzhledem k tomu neobsahuje ani žádné grafické uživatelské rozhraní a uživatel s aplikací pracuje pouze pomocí předávání souborů a parametrů pomocí příkazové řádky.
+Flow123d je software, který slouží k výpočtu proudění v porézním médiu, transportu látek nebo transportu tepla. Jedná se o aplikaci, která je orientována na práci s daty, a vzhledem k tomu neobsahuje žádné grafické uživatelské rozhraní. Uživatel tedy s aplikací pracuje v textovém režimu prostřednictvím terminálu, kde může aplikaci předat vstupní soubory a případně další parametry.
 
 \includeimg{flow123d}{Simulátor Flow123d a pomocný software}
 
-%TODO odkaz na stranku flow
-% gmsh/salome
-% (msh, con) -> flow123d -> vystup (msh - gmsh | vtk -> paraview)
-% + jednoucelove programy - uprava site, zpracovani vystupu
-% preprocessing _ postprocessing - flow neresi
-% riskflow - nepodporoval con, resil analyzu vysledku 
-% geomop - analyza, kalibrace
+Na obrázku~\ref{img:flow123d} jsou znázorněny vstupy a výstupy simulátoru Flow123d spolu s pomocnými aplikacemi, které uživatelé často používají. Vstupem do simulátoru Flow123d jsou dva soubory. První z těchto souborů popisuje výpočetní síť pomocí seznamu uzlů a elementů. Jedná se o textový soubor ve formátu \texttt{.msh}. Tuto síť generují softwary GMSH nebo SALOME. Druhým vstupním souborem je konfigurační soubor, který popisuje řešenou úlohu. Tento soubor si prozatím uživatelé tvořili sami pomocí obyčejných textových editorů.
+%TODO link gmsh, salome? 
+%TODO jak uvadet odkazy na webove stranky?
 
-Vzhledem k povaze úloh, které Flow123d řeší, je absence grafického uživatelského rozhraní pochopitelná. Simulace, které software provádí, jsou výpočetně náročné. Z pohledu uživatele je podstatný především výsledek této simulace, spíše než její průběh. Náročné úlohy jsou typicky spouštěny na vzdáleném výpočetním clusteru, kde by grafické rozhraní použití aplikace pouze komplikovalo.
+Pro tento konfigurační soubor vzniká v rámci této práce specializovaný editor s označením ModelEditor, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové dokumentace nebo automatické doplňování textu. Vytváření a editace konfiguračních souborů se tak uživateli značně zjednoduší. ModelEditor je jednou ze součástí aplikace GeoMop, která obsahuje i další komponenty.
 
-Typický uživatel Flow123d si pomocí konfiguračních a dalších datových souborů vytvoří úlohu, kterou poté aplikaci předloží a ta provede simulaci nad zadanými daty. Po dokončení simulace má uživatel k dispozici výstupní datové soubory s výsledky simulace.
+GeoMop má sloužit jako nástroj, který usnadní práci se simulátorem Flow123d. Jeho další komponenty mají za úkol např. zajišťovat vzdálené spouštění Flow123d na výpočetních clusterech. To bude zajišťovat modul JobsScheduler, který sjednotí rozhraní a postup spouštění Flow123d na různých výpočetních clusterech. Další součástí aplikace GeoMop bude modul Analysis, který umožní úlohy parametrizovat a dále je potom provádět pro různé sady hodnot. GeoMop je aktuálně ve vývoji a je možné, že se bude rozšiřovat o další funkce.
 
-Uživatel ovšem potřebuje s datovými a konfiguračními soubory nějak pracovat. Pokud se nejedná o nějakou triviální úlohu, bylo by prakticky nemožné pracovat s výpočetní sítí bez pomoci nějakých dalších nástrojů, které jsou pro to určené. Obdobně jsou potřeba i nějaké specializované nástroje pro reprezentaci výstupních dat.
-%TODO jak se definuje vypocetni sit? neni uz zadana?
-% tvorba geometrie -> generovani site 
-%TODO jake jsou ruzne vstupni soubory pro flow? co je vystupem?
+Výstupem ze softwaru Flow123d je datový soubor, který obsahuje výsledky simulace. U tohoto souboru si uživatel může vybrat požadovaný formát, podle toho, kterou aplikaci chce použít pro zpracování výsledků. Typicky uživatelé používají buď opět GMSH nebo ParaView. Existuje také celá řada jednoúčelových nástrojů, které si uživatelé často tvoří sami, nebo vznikají v rámci různých projektů.
+%TODO link gmsh paraview
 
+\section{Konfigurační soubory}
 
-Pro práci s datovými soubory je k dispozici několik softwarů, které lze použít. Pro práci v s výpočetní sítí lze například použít software GMSH. Tvorbou aplikace pro vizualizaci výsledků jednoho typu úlohy jsem se zabýval ve své bakalářské práci. Vytvořená aplikace umožňovala generovat mapy koncentrací pro různé řezy výpočetní sítí a vytvářet grafy koncentrací pro jednotlivé elementy.
-%TODO odkaz na gmsh - hyperlink nebo zdroj?
-%TODO odkaz na bakalarku
-%TODO nejake softwary pro reprezentaci vysledku
+V současné době (verze Flow123d 1.8.2), se pro specifikaci úlohy používá jeden konfigurační soubor, který obsahuje všechna potřebná data pro definici a inicializaci úlohy. Z pohledu Flow123d je úloha definovaná pomocí konkrétních objektů, které mají nastavené různé atributy na požadované hodnoty. 
 
-Doposud však neexistoval žádný nástroj, který by pracoval s konfiguračními soubory, pomocí kterých se úloha definuje. Definice této úlohy spočívá v inicializaci tříd ve Flow123d, které pak zajišťují samotnou simulaci. Úkolem konfiguračního souboru je tedy doručit těmto třídám korektní data, z kterých se mohou inicializovat.
+Vzhledem k tomu, že úlohy definují lidé, je potřeba určit nějaké společné rozhraní, pomocí kterého budou moci lidé definovat tyto objekty a jejich obsah. Tato definice zároveň musí být strojově čitelná, aby ji simulátor Flow123d mohl zpracovat a nakonfigurovat se podle ní do správného počátečního stavu pro zahájení výpočtu.
+
+---------------------------
 
 Tento proces je ovšem poměrně komplikovaný. Je potřeba si uvědomit, že vytváření úloh, tedy i tvorbu konfiguračních souborů, provádí lidé. Na druhé straně je pak samotný software Flow123d, pro který jsou podstatná pouze konkrétní data a hodnoty, ze kterých pak inicializuje potřebné třídy v C++. Je tedy potřeba, aby člověk komunikoval se softwarem pomocí nějakého rozhraní či specifikace.
-%TODO je flow napsan v C++? 
 
 Jelikož se pro předávání dat používají soubory, existují v principu dvě možnosti, jak předat tyto data. Formát souboru může být buď binární, nebo textový. Vzhledem k tomu, že soubory mají vytvářet lidé, tak by bylo krajně nepraktické, kdyby se použil binární formát souboru.
 
@@ -232,6 +223,7 @@ Editor dále uživatelům poskytuje kontextovou dokumentaci a našeptávač. Ob�
 V neposlední řadě editor obsahuje komponentu pro grafické znázornění datové struktury, která poskytuje alternativní pohled na zadaná data, a umožňuje rychlejší orientaci v rozsáhlých konfiguračních souborech. Kromě těchto stěžejních funkcí editor poskytuje i běžné nástroje pro manipulaci s textem, jako jsou například operace se schránkou, možnost vracení provedených změn, vyhledávání a nahrazení nebo změna úrovně odsazení.
 
 %TODO zmenit formulaci
+%TODO zminit GPL + odkaz na zdrojove kody
 Aplikace je multiplatformní a podporuje systémy Windows (XP nebo novější) a Linux. S ohledem na požadavek multiplatformní aplikace byl pro vývoj použit jazyk Python~3 a grafická knihovna PyQt~5. K aplikaci byly vytvořeny instalační balíčky pro Windows a Debian.
 
 V rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná se např. o zlepšení zvýraznění syntaxe, které se by se mohlo přizpůsobit přímo formátu Flow123d. Další možné vylepšení spočívá v rozšíření funkcionality komponenty pro vizualizaci datové struktury. Ta by mohla v budoucnu podporovat kromě zobrazení i editaci dat nebo vylepšené zobrazení speciálních datových typů.
