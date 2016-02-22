@@ -5,6 +5,8 @@
 \usepackage{setspace}
 \usepackage[export]{adjustbox}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
 
 \renewcommand{\thetable}{\arabic{table}}
 \renewcommand{\thefigure}{\arabic{figure}}
@@ -25,6 +27,32 @@
     \caption{#2}
 	\label{img:#1}
 \end{figure}
+}
+
+\renewcommand{\lstlistingname}{Ukázka kódu}
+
+\lstset{ %
+  basicstyle=\small\ttfamily,        % the size of the fonts that are used for the code
+  belowcaptionskip=1\baselineskip,
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=L,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=8pt,                   % how far the line-numbers are from the code
+  numberstyle=\footnotesize\color{gray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  xleftmargin=\parindent,
+  numberbychapter=false
 }
 
 \onehalfspacing
@@ -120,33 +148,60 @@ Výstupem ze softwaru Flow123d je datový soubor, který obsahuje výsledky simu
 
 V současné době (verze Flow123d 1.8.2), se pro specifikaci úlohy používá jeden konfigurační soubor, který obsahuje všechna potřebná data pro definici a inicializaci úlohy. Z pohledu Flow123d je úloha definovaná pomocí konkrétních objektů, které mají nastavené různé atributy na požadované hodnoty. 
 
-Vzhledem k tomu, že úlohy definují lidé, je potřeba určit nějaké společné rozhraní, pomocí kterého budou moci lidé definovat tyto objekty a jejich obsah. Tato definice zároveň musí být strojově čitelná, aby ji simulátor Flow123d mohl zpracovat a nakonfigurovat se podle ní do správného počátečního stavu pro zahájení výpočtu.
+Vzhledem k tomu, že úlohy definují lidé, je potřeba určit nějaké společné rozhraní, pomocí kterého budou moci definovat tyto objekty a jejich obsah. Tato definice zároveň musí být strojově čitelná, aby ji simulátor Flow123d mohl zpracovat a nakonfigurovat se podle ní do správného počátečního stavu pro zahájení výpočtu.
 
----------------------------
+Jelikož se pro předávání dat používají soubory, existují v principu dvě možnosti, jak předat tato data. Formát souboru může být buď binární, nebo textový. Vzhledem k tomu, že soubory mají vytvářet lidé, tak by bylo krajně nepraktické, kdyby se použil binární formát souboru.
 
-Tento proces je ovšem poměrně komplikovaný. Je potřeba si uvědomit, že vytváření úloh, tedy i tvorbu konfiguračních souborů, provádí lidé. Na druhé straně je pak samotný software Flow123d, pro který jsou podstatná pouze konkrétní data a hodnoty, ze kterých pak inicializuje potřebné třídy v C++. Je tedy potřeba, aby člověk komunikoval se softwarem pomocí nějakého rozhraní či specifikace.
+Textová reprezentace konfiguračních souborů s sebou kromě čitelnosti přináší i další výhody. Oproti binárnímu formátu není závislá na architektuře, jelikož všechna data jsou kódována ve formě textu. Navíc díky tomu, že textový soubor umožňuje kromě přenosu samotných dat i tyto data nějakým způsobem popsat, potom se změny v interní struktuře Flow123d nemusí nutně projevit ve formátu konfiguračních souborů.
 
-Jelikož se pro předávání dat používají soubory, existují v principu dvě možnosti, jak předat tyto data. Formát souboru může být buď binární, nebo textový. Vzhledem k tomu, že soubory mají vytvářet lidé, tak by bylo krajně nepraktické, kdyby se použil binární formát souboru.
-
-Textová reprezentace konfiguračních souborů s sebou kromě čitelnosti přináší i další výhody. Oproti binárnímu formátu není závislá na architektuře, jelikož všechna data jsou kódována ve formě textu. Navíc díky tomu, že textový soubor umožňuje kromě přenosu samotných dat i tyto data nějakým způsobem popsat, tak změny v interní struktuře Flow123d se nemusí nutně projevit ve formátu konfiguračních souborů.
-
-%TODO jak to nazvat, aby nikdo neocekaval, ze tady zacnu rozebirat binarni stromy? 
-
-\section{Jazyky pro popis dat}
+\section{Datová struktura}
 
 Použití textového formátu konfiguračních souborů s sebou však přináší otázku, jakým způsobem tato data v textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou strukturu tříd v C++. Takové třídy obsahují atributy, které mají název (dále označován jako klíč), typ a hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje typ. Potom je tedy dostačující ukládat dvojici klíč a hodnota.
 
-Existují i situace, kdy z názvu atributu nelze jednoznačně určit jeho typ. To je způsobené použitím polymorfismu. Z klíče lze tedy odvodit pouze jakého typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný typ explicitně uvést. Tyto situace prozatím zanedbám, jelikož se jim věnuje samostatná kapitola.
-%TODO je vhodne pouzit formulaci v 1. osobe? - mel by byt jednotny zpusob projevu
+Existují i situace, kdy z názvu atributu nelze jednoznačně určit jeho typ. To je způsobené použitím polymorfismu. Z klíče lze tedy odvodit pouze jakého typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný typ explicitně uvést. Tyto situace jsou prozatím zanedbány a jsou popsány samostatně v kapitole X.
 %TODO reference na kapitolu s abstract
 
-Je tedy potřeba ukládat dvojice klíč a hodnota. Hodnotou může být buď jednoduchého nebo složeného datového typu. Reprezentace jednoduchých datových typů je většinou triviální. Jediným problémem, či omezením, je přesnost reprezentace desetinných čísel.
+V konfiguračních souborech je tedy potřeba ukládat dvojice klíč a hodnota. Hodnotou může být buď jednoduchého nebo složeného datového typu. Reprezentace jednoduchých datových typů je většinou triviální a spočívá pouze v převodu hodnoty na textový řetězec, pokud jím není. Povolené jednoduché datové typy v rámci konfiguračních souborů jsou následující:
 
-%TODO slozene datove typy - opravdu to je spravne oznaceni pro pole a objekty?
-%TODO string - z pohledu konfiguraku je strin ndelitelny - primitivni hodnota
-Složeným datovým typem může být v jazyce C++ buď homogenní pole, nebo jiný objekt. Tím pádem vzniká hierarchická datová struktura, která může mít teoreticky nekonečný počet vnořených úrovní. V praxi je samozřejmě počet úrovní vždy konečný, ale důležité je, aby použitý formát umožňoval reprezentovat libovolný počet vnoření.
+\begin{itemize}
+	\item booleovské hodnoty, %TODO jak se to spravne oznacuje cesky?
+	\item celá čísla,
+	\item desetinná čísla,
+	\item hodnoty výčtového typu (tzv. enum),
+	\item řetězce\footnote{Z pohledu konfiguračních souborů se jedná o jednoduchý datový typ, protože je dále nedělitelný.}.
+\end{itemize}
 
-\includeumlgraph{attribute_options}{Příklad složeného datového typu s různými typy atributů}
+Složeným datovým typem z pohledu použitých konfiguračních souborů může být buď homogenní pole, nebo jiný objekt. Tím pádem vzniká hierarchická datová struktura, která může mít teoreticky nekonečný počet vnořených úrovní. V praxi je samozřejmě počet úrovní vždy konečný, ale důležité je, aby použitý formát umožňoval reprezentovat libovolný počet vnoření.
+
+Na obrázku \ref{img:data_tree} je znázorněna hierarchická struktura složeného datového typu \textit{OutputStream}. Pro názornost jsou vynechány některé atributy. Datový typ \textit{OutputStream} obsahuje řetězec \texttt{file}, což je jednoduchý datový typ. Dále obsahuje pole desetinných čísel \texttt{time\_list}, které dále obsahuje konkrétní desetinná čísla. Posledním znázorněným atributem objektu \textit{OutputStream} je format, který obsahuje referenci na objekt typu \textit{vtk}. Objekt tohoto typu pak dále obsahuje atributy \texttt{variant} a \texttt{parallel}, které jsou jednoduchých datových typů.
+
+\includeimg{data_tree}{Příklad složeného datového typu s různými typy atributů}
+
+\section{Formáty pro výměnu dat}
+
+Ve verzi Flow123d 1.8.2 se pro reprezentaci výše popsané datové struktury používá speciální formát CON, který byl navržen vývojáři Flow123d pro účel zápisu konfiguračních souborů. Jedná se o formát, který vychází z JavaScript Object Notation, který je specifikován standardem ECMA-404. Oproti tomuto standardu se liší v několika detailech.
+%TODO zkratka JSON
+%TODO reference na JSON - http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+
+Příklad části konfiguračního souboru ve formátu CON je znázorněn v ukázce kódu \ref{lst:con_example}. Jednou z ihned zřejmých odlišností od formátu JSON je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a kompletní specifikaci formátu CON lze nalézt v dokumentaci k Flow123d 1.8.2.
+%TODO ref dokumentace flow
+
+\begin{lstlisting}[caption={Část konfiguračního souboru ve formátu CON}, label={lst:con_example}]
+output = {
+  output_stream = {
+    file = "./flow_test16.pvd", 
+    format = {
+      TYPE = "vtk", 
+      variant = "ascii"
+    }, 
+    name = "flow_output_stream"
+  }, 
+  output_fields = [ "pressure_p0", "pressure_p1", 
+                    "velocity_p0" ]
+}
+\end{lstlisting}
+
+Během používání tohoto formátu se ale jeho odlišnost od JSON projevila jako jeden z nedostatků. Kvůli nekompatibilitě formátu s formátem JSON nelze použít pro zpracování CON formátu standardní knihovny. To však nebylo jediným nedostatkem tohoto formátu. Z pohledu uživatele, který tento soubor často upravuje, je například velice nepříjemné, že musí neustále hlídat správné uzávorkování výrazů. Na základě těchto nedostatků bylo rozhodnuto, že ve verzi Flow123d 2.0 bude použit nějaký standardní formát pro výměnu dat, který se ukáže jako vhodnější.
 
 %TODO cislovani obrazku - postupne nebo podle kapitol?
 % Odlisit obrazek vs diagram?

@@ -19,7 +19,7 @@
         <y:ShapeNode>
           <y:Geometry height="194.2868421052633" width="351.2499999999999" x="330.34375000000006" y="132.4631578947367"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="custom" textColor="#000000" visible="true" width="148.033203125" x="101.60839843749994" y="78.84654605263165">Flow 123d<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -36,7 +36,7 @@
         <y:GenericNode configuration="com.yworks.bpmn.Artifact">
           <y:Geometry height="71.5" width="45.5" x="133.37500000000006" y="119.25"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="22" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="29.609375" modelName="custom" textColor="#000000" visible="true" width="222.9580078125" x="-88.72900390625" y="-33.609375">výpočetní síť (.msh)<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -59,7 +59,7 @@
         <y:GenericNode configuration="com.yworks.bpmn.Artifact">
           <y:Geometry height="71.5" width="45.5" x="133.37500000000006" y="255.25"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="22" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="29.609375" modelName="custom" textColor="#000000" visible="true" width="308.111328125" x="-131.3056640625" y="-33.609375">konfigurační soubor (.yaml)<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -82,7 +82,7 @@
         <y:GenericNode configuration="com.yworks.bpmn.Artifact">
           <y:Geometry height="71.5" width="45.5" x="833.0625" y="193.85657894736835"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="22" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="29.609375" modelName="custom" textColor="#000000" visible="true" width="78.03515625" x="-16.267578125" y="-33.609375">výstup<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -139,7 +139,7 @@
         <y:ShapeNode>
           <y:Geometry height="106.0" width="160.2499999999999" x="-154.1249999999999" y="615.7002699999998"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="69.1875" modelName="custom" textColor="#000000" visible="true" width="120.416015625" x="19.916992187499943" y="18.40625">GMSH
 SALOME<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -157,7 +157,7 @@ SALOME<y:LabelModel>
         <y:ShapeNode>
           <y:Geometry height="566.5208333333331" width="268.9999999999999" x="373.0937500000001" y="453.45026999999976"/>
           <y:Fill hasColor="false" transparent="false"/>
-          <y:BorderStyle color="#000000" type="dashed" width="3.0"/>
+          <y:BorderStyle color="#000000" type="dashed" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="sandwich" modelPosition="n" textColor="#000000" visible="true" width="119.1171875" x="74.94140624999994" y="-40.59375">GeoMop</y:NodeLabel>
           <y:Shape type="rectangle"/>
         </y:ShapeNode>
@@ -168,7 +168,7 @@ SALOME<y:LabelModel>
         <y:ShapeNode>
           <y:Geometry height="106.0" width="208.9999999999999" x="401.46875000000017" y="479.7002699999998"/>
           <y:Fill color="#DDDDDD" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans Condensed" fontSize="28" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="custom" textColor="#000000" visible="true" width="175.787109375" x="16.606445312499943" y="34.703125">ModelEditor<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -185,7 +185,7 @@ SALOME<y:LabelModel>
         <y:ShapeNode>
           <y:Geometry height="106.0" width="208.9999999999999" x="401.46875000000006" y="887.7002699999998"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="custom" textColor="#000000" visible="true" width="30.701171875" x="89.14941406249994" y="34.703125">...<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -202,7 +202,7 @@ SALOME<y:LabelModel>
         <y:ShapeNode>
           <y:Geometry height="106.0" width="208.9999999999999" x="51.625000000000114" y="615.7002699999998"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="custom" textColor="#000000" visible="true" width="201.326171875" x="3.836914062499943" y="34.703125">textový editor<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -219,7 +219,7 @@ SALOME<y:LabelModel>
         <y:ShapeNode>
           <y:Geometry height="106.0" width="208.9999999999999" x="401.46875000000017" y="615.7002699999998"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="custom" textColor="#000000" visible="true" width="201.927734375" x="3.536132812499943" y="34.703125">JobsScheduler<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -236,7 +236,7 @@ SALOME<y:LabelModel>
         <y:ShapeNode>
           <y:Geometry height="106.0" width="208.9999999999999" x="401.46875000000017" y="751.7002699999998"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="3.0"/>
+          <y:BorderStyle color="#000000" type="line" width="2.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="DejaVu Sans" fontSize="28" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="36.59375" modelName="custom" textColor="#000000" visible="true" width="119.36328125" x="44.81835937499994" y="34.703125">Analysis<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -252,7 +252,7 @@ SALOME<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-34.660611139230554" ty="-74.60657894736835"/>
-          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -262,7 +262,7 @@ SALOME<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="19.656706417770543" ty="61.39342105263165"/>
-          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -274,7 +274,7 @@ SALOME<y:LabelModel>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
             <y:Point x="-73.99999999999994" y="155.0"/>
           </y:Path>
-          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -286,7 +286,7 @@ SALOME<y:LabelModel>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
             <y:Point x="156.12500000000006" y="532.7002699999998"/>
           </y:Path>
-          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -296,7 +296,7 @@ SALOME<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -306,7 +306,7 @@ SALOME<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
