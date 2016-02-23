@@ -29,11 +29,14 @@
 \end{figure}
 }
 
-\renewcommand{\lstlistingname}{Ukázka kódu}
+\newcommand{\noskipamount}{
+{1pt plus 1pt minus 1pt}
+}
 
 \lstset{ %
   basicstyle=\small\ttfamily,        % the size of the fonts that are used for the code
-  belowcaptionskip=1\baselineskip,
+  aboveskip={1pt plus 1pt minus 1pt},
+  belowskip={1pt plus 1pt minus 1pt},
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom
@@ -177,16 +180,22 @@ Na obrázku \ref{img:data_tree} je znázorněna hierarchická struktura složen�
 
 \includeimg{data_tree}{Příklad složeného datového typu s různými typy atributů}
 
-\section{Formáty pro výměnu dat}
+\section{Formát pro výměnu dat}
+
+\subsection{Formát CON}
 
 Ve verzi Flow123d 1.8.2 se pro reprezentaci výše popsané datové struktury používá speciální formát CON, který byl navržen vývojáři Flow123d pro účel zápisu konfiguračních souborů. Jedná se o formát, který vychází z JavaScript Object Notation, který je specifikován standardem ECMA-404. Oproti tomuto standardu se liší v několika detailech.
 %TODO zkratka JSON
+%TODO zkratka CON - co znamena + do seznamu
 %TODO reference na JSON - http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
 
-Příklad části konfiguračního souboru ve formátu CON je znázorněn v ukázce kódu \ref{lst:con_example}. Jednou z ihned zřejmých odlišností od formátu JSON je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a kompletní specifikaci formátu CON lze nalézt v dokumentaci k Flow123d 1.8.2.
+Příklad části konfiguračního souboru ve formátu CON je znázorněn na obrázku~\ref{img:conf_files}. Jednou z ihned zřejmých odlišností od formátu JSON je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a kompletní specifikaci formátu CON lze nalézt v dokumentaci k Flow123d 1.8.2.
 %TODO ref dokumentace flow
 
-\begin{lstlisting}[caption={Část konfiguračního souboru ve formátu CON}, label={lst:con_example}]
+\begin{figure}[h]
+\singlespacing
+\subsubsection*{Soubor ve formátu CON}
+\begin{lstlisting}
 output = {
   output_stream = {
     file = "./flow_test16.pvd", 
@@ -196,12 +205,61 @@ output = {
     }, 
     name = "flow_output_stream"
   }, 
-  output_fields = [ "pressure_p0", "pressure_p1", 
+  output_fields = [ "pressure_p0",
+                    "pressure_p1", 
                     "velocity_p0" ]
 }
 \end{lstlisting}
 
-Během používání tohoto formátu se ale jeho odlišnost od JSON projevila jako jeden z nedostatků. Kvůli nekompatibilitě formátu s formátem JSON nelze použít pro zpracování CON formátu standardní knihovny. To však nebylo jediným nedostatkem tohoto formátu. Z pohledu uživatele, který tento soubor často upravuje, je například velice nepříjemné, že musí neustále hlídat správné uzávorkování výrazů. Na základě těchto nedostatků bylo rozhodnuto, že ve verzi Flow123d 2.0 bude použit nějaký standardní formát pro výměnu dat, který se ukáže jako vhodnější.
+\subsubsection*{Soubor v jazyce XML}
+\begin{lstlisting}
+<output>
+  <output_stream>
+  	<file>./flow_test16.pvd</file>
+  	<format type="vtk">
+  	  <variant>ascii</variant>
+  	</format>
+  	<name>flow_output_stream</name>
+  </output_stream>
+  <output_fields>pressure_p0</output_fields>
+  <output_fields>pressure_p1</output_fields>
+  <output_fields>velocity_p0</output_fields>
+</output>
+\end{lstlisting}
+
+\subsubsection*{Soubor v jazyce YAML}
+\begin{lstlisting}
+output:
+  output_stream:
+  	file: ./flow_test16.pvd
+  	format: !vtk
+  	  variant: ascii
+  	name: flow_output_stream
+  output_fields:
+    - pressure_p0
+    - pressure_p1
+    - velocity_p0
+\end{lstlisting}
+\onehalfspacing
+\caption{Ukázky různých formátů pro zápis konfiguračního souboru}
+\label{img:conf_files}
+\end{figure}
+
+Během používání tohoto formátu se ale jeho odlišnost od JSON projevila jako jeden z nedostatků. Kvůli nekompatibilitě formátu s formátem JSON nelze použít pro zpracování CON formátu standardní knihovny. To je jeden z důvodů, proč bylo rozhodnuto, že ve verzi Flow123d 2.0 bude použit nějaký standardní formát pro výměnu dat.
+
+To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále hlídat správné uzávorkování objektů nebo zda na konci řádku nebyla zapomenuta čárka pro oddělení položek. To představoval problém obzvlášť u rozsáhlejších konfiguračních souborů, které obsahovaly velký počet úrovní vnoření. Jelikož formát JSON sdílí tyto vlastnosti, tak byl zavržen jako možný nástupce formátu CON.
+
+\subsection{Jazyk XML}
+
+Extensible Markup Language (XML) je rozšiřitelný značkovací jazyk, který slouží pro popis dat. Tento jazyk vznikl na základě Standard Generalized Markup Language (SGML), který vznikl v 70. letech 20. století. Všechny správně zformátované XML dokumenty tedy zároveň i SGML dokumenty. Popis a doporučení týkající se jazyka XML lze nalézt na webových stránkách konsorcia W3C.
+%TODO SGML - ref ISO 8879
+%TODO ref http://www.w3.org/TR/2008/REC-xml-20081126 23.2.2016
+
+---------------
+
+Jazyk XML byl jednou z možností, nad kterou se uvažovalo. Jedná se o Na obrázku~\ref{img:conf_files} si lze si všimnout hlavní odlišnost formátu XML od ostatních možností. Formát XML je velice 
+%TODO zkratka XML
+
 
 %TODO cislovani obrazku - postupne nebo podle kapitol?
 % Odlisit obrazek vs diagram?

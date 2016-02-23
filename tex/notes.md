@@ -17,4 +17,10 @@ Mozne typy uloh
  1. proudeni v poreznim medium
  2. transport latek - difuze, disperze, sorpce, rozpad latek
  3. transport tepla
- 
+
+TODO
+====
+
+- pouzivat jeden termin pro jedek objekt
+- pred dokoncenim projekt komplet text a dplnit pevne mezery (napr obrazek~3)
+
