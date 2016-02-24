@@ -7,6 +7,9 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage[hyphens]{url}
+\usepackage[hidelinks,unicode,hyperfootnotes=false]{hyperref}
+\usepackage{float}
 
 \renewcommand{\thetable}{\arabic{table}}
 \renewcommand{\thefigure}{\arabic{figure}}
@@ -157,7 +160,7 @@ Jelikož se pro předávání dat používají soubory, existují v principu dv�
 
 Textová reprezentace konfiguračních souborů s sebou kromě čitelnosti přináší i další výhody. Oproti binárnímu formátu není závislá na architektuře, jelikož všechna data jsou kódována ve formě textu. Navíc díky tomu, že textový soubor umožňuje kromě přenosu samotných dat i tyto data nějakým způsobem popsat, potom se změny v interní struktuře Flow123d nemusí nutně projevit ve formátu konfiguračních souborů.
 
-\section{Datová struktura}
+\subsection{Datová struktura}
 
 Použití textového formátu konfiguračních souborů s sebou však přináší otázku, jakým způsobem tato data v textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou strukturu tříd v C++. Takové třídy obsahují atributy, které mají název (dále označován jako klíč), typ a hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje typ. Potom je tedy dostačující ukládat dvojici klíč a hodnota.
 
@@ -171,7 +174,7 @@ V konfiguračních souborech je tedy potřeba ukládat dvojice klíč a hodnota.
 	\item celá čísla,
 	\item desetinná čísla,
 	\item hodnoty výčtového typu (tzv. enum),
-	\item řetězce\footnote{Z pohledu konfiguračních souborů se jedná o jednoduchý datový typ, protože je dále nedělitelný.}.
+	\item řetězce\footnote{Konkrétní implementace typu řetězec je typicky pole znaků, tedy složený datový typ. Z pohledu konfiguračních souborů se však jedná o jednoduchý datový typ, protože je dále nedělitelný.}.
 \end{itemize}
 
 Složeným datovým typem z pohledu použitých konfiguračních souborů může být buď homogenní pole, nebo jiný objekt. Tím pádem vzniká hierarchická datová struktura, která může mít teoreticky nekonečný počet vnořených úrovní. V praxi je samozřejmě počet úrovní vždy konečný, ale důležité je, aby použitý formát umožňoval reprezentovat libovolný počet vnoření.
@@ -192,7 +195,20 @@ Ve verzi Flow123d 1.8.2 se pro reprezentaci výše popsané datové struktury po
 Příklad části konfiguračního souboru ve formátu CON je znázorněn na obrázku~\ref{img:conf_files}. Jednou z ihned zřejmých odlišností od formátu JSON je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a kompletní specifikaci formátu CON lze nalézt v dokumentaci k Flow123d 1.8.2.
 %TODO ref dokumentace flow
 
-\begin{figure}[h]
+Během používání tohoto formátu se ale jeho odlišnost od JSON projevila jako jeden z nedostatků. Kvůli nekompatibilitě formátu s formátem JSON nelze použít pro zpracování CON formátu standardní knihovny. To je jeden z důvodů, proč bylo rozhodnuto, že ve verzi Flow123d 2.0 bude použit nějaký standardní formát pro výměnu dat.
+
+To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále hlídat správné uzávorkování objektů nebo zda na konci řádku nebyla zapomenuta čárka pro oddělení položek. To představoval problém obzvlášť u rozsáhlejších konfiguračních souborů, které obsahovaly velký počet úrovní vnoření. Jelikož formát JSON sdílí tyto vlastnosti, tak byl zavržen jako možný nástupce formátu CON.
+
+\subsection{Jazyk XML}
+
+Extensible Markup Language (XML) je rozšiřitelný značkovací jazyk, který slouží pro popis dat. Tento jazyk vznikl z jazyka Standard Generalized Markup Language (SGML), z kterého je odvozen i jazyk HTML. Všechny správně zformátované XML dokumenty tedy zároveň i SGML dokumenty. Popis a doporučení týkající se jazyka XML lze nalézt na webových stránkách konsorcia W3C.
+%TODO SGML - ref ISO 8879
+%TODO ref http://www.w3.org/TR/2008/REC-xml-20081126 23.2.2016
+
+Použití jazyka XML pro zápis konfiguračních souborů bylo jednou ze zvažovaných možností. Ukázku takového zápisu lze vidět na obrázku~\ref{img:conf_files}, na němž si lze zároveň všimnout odlišností zápisu XML oproti jiným možnostem.  
+%TODO zkratka XML
+
+\begin{figure}[H]
 \singlespacing
 \subsubsection*{Soubor ve formátu CON}
 \begin{lstlisting}
@@ -245,24 +261,25 @@ output:
 \label{img:conf_files}
 \end{figure}
 
-Během používání tohoto formátu se ale jeho odlišnost od JSON projevila jako jeden z nedostatků. Kvůli nekompatibilitě formátu s formátem JSON nelze použít pro zpracování CON formátu standardní knihovny. To je jeden z důvodů, proč bylo rozhodnuto, že ve verzi Flow123d 2.0 bude použit nějaký standardní formát pro výměnu dat.
+Velkou výhodou tohoto jazyka je, že umožňuje nadefinovat si vlastní strukturu dokumentu. Lze tedy specifikovat kde se mohou vyskytnou jaké elementy, jaké mohou mít atributy a tak podobně. K tomu slouží DTD nebo XML Schema, které má oproti DTD více funkcí, např. dokáže omezit počet výskytů elementů.
 
-To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále hlídat správné uzávorkování objektů nebo zda na konci řádku nebyla zapomenuta čárka pro oddělení položek. To představoval problém obzvlášť u rozsáhlejších konfiguračních souborů, které obsahovaly velký počet úrovní vnoření. Jelikož formát JSON sdílí tyto vlastnosti, tak byl zavržen jako možný nástupce formátu CON.
+Použití XML Schema by velice usnadnilo validaci datové struktury a navíc existuje celá řada nástrojů, které jsou schopné ověřit, zda je daný XML dokument validní pro dané XML Schema. Úskalím použití této validace by však byly tzv. autokonverze, které jsou popsány v kapitole \ref{}.
 
-\subsection{Jazyk XML}
+Jedná se o speciální zápis, který lze použít v datové struktuře při zapisování polí nebo záznamů. V těchto speciálních případech lze místo pole či záznamu zapsat pouze hodnotu. To znemožňuje běžnou validaci pomocí XML Schema a bylo by nutné validaci XML upravit tak, aby byla schopná brát ohled na autokonverze. To znamená, že by bohužel nebylo možné použít univerzální nástroje pro validaci XML.
 
-Extensible Markup Language (XML) je rozšiřitelný značkovací jazyk, který slouží pro popis dat. Tento jazyk vznikl na základě Standard Generalized Markup Language (SGML), který vznikl v 70. letech 20. století. Všechny správně zformátované XML dokumenty tedy zároveň i SGML dokumenty. Popis a doporučení týkající se jazyka XML lze nalézt na webových stránkách konsorcia W3C.
-%TODO SGML - ref ISO 8879
-%TODO ref http://www.w3.org/TR/2008/REC-xml-20081126 23.2.2016
+Nevýhodou tohoto formátu je jeho \uv{vý\-řeč\-nost}. Té si lze na první pohled všimnout na obrázku~\ref{img:conf_files}. Jazyk XML vyžaduje z~uvedených možností pro zápis stejných dat nejvíce znaků. Hlavní nevýhodu v použití jazyka XML pro zápis konfiguračních souborů vývojáři Flow123d viděli v jeho zásadní odlišnosti oproti dosavadně po\-u\-ží\-va\-né\-mu formátu CON. Dle jejich názoru by to pro uživatele Flow123d byla příliš velká změna.
 
----------------
+\subsection{Jazyk YAML}
 
-Jazyk XML byl jednou z možností, nad kterou se uvažovalo. Jedná se o Na obrázku~\ref{img:conf_files} si lze si všimnout hlavní odlišnost formátu XML od ostatních možností. Formát XML je velice 
-%TODO zkratka XML
+Poslední z uvažovaných možností bylo použití jazyka YAML, který je zobecněním formátu JSON. Kterýkoliv JSON dokument je tím pádem i YAML dokumentem. Oproti formátu JSON ovšem umožňuje syntaktický zápis, který byl speciálně navržen s ohledem na to, aby ho mohli jednoduše zapisovat lidé.
 
+Toho si lze všimnou opět na obrázku~\ref{img:conf_files}. Ze všech uvedených možností je zápis v jazyce YAML nejkratší, a to jak počtem napsaných řádek, tak i počtem potřebných znaků. Zároveň ovšem elegantně řeší problémy původně použitého formátu CON, resp. formátu JSON.
 
-%TODO cislovani obrazku - postupne nebo podle kapitol?
-% Odlisit obrazek vs diagram?
+Jelikož pro zápis vnořených dat používá odsazení, není nadále nutné používat závorky pro uzavření záznamů a polí. Dále podporuje zápis polí pomocí odrážek, což je dobře čitelné a pohodlné pro zápis. Oproti formátu JSON také odpadá nutnost psaní čárek na koncích řádků pro oddělení klíčů v záznamů nebo položek v poli. Dále není nutné psát řetězce do uvozovek, protože se datové typy odlišují implicitně\footnote{V případě potřeby lze datový typ specifikovat i explicitně.}.
+
+Všechna tato vylepšení vedou k tomu, že soubory zapsané v jazyce YAML jsou velice dobře čitelné a jednoduché pro zápis. Navíc se jazyk YAML od původního formátu CON neliší natolik, jako jazyk XML. To vedlo k rozhodnutí, že ve verzi Flow123d 2.0 bude použit jazyk YAML pro zápis konfiguračních souborů. Vytvářená aplikace tedy bude pracovat s konfiguračními soubory napsanými v jazyce YAML. Předchozí formát CON bude možné v rámci aplikace importovat, ale již nebude podporován export ve formátu CON.\footnote{Import formátu CON je nad rámec této diplomové práce a v rámci projektu ho řešil Ing. Pavel Richter.}
+%TODO je vhodne takto zminit, ze import resil pavel?
+
 
 %\begin{center}
 %\line(1,0){250}
@@ -341,6 +358,16 @@ Aplikace je multiplatformní a podporuje systémy Windows (XP nebo novější) a
 
 V rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná se např. o zlepšení zvýraznění syntaxe, které se by se mohlo přizpůsobit přímo formátu Flow123d. Další možné vylepšení spočívá v rozšíření funkcionality komponenty pro vizualizaci datové struktury. Ta by mohla v budoucnu podporovat kromě zobrazení i editaci dat nebo vylepšené zobrazení speciálních datových typů.
 
+\begin{thebibliography}{9}
+% set url to non-mono style
+\urlstyle{same}
+
+\addcontentsline{toc}{chapter}{\bibname}
+
+\bibitem{bib:flow123d-manual}
+BŘEZINA, Jan et al. \textit{Flow123d version 1.8.2: Documentation of file formats and brief user manual}. [online]. Liberec, 2015 [cit. 2016-02-24]. Dostupné z: \url{http://flow.nti.tul.cz/packages/1.8.2_release/flow123d_1.8.2_doc.pdf}
+	
+\end{thebibliography}
 
 
 \end{document}
