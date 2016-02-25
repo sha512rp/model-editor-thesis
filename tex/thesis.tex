@@ -90,6 +90,7 @@ English abstract
 
 \end{acknowledgement}
 
+\setcounter{tocdepth}{1}
 \tableofcontents
 \clearpage
 
@@ -125,7 +126,7 @@ Dále bude editor umožňovat zobrazit datovou strukturu, která tvoří konfigu
 %TODO zminit strukturu prace - rozcestnik?
 
 
-\chapter{Analýza}
+\chapter{Problematika}
 
 %TODO nastaveni flow - serializace objektu - binarni vs textovy format
 
@@ -277,42 +278,95 @@ Toho si lze všimnou opět na obrázku~\ref{img:conf_files}. Ze všech uvedenýc
 
 Jelikož pro zápis vnořených dat používá odsazení, není nadále nutné používat závorky pro uzavření záznamů a polí. Dále podporuje zápis polí pomocí odrážek, což je dobře čitelné a pohodlné pro zápis. Oproti formátu JSON také odpadá nutnost psaní čárek na koncích řádků pro oddělení klíčů v záznamů nebo položek v poli. Dále není nutné psát řetězce do uvozovek, protože se datové typy odlišují implicitně\footnote{V případě potřeby lze datový typ specifikovat i explicitně.}.
 
-Všechna tato vylepšení vedou k tomu, že soubory zapsané v jazyce YAML jsou velice dobře čitelné a jednoduché pro zápis. Navíc se jazyk YAML od původního formátu CON neliší natolik, jako jazyk XML. To vedlo k rozhodnutí, že ve verzi Flow123d 2.0 bude použit jazyk YAML pro zápis konfiguračních souborů. Vytvářená aplikace tedy bude pracovat s konfiguračními soubory napsanými v jazyce YAML. Předchozí formát CON bude možné v rámci aplikace importovat, ale již nebude podporován export ve formátu CON.\footnote{Import formátu CON je nad rámec této diplomové práce a v rámci projektu ho řešil Ing. Pavel Richter.}
+Všechna tato vylepšení vedou k tomu, že soubory zapsané v jazyce YAML jsou velice dobře čitelné a jednoduché pro zápis. Navíc se jazyk YAML od původního formátu CON neliší natolik, jako jazyk XML. To vedlo k rozhodnutí, že ve verzi Flow123d 2.0 bude použit jazyk YAML pro zápis konfiguračních souborů. Vytvářená aplikace tedy bude pracovat s konfiguračními soubory napsanými v jazyce YAML. Předchozí formát CON bude možné v rámci aplikace importovat\footnote{Import formátu CON je nad rámec této diplomové práce a v rámci projektu ho řešil Ing. Pavel Richter.}, ale již nebude podporován export ve formátu CON.
 %TODO je vhodne takto zminit, ze import resil pavel?
 
 
-%\begin{center}
-%\line(1,0){250}
-%\end{center}
-%
-%Existuje celá řada možností. Pokud by konfigurační soubory byly triviální, dal by se použít například formát INI, který umožňuje jednoduchým způsobem zapisovat kombinace klíč a hodnota. Vzhledem k tomu, že konfigurační data pro Flow123d mohou tvořit složité hierarchické struktury, jsou však INI soubory nedostačující.
-%%TODO zkratka INI
-%
-% Hierarchické datové struktury lze vhodně popsat například pomocí formátu JSON, YAML nebo jazyka XML. 
-%
-%
-%%TODO najit vhodne umisteni - spise na konec, k diskuzi, co pouzit?
-%Flow123d v minulosti používal pro konfigurační soubory vlastní formát CON, který je podobný formátu JSON, ale mírně se od něj odlišuje. Díky tomu však nebyl příliš přenositelný, protože se pro jeho čtení nedaly přímo použít klasické knihovny, které umí číst formát JSON. To byl jeden z důvodů, proč došlo k rozhodnutí použít od verze Flow123d 2.0 jiný formát konfiguračních souborů. 
-%%TODO zkratka
-
-%TODO moznosti pro serializaci objektu a repr. konf. souboru
-% binarni vs textovy format
-% XML, DTD, XMLSchema
-% JSON, JSON Schema
-% YAML
-% proc byl zvolen YAML, diskuze ostatnich moznosti
-
 %\section{Formát konfiguračních souborů}
-% o co se jedna, jak to vypada (JSON)
-% jakym zpusobem popisuje data - hiearchicka stromova struktura
 % nastinit autokonverze, abstraktni zaznamy (zminit ze nemaji dedicnost, spise interface)
-% serializace dat -> zaznamy, pole, hodnoty ... obrazek stromu?
 % vztah a vznik souboru s formatem - zavislost na verzi
 % datove typy - scalar, array, record, abstract
 % autokonverze + priklady?
 
 
-%\chapter{Analýza}
+\chapter{Analýza}
+
+Tato kapitola se zabývá 
+
+\section{Specifikace konfiguračních souborů Flow123d}
+
+% co to je, jak to vypada
+% zminit odlisne verze flow + potrebu validace pro konkretni verzi
+
+\subsection{Datové typy}
+
+\subsubsection{Primitivní datové typy}
+
+\subsubsection{Pole}
+
+\subsubsection{Záznamy}
+
+\subsubsection{Abstraktní záznamy}
+
+\subsection{Autokonverze}
+
+\subsection{Autokonverze na pole}
+
+\subsection{Autokonverze na záznam}
+
+\subsection{Transpozice}
+
+
+\section{Formát YAML pro konfigurační soubory}
+
+\subsection{Serializace a deserializace}
+
+%proudove zpracovani vs DOM
+
+\subsection{Zápis datových typů}
+
+% implicitni/explicitni
+% zapis type
+
+\chapter{Návrh}
+
+% big picture - pohled na aplikaci jako celek
+
+\section{Autokonverze}
+
+\section{Validace}
+
+\section{Kontextová dokumentace}
+
+\section{Automatické doplňování textu}
+
+\section{Funkce editoru}
+
+\section{GUI}
+
+
+\chapter{Implementace a testování}
+
+% kapitoly obdobne navrhu?
+% pouzite knihovny a technologie
+% pracovni postupy?
+% implementacni uskali
+% kdo delal co
+% testy
+
+\chapter{Uživatelská příručka}
+
+\section{Zápis konfiguračních souborů pomocí YAML}
+
+\section{Vytváření a editace konfiguračních souborů}
+
+\section{Validace a odstranění chyb}
+
+\section{Nastavení} 
+
+%TODO jak odlisit format ve smyslu pouziteho textoveho zapisu vs format semantickeho vyznamu dat (IST) - neco jako XML Schema
+
+
 %
 %
 %\section{Konfigurační soubory}
