@@ -11,6 +11,21 @@
 \usepackage[hidelinks,unicode,hyperfootnotes=false]{hyperref}
 \usepackage{float}
 
+% fix footnotes in table environments
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+% create fixed sized table columns
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% customize description environment
+\usepackage{enumitem}
+
+
 \renewcommand{\thetable}{\arabic{table}}
 \renewcommand{\thefigure}{\arabic{figure}}
 
@@ -162,7 +177,7 @@ Jelikož se pro předávání dat používají soubory, existují v principu dv�
 Textová reprezentace konfiguračních souborů s sebou kromě čitelnosti přináší i další výhody. Oproti binárnímu formátu není závislá na architektuře, jelikož všechna data jsou kódována ve formě textu. Navíc díky tomu, že textový soubor umožňuje kromě přenosu samotných dat i tyto data nějakým způsobem popsat, potom se změny v interní struktuře Flow123d nemusí nutně projevit ve formátu konfiguračních souborů.
 
 \subsection{Datová struktura}
-
+\label{sec:datova-sturktura}
 Použití textového formátu konfiguračních souborů s sebou však přináší otázku, jakým způsobem tato data v textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou strukturu tříd v C++. Takové třídy obsahují atributy, které mají název (dále označován jako klíč), typ a hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje typ. Potom je tedy dostačující ukládat dvojici klíč a hodnota.
 
 Existují i situace, kdy z názvu atributu nelze jednoznačně určit jeho typ. To je způsobené použitím polymorfismu. Z klíče lze tedy odvodit pouze jakého typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný typ explicitně uvést. Tyto situace jsou prozatím zanedbány a jsou popsány samostatně v kapitole X.
@@ -291,14 +306,57 @@ Všechna tato vylepšení vedou k tomu, že soubory zapsané v jazyce YAML jsou 
 
 \chapter{Analýza}
 
-Tato kapitola se zabývá 
+Tato kapitole se skládá ze dvou hlavních částí. V první z nich je rozebrána specifikace konfiguračních souborů, kterou generuje Flow123d. Tato specifikace je zásadní pro validaci, generování dokumentace a automatické doplňování textu. Zároveň jsou v této části popsány speciální případy zápisu polí nebo záznamů (tzv. autokonverze). Autokonverze mají zásadní vliv na validaci dat.
 
-\section{Specifikace konfiguračních souborů Flow123d}
+V druhé části této kapitoly je popsán proces zpracování souborů ve formátu YAML. Dále je v této části navrženo vhodné použití syntaxe pro zápis datové struktury, referencí a abstraktních záznamů, které jsou popsány v první části této kapitoly.
 
-% co to je, jak to vypada
-% zminit odlisne verze flow + potrebu validace pro konkretni verzi
+\section{Specifikace formátu konfiguračních souborů}
+
+Simulátor Flow123d umožňuje exportovat popis vstupní datové struktury konfiguračních souborů. Tento popis struktury bude v textu nadále označován jako \textit{specifikace formátu}. Oproti tomu slovo \textit{formát} udává použitou textovou reprezentaci pro zápis konfiguračního souboru -- nejčastěji tedy označuje buď starší souborový formát CON, nebo nově používaný formát YAML.
+%TODO specifikace vs specifikace formatu?
+
+Zatímco formát udává syntaktická pravidla pro vytváření dokumentů, specifikace formátu popisuje sémantický význam zapsaných dat, definuje použitelné uživatelské typy a klade různá omezení na vstupní datovou strukturu. Formát a specifikaci formátu lze považovat za analogii k XML, resp. XML Schema.
+
+Mezi vývojáři Flow123d se specifikace formátu také označuje jako Input Structure Tree (IST). S tím, jak se vyvíjí nová a rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i tato specifikace. Z toho plyne zásadní požadavek na validaci konfiguračních souborů -- proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d.
+%TODO zkratka
+
+Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu JSON. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce ModelEditoru, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
 
 \subsection{Datové typy}
+
+Jak již bylo zmíněno v kapitole \ref{sec:datova-sturktura}, konfigurační soubory obsahují hierarchickou datovou strukturu, která tvoří strom. Specifikace formátu definuje datový typ pro každý uzel stromu, ať už se jedná o interní uzel nebo list stromu. Datové typy definované ve specifikaci formátu mohou mít následující parametry:
+
+\vspace{0.5cm}
+\begin{tabular}{m{3cm}@{}l}
+\texttt{id}\dotfill & unikátní řetězec označující datový typ \\
+\texttt{input\_type}\dotfill & základní typ, ze kterého je datový typ odvozen\footnote{Základní typ udává pouze typ proměnné, zatímco datový typ definovaný ve specifikaci formátu obsahuje navíc další informace nebo omezení (např. rozsahu platných hodnot).}  \\
+\texttt{name}\dotfill & název datového typu, nemusí být unikátní \\
+\texttt{description}\dotfill & dokumentační řetězec popisující datový typ \\
+\texttt{attributes}\dotfill & pomocné atributy obsahující dodatečné informace \\
+\end{tabular}
+
+
+\vspace{0.5cm}
+\begin{tabular}{m{3cm}@{}l}
+\texttt{range}\dotfill & dvojice hodnot udávající minimální a maximální počet prvků \\
+\texttt{subtype}\dotfill & datový typ jednotlivých prvků pole \\
+\end{tabular}
+
+
+\vspace{0.5cm}
+\begin{tabular}{m{3cm}@{}l}
+\texttt{values}\dotfill & seznam přípustných hodnot včetně jejich popisu \\
+\end{tabular}
+
+\vspace{0.5cm}
+\begin{tabular}{m{4cm}@{}l}
+\texttt{reducible\_to\_key}\dotfill & obsahuje název klíče použitého pro autokonverzi \\
+\end{tabular}
+
+
+% označen unikátním řetězcem id, dále je odvozen z nějakého základního vstupního typu input\_type a obsahuje název name, který ho označuje v rámci dokumentace, ale nemusí být jedinečný.
+
+%Popis datových typů, které jsou přiřazeny k jednotlivým uzlům stromu,obsahují často kromě výše popsaných základních údajů i další informace. 
 
 \subsubsection{Primitivní datové typy}
 
