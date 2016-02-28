@@ -1,0 +1,39 @@
+\frametitle{Problémy s konfiguračními soubory}
+	Syntaxe
+	\begin{itemize}
+		\item<2> uzávorkování vnořených výrazů
+		\item<3> oddělovací čárky
+		\item<4> uvozovky
+	\end{itemize}
+
+\vspace*{-0.5cm}
+\begin{figure}[ht]
+\begin{minipage}[t]{0.45\linewidth}
+\begin{exampleblock}{Formát CON}<1->
+\begin{lstlisting}
+output = {
+  output_stream = {
+    file = "out.pvd",
+    format = {
+      TYPE = "vtk",
+      variant = "ascii"
+    },
+    name = "out_stream"
+  }
+}
+\end{lstlisting}
+\end{exampleblock}
+\end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
+\begin{exampleblock}{Formát YAML}<5>
+\begin{lstlisting}
+output:
+  output_stream:
+  	file: out.pvd
+  	format: !vtk
+  	  variant: ascii
+  	name: out_stream
+\end{lstlisting}
+\end{exampleblock}
+\end{minipage}
+\end{figure}
