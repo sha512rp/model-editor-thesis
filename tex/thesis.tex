@@ -329,30 +329,25 @@ Jak již bylo zmíněno v kapitole \ref{sec:datova-sturktura}, konfigurační so
 \vspace{0.5cm}
 \begin{tabular}{m{3cm}@{}l}
 \texttt{id}\dotfill & unikátní řetězec označující datový typ \\
-\texttt{input\_type}\dotfill & základní typ, ze kterého je datový typ odvozen\footnote{Základní typ udává pouze typ proměnné, zatímco datový typ definovaný ve specifikaci formátu obsahuje navíc další informace nebo omezení (např. rozsahu platných hodnot).}  \\
+\texttt{input\_type}\dotfill & základní typ, ze kterého je datový typ odvozen  \\
 \texttt{name}\dotfill & název datového typu, nemusí být unikátní \\
 \texttt{description}\dotfill & dokumentační řetězec popisující datový typ \\
 \texttt{attributes}\dotfill & pomocné atributy obsahující dodatečné informace \\
 \end{tabular}
-
-
 \vspace{0.5cm}
-\begin{tabular}{m{3cm}@{}l}
-\texttt{range}\dotfill & dvojice hodnot udávající minimální a maximální počet prvků \\
-\texttt{subtype}\dotfill & datový typ jednotlivých prvků pole \\
-\end{tabular}
 
+Základní typ input\_type udává pouze typ, ze kterého je konkrétní datový typ odvozen. Konkrétní datové typy navíc obsahují výše vyjmenované informace a případná další upřesnění či omezení. Specifikace formátu může takových datových typů definovat neomezený počet. Oproti tomu je možné využít pouze následující základní datové typy:
 
-\vspace{0.5cm}
-\begin{tabular}{m{3cm}@{}l}
-\texttt{values}\dotfill & seznam přípustných hodnot včetně jejich popisu \\
-\end{tabular}
-
-\vspace{0.5cm}
-\begin{tabular}{m{4cm}@{}l}
-\texttt{reducible\_to\_key}\dotfill & obsahuje název klíče použitého pro autokonverzi \\
-\end{tabular}
-
+\begin{itemize}
+\item \textit{Integer} pro celá čísla,
+\item \textit{Double} pro reálná čísla,
+\item \textit{String} pro řetězce,
+\item \textit{Filename} pro jména souborů,
+\item \textit{Selection} pro výčtové typy,
+\item \textit{Array} pro homogenní pole,
+\item \textit{Record} pro záznamy,
+\item \textit{Abstract} pro abstraktní záznamy.
+\end{itemize}
 
 % označen unikátním řetězcem id, dále je odvozen z nějakého základního vstupního typu input\_type a obsahuje název name, který ho označuje v rámci dokumentace, ale nemusí být jedinečný.
 
@@ -360,17 +355,74 @@ Jak již bylo zmíněno v kapitole \ref{sec:datova-sturktura}, konfigurační so
 
 \subsubsection{Primitivní datové typy}
 
+Mezi tyto datové typy patří všechny typy odvozené z \textit{Integer}, \textit{Double}, \textit{String}, \textit{Filename} nebo \textit{Selection}. Jedná se o datové typy, jejichž hodnota je z pohledu datové struktury konfiguračního souboru dále nedělitelná. Ve stromové datové struktuře se tedy vždy jedná o listy stromu.
+
+Datové typy odvozené z \textit{Filename} a \textit{String} nemají v současné verzi Flow123d žádné další parametry, které by omezovaly jejich možné hodnoty (např. omezení délky řetězce). Datové typy, které slouží pro reprezentaci čísel, tedy typy odvozené od \textit{Integer} a \textit{Double}, mohou mít navíc omezený rozsah povolených hodnot pomocí zadání intervalu \texttt{range}.
+
+\vspace{0.5cm}
+\begin{tabular}{m{3cm}@{}l}
+\texttt{range}\dotfill & dvojice čísel, která vymezuje rozsah platných hodnot \\
+\end{tabular}
+\vspace{0.5cm}
+
+Datové typy odvozené z typu \textit{Selection} slouží pro specifikaci výčtového typu. Tyto typy mají pevně definovanou množinu platných hodnot, která je zadána pomocí parametru \texttt{values}. Každý záznam v tomto poli je definován pomocí jejich názvu \texttt{name} a popisu \texttt{description}.
+
+
+\vspace{0.5cm}
+\begin{tabular}{m{3cm}@{}l}
+\texttt{values}\dotfill & seznam přípustných hodnot včetně jejich popisu \\
+\end{tabular}
+
 \subsubsection{Pole}
+
+Všechna pole ve specifikaci datové struktury jsou homogenní -- obsahují tedy prvky, které jsou stejného datového typu (případně jsou odvozeny ze stejného abstraktního datového typu, viz dále). Datový typ potomků pole definuje parametr \texttt{subtype}, která obsahuje identifikátor datového typu. Pole dále mohou obsahovat omezení minimálního a maximálního počtu prvků, zadaného pomocí \texttt{range}.
+
+\vspace{0.5cm}
+\begin{tabular}{m{3cm}@{}l}
+\texttt{range}\dotfill & dvojice čísel udávající minimální a maximální počet prvků \\
+\texttt{subtype}\dotfill & datový typ jednotlivých prvků pole \\
+\end{tabular}
+\vspace{0.5cm}
 
 \subsubsection{Záznamy}
 
+Záznamy slouží pro inicializaci tříd a jejich atributy tvoří dvojice klíč a hodnota. Každý datový typ odvozen z typu Record má v rámci specifikace formátu definován množinu klíčů \texttt{keys}. Dále mohou mít záznamy definován parametr reducible\_to\_key, který se používá pro autokonverzi na záznam (viz kapitola \ref{sec:autokonverze-zaznam}).
+
+\vspace{0.5cm}
+\begin{tabular}{m{4cm}@{}l}
+\texttt{keys}\dotfill & definuje množinu klíčů daného záznamu \\
+\texttt{reducible\_to\_key}\dotfill & obsahuje název klíče použitého pro autokonverzi \\
+\end{tabular}
+\vspace{0.5cm}
+
+Definice každého klíče dále obsahuje další parametry. Mezi ně patří \texttt{key}, který udává název klíče, poté opět popis \texttt{description}, datový typ klíče \texttt{type} a parametr \texttt{default}.
+
+\vspace{0.5cm}
+\begin{tabular}{m{4cm}@{}l}
+\texttt{key}\dotfill & název klíče \\
+\texttt{description}\dotfill & dokumentační řetězec popisují klíč záznamu \\
+\texttt{type}\dotfill & identifikátor očekávaného datového typu klíče \\
+\texttt{default}\dotfill & upřesňuje typ klíče a případně jeho výchozí hodnotu \\
+\end{tabular}
+\vspace{0.5cm}
+
+Parametr \texttt{default} se skládá z dvojice parametrů type a value. Pokud může mít klíč výchozí hodnotu, tak je udána právě parametrem value. Tato hodnota se použije v případě, že se v konfiguračním souboru nevyskytne daný klíč. Parametr type udává, zda je potřeba klíč explicitně zadat či nikoliv a může nabývat následujících hodnot:
+
+\begin{itemize}
+\item[obligatory] klíč je povinný a jeho hodnota musí být explicitně zadána
+\item[value at declaration] 
+\item[value at run time] 
+\item[optional] 
+\end{itemize}
+
 \subsubsection{Abstraktní záznamy}
 
-\subsection{Autokonverze}
+\section{Autokonverze}
 
 \subsection{Autokonverze na pole}
 
 \subsection{Autokonverze na záznam}
+\label{sec:autokonverze-zaznam}
 
 \subsection{Transpozice}
 
@@ -385,6 +437,10 @@ Jak již bylo zmíněno v kapitole \ref{sec:datova-sturktura}, konfigurační so
 
 % implicitni/explicitni
 % zapis type
+
+\subsection{Reference}
+
+% popsat REF, nahrazeni &, *
 
 \chapter{Návrh}
 
