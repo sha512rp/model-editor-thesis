@@ -440,7 +440,19 @@ Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žád
 
 \section{Autokonverze}
 
+V konfiguračních souborech pro Flow123d se používají speciální zápisy záznamů a polí, které vývojáři a uživatelé Flow123d označují jako automatické konverze, nebo zkráceně pouze autokonverze. Cílem autokonverzí je zjednodušení a zkrácení zápisu.
 
+Pomocí autokonverzí lze například vynechat definici typu a klíče a místo toho zapsat pouze hodnotu. Zápis se tím výrazně zkrátí, ale zároveň to způsobí značné komplikace z pohledu validace konfiguračního souboru nebo určení přesné polohy v rámci datové struktury. Situace se dále zkomplikuje tím, že je možné použít vnořené autokonverze -- tedy provést autokonverzi v rámci jiné autokonverze.
+
+Logika autokonverzí je zhruba následující. Pokud datový typ neodpovídá očekávanému datovému typu dle specifikace formátu, zkusí se provést některá z autokonverzí, pokud je na tomto místě použitelná. V případě, že po autokonverzi již datový typ odpovídá očekávanému, postupuje se standardně dál a datový typ se prochází do hloubky, kde dojde k dalším případným autokonverzím.
+
+Autokonverze jsou hlavní důvodem, proč není možné použít XML Schema a souborový formát XML pro validaci konfiguračních souborů. Kvůli autokonverzím by nebylo možné pouze triviálně použít nástroj pro validaci XML schématu k validaci konfiguračního souboru.
+
+Z pohledu neznalého uživatele se jedná o poměrně matoucí záležitost, protože datová struktura ve skutečnosti obsahuje něco jiného, než je napsáno v konfiguračním souboru. Z praktického hlediska jsou ovšem autokonverze pro zkušené uživatele Flow123d přínosem a jsou zvyklí je používat. S přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
+
+Aplikace ModelEditor tedy musí podporovat používání autokonverzí a je nutné je zohlednit při validaci konfiguračních souborů a určování pozice v rámci datového stromu, která je dále použita pro funkce kontextové dokumentace nebo automatického doplňování textu. 
+
+Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě dvou doposud používaných (autokonverze na pole a autokonverze na záznam) nově přibyla i nová autokonverze nazývaná transpozice, která je zobecněním transpozice na záznam.
 
 \subsection{Autokonverze na pole}
 
