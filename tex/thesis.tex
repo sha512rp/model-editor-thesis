@@ -10,6 +10,7 @@
 \usepackage[hyphens]{url}
 \usepackage[hidelinks,unicode,hyperfootnotes=false]{hyperref}
 \usepackage{float}
+\usepackage{subfig}
 
 % fix footnotes in table environments
 \usepackage{footnote}
@@ -74,6 +75,14 @@
   title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
   xleftmargin=\parindent,
   numberbychapter=false
+}
+
+\lstdefinestyle{short}{
+  frame=none,
+  aboveskip={0pt plus 0pt minus 0pt},
+  belowskip={0pt plus 0pt minus 0pt},
+  numbers=none,
+  showlines=true,  % empty lines at the end for easier formatting
 }
 
 \onehalfspacing
@@ -456,9 +465,67 @@ Používají se tři základní typy autokonverzí, které jsou dále popsány. 
 
 \subsection{Autokonverze na pole}
 
+\lstset{style=short}
+
 %TODO hodnoty na obrazcich - nejsou nesmyslne?
 
+%\newsavebox\arrayautoconvbeforebox
+%\begin{lrbox}{\arrayautoconvbeforebox}
+%\begin{lstlisting}
+%value: 2.5
+%
+%\end{lstlisting}
+%\end{lrbox}
+%
+%\begin{figure}[H]
+%    \captionsetup{labelfont=bf}
+%    \centering
+%    \subfloat[Zapsaná datová struktura]{
+%    \centering
+%    \includegraphics[width=.25\textwidth]{../img/autoconversion_array_1_before.pdf}
+%    \newline
+%    \newline
+%    \usebox\arrayautoconvbeforebox
+%    }\qquad
+%    \subfloat[Skutečná datová struktura]{
+%    \centering
+%    \includegraphics[width=.25\textwidth]{../img/autoconversion_array_1_after.pdf}
+%    \newline
+%\lstinputlisting{../code/autoconversion_array_1_after.yaml}
+%}
+%\end{figure}
 
+\begin{figure}[ht]
+\begin{minipage}[t]{0.45\linewidth}
+\vspace{0pt}
+Zapsaná datová struktura\\
+\vspace{-5pt}
+\begin{lstlisting}
+value: 2.5
+
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[width=.5\textwidth]{../img/autoconversion_array_1_before.pdf}
+\end{center}
+
+\end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
+%\centering
+\vspace{0pt}
+Skutečná datová struktura\\
+\vspace{-5pt}
+\begin{lstlisting}
+value:
+  - 2.5
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[width=.5\textwidth]{../img/autoconversion_array_1_after.pdf}
+\end{center}
+\end{minipage}
+\caption{Autokonverze na jednorozměrné pole}
+\end{figure}	
 
 \subsection{Autokonverze na záznam}
 \label{sec:autokonverze-zaznam}
