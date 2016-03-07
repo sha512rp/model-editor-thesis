@@ -454,6 +454,7 @@ V konfiguračních souborech pro Flow123d se používají speciální zápisy z�
 Pomocí autokonverzí lze například vynechat definici typu a klíče a místo toho zapsat pouze hodnotu. Zápis se tím výrazně zkrátí, ale zároveň to způsobí značné komplikace z pohledu validace konfiguračního souboru nebo určení přesné polohy v rámci datové struktury. Situace se dále zkomplikuje tím, že je možné použít vnořené autokonverze -- tedy provést autokonverzi v rámci jiné autokonverze.
 
 Logika autokonverzí je zhruba následující. Pokud datový typ neodpovídá očekávanému datovému typu dle specifikace formátu, zkusí se provést některá z autokonverzí, pokud je na tomto místě použitelná. V případě, že po autokonverzi již datový typ odpovídá očekávanému, postupuje se standardně dál a datový typ se prochází do hloubky, kde dojde k dalším případným autokonverzím.
+%TODO vyvojovy diagram - jak se provadi autokonverze - implementace?
 
 Autokonverze jsou hlavní důvodem, proč není možné použít XML Schema a souborový formát XML pro validaci konfiguračních souborů. Kvůli autokonverzím by nebylo možné pouze triviálně použít nástroj pro validaci XML schématu k validaci konfiguračního souboru.
 
