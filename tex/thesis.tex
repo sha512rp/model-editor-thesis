@@ -406,18 +406,41 @@ Definice každého klíče dále obsahuje další parametry. Mezi ně patří \t
 \end{tabular}
 \vspace{0.5cm}
 
-Parametr \texttt{default} se skládá z dvojice parametrů type a value. Pokud může mít klíč výchozí hodnotu, tak je udána právě parametrem value. Tato hodnota se použije v případě, že se v konfiguračním souboru nevyskytne daný klíč. Parametr type udává, zda je potřeba klíč explicitně zadat či nikoliv a může nabývat následujících hodnot:
+Parametr \texttt{default} se skládá z dvojice parametrů \texttt{type} a \texttt{value}. Parametr \texttt{value} udává výchozí hodnotu klíče. Tato hodnota se použije v případě, že se v konfiguračním souboru nevyskytne daný klíč. Parametr \texttt{type} udává, zda je potřeba klíč explicitně zadat či nikoliv a může nabývat následujících hodnot:
 
-\begin{itemize}
-\item[obligatory] klíč je povinný a jeho hodnota musí být explicitně zadána
-\item[value at declaration] 
-\item[value at run time] 
-\item[optional] 
-\end{itemize}
+\vspace{0.5cm}
+\begin{tabular}{m{4cm}@{}l}
+\textit{obligatory}\dotfill & klíč je povinný a jeho hodnota musí být explicitně zadána \\
+\textit{optional}\dotfill & klíč je nepovinný a nemá žádnou výchozí hodnotu \\
+\textit{value at declaration}\dotfill & výchozí hodnota je součástí deklarace typu \\
+\textit{value at run time}\dotfill & výchozí hodnota se načte při spuštění \\
+\end{tabular}
+\vspace{0.5cm}
+
+Z pohledu aplikace ModelEditor je podstatná pouze hodnota \textit{obligatory}, která udává, že klíč musí být v konfiguračním souboru uveden. Ostatní typy klíčů nemusí být v konfiguračním souboru explicitně uvedeny. Pokud se však objeví, provede se jejich validace jako stejně jako u ostatních klíčů.
 
 \subsubsection{Abstraktní záznamy}
 
+Posledním speciálním typem, který se používá ve struktuře konfiguračních souborů je abstraktní záznam. Jedná se o všechny typy, které jsou odvozené ze základního typu označovaného jako \textit{Abstract}. Abstraktní záznamy slouží jako zástupný typ, který se ve specifikaci formátu datové struktury objevuje na místech, kde se mohou vyskytovat různé typy (ovšem ne zcela libovolné).
+
+Příkladem je například záznam, který udává řešenou rovnici. Existuje několik typů rovnic, které je možné řešit, a každá z nich má jinou datovou strukturu. V takových případech se na místě, kde se očekává rovnice uvede abstraktní datový typ. V konkrétních datových typech (např. pro jednotlivé typy rovnic) se pak pomocí klíče \texttt{implements} definuje, které abstraktní záznamy implementují.
+%TODO je to takhle receno spravne z pohledu uzivatele flow?
+
+Použitá terminologie se rozchází s programátorskou terminologií, kde by se tento abstraktní záznam označil spíše jako rozhraní. Abstraktní záznamy totiž nemohou mít definované žádné klíče -- tím pádem se nepoužívají pro dědičnost. Navíc jeden konkrétní typ může implementovat více abstraktních typů, což je z pohledu objektového programování typické spíše pro rozhraní. Pro zachování jednotné terminologie se specifikací formátu Flow123d a její dokumentací bude ale nadále tento typ označován jako abstraktní záznam.
+
+\vspace{0.5cm}
+\begin{tabular}{m{5cm}@{}l}
+\texttt{default\_descendant}\dotfill & výchozí typ abstraktního záznamu \\
+\texttt{implementations}\dotfill & seznam implementací abstraktního záznamu \\
+\end{tabular}
+\vspace{0.5cm}
+
+Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žádnou definici klíčů. Obsahují však navíc parametr \texttt{default\_descendant}, který udává identifikátor záznamu, který se použije v případě, že záznam, který je uveden na místě, kde se očekává abstraktní záznam, nemá explicitně uvedený typ. Abstraktní záznam navíc obsahuje parametr \texttt{implementations}, který obsahuje seznam identifikátorů všech jeho implementací. Jedná se o duplicitní informaci a v rámci aplikace ModelEditor není využita, protože se používá parametr \texttt{implements} u konkrétních záznamů.
+
+
 \section{Autokonverze}
+
+
 
 \subsection{Autokonverze na pole}
 
