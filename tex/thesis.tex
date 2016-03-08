@@ -87,6 +87,7 @@
   belowskip={0pt plus 0pt minus 0pt},
   numbers=none,
   showlines=true,  % empty lines at the end for easier formatting
+  basicstyle=\ttfamily,
 }
 
 \onehalfspacing
@@ -572,7 +573,50 @@ anisotropy: [[1.5]]
 \end{figure}	
 
 \subsection{Autokonverze na záznam}
-\label{sec:autokonverze-zaznam}
+
+Autokonverze na záznam se provádí v případě, že se v datové struktuře na dané pozici očekává záznam\footnote{typ Record nebo Abstract, viz dále} a místo něj se v datové struktuře nachází pole či primitivní datový typ. Oproti autokonverzi na pole, která proběhne vždy, musí být autokonverze na záznam explicitně povolena ve specifikaci formátu pro daný záznam.
+
+Záznam musí mít ve specifikaci formátu uvedený parametr reducible\_to\_key\footnote{pokud je uveden reducible\_to\_key, obsahuje vždy jeden z klíčů, který je v rámci daného záznamu definován}, který udává, do kterého klíče se má nalezená datová struktura vložit. Pokud tento parametr není uveden, tak záznam autokonverzi nepodporuje a nelze ji provést.
+
+\begin{figure}[ht]
+\begin{minipage}[t]{0.45\linewidth}
+\vspace{0pt}
+\textbf{Zapsaná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+balance: true
+
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[width=.5\textwidth]{../img/autoconversion_record_before.pdf}
+\end{center}
+
+\end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
+%\centering
+\vspace{0pt}
+\textbf{Skutečná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+balance:
+  balance_on: true
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[width=.5\textwidth]{../img/autoconversion_record_after.pdf}
+\end{center}
+\end{minipage}
+\caption{Autokonverze na záznam}
+\label{img:autoconversion_record}
+\end{figure}	
+
+Příklad autokonverze na záznam je znázorněn na obrázku~\ref{img:autoconversion_record}. Záznam Steady\_MH obsahuje klíč balance. V zapsané datové struktuře je pro tento klíč uvedena hodnota true, tedy datový typ Boolean. Podle specifikace formátu se zde však očekává záznam typu Balance. Jelikož má záznam Balance uvedený klíč reducible\_to\_key, který je nastaven na hodnotu balance\_on, tak dojde k autokonverzi na záznam. Ve skutečné datové struktuře tedy v klíči balance je záznam Balance, jehož klíč balance\_on je nastaven na původně uvedenou hodnotu true.
+
+U záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel chce však nejčastěji měnit pouze jeden z nich a právě tento klíč je ve specifikaci formátu uveden jako reducible\_to\_key. Přínos této autokonverze spočívá v tom, že uživatel ve většině případů nemusí psát navíc název klíče.
+
+Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v datové struktuře abstraktní záznam. Abstraktní záznamy samy o sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč default\_descendant, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v kapitole \ref{sec:implementace-autokonverze-zaznam}.
+%TODO ref
 
 \subsection{Transpozice}
 
