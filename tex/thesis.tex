@@ -56,7 +56,7 @@
 {1pt plus 1pt minus 1pt}
 }
 
-\lstset{ %
+\lstdefinestyle{code}{ %
   basicstyle=\small\ttfamily,        % the size of the fonts that are used for the code
   aboveskip={1pt plus 1pt minus 1pt},
   belowskip={1pt plus 1pt minus 1pt},
@@ -89,6 +89,8 @@
   showlines=true,  % empty lines at the end for easier formatting
   basicstyle=\ttfamily,
 }
+
+\lstset{style=code}
 
 \onehalfspacing
 
@@ -513,10 +515,9 @@ value: 2.5
 \begin{center}
 \includegraphics[width=.5\textwidth]{../img/autoconversion_array_1_before.pdf}
 \end{center}
-
 \end{minipage}
+\quad
 \begin{minipage}[t]{0.45\linewidth}
-%\centering
 \vspace{0pt}
 \textbf{Skutečná datová struktura}\\
 \vspace{-5pt}
@@ -553,10 +554,9 @@ anisotropy: 1.5
 \begin{center}
 \includegraphics[width=.6\textwidth]{../img/autoconversion_array_2_before.pdf}
 \end{center}
-
 \end{minipage}
+\quad
 \begin{minipage}[t]{0.45\linewidth}
-%\centering
 \vspace{0pt}
 \textbf{Skutečná datová struktura}\\
 \vspace{-5pt}
@@ -591,8 +591,8 @@ balance: true
 \begin{center}
 \includegraphics[width=.5\textwidth]{../img/autoconversion_record_before.pdf}
 \end{center}
-
 \end{minipage}
+\quad
 \begin{minipage}[t]{0.45\linewidth}
 %\centering
 \vspace{0pt}
@@ -604,7 +604,7 @@ balance:
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.5\textwidth]{../img/autoconversion_record_after.pdf}
+\includegraphics[width=.55\textwidth]{../img/autoconversion_record_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na záznam}
@@ -615,11 +615,104 @@ Příklad autokonverze na záznam je znázorněn na obrázku~\ref{img:autoconver
 
 U záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel chce však nejčastěji měnit pouze jeden z nich a právě tento klíč je ve specifikaci formátu uveden jako reducible\_to\_key. Přínos této autokonverze spočívá v tom, že uživatel ve většině případů nemusí psát navíc název klíče.
 
-Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v datové struktuře abstraktní záznam. Abstraktní záznamy samy o sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč default\_descendant, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v kapitole \ref{sec:implementace-autokonverze-zaznam}.
+%TODO zalomeni klice?
+Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v datové struktuře abstraktní záznam. Abstraktní záznamy samy o sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč default\_de\-scend\-ant, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v kapitole \ref{sec:implementace-autokonverze-zaznam}.
 %TODO ref
 
 \subsection{Transpozice}
+%TODO neni to celkove matouci? je z toho jasne o co se jedna a jak to funguje?
+Transpozice je nově přidaná autokonverze, která umožňuje definovat více záznamů naráz pomocí speciálního zápisu pro jeden záznam. Přínos této konverze je především při definování několika záznamů, které obsahují více klíčů, přičemž některé z nich zůstávají totožné, zatímco jiné se mění.
 
+
+\begin{figure}[ht]
+\begin{minipage}[t]{0.45\linewidth}
+\vspace{0pt}
+\textbf{Zapsaná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+input_fields:
+  region: Region1
+  time:
+    - 0.5
+    - 1.0
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[height=250pt]{../img/autoconversion_transposition_before.pdf}
+\end{center}
+\end{minipage}
+\quad
+\begin{minipage}[t]{0.5\linewidth}
+\vspace{0pt}
+\textbf{Skutečná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+input_fields:
+  - region: Region1
+    time: 0.5
+  - region: Region1
+    time: 1
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[height=250pt]{../img/autoconversion_transposition_after.pdf}
+\end{center}
+\end{minipage}
+\caption{Autokonverze -- transpozice}
+\label{img:autoconversion_transposition}
+\end{figure}	
+
+Transpozice je speciálním případem autokonverze na pole. Provádí se v případě, kdy se v datové struktuře očekává pole záznamů, ale místo něj je nalezen pouze jeden záznam. Pokud nastane tato situace, proběhnou další kontroly, zda je možné transpozici provést (viz kapitola~\ref{sec:implementace-autokonverze-transpozice}), a pokud je to možné, tak se zapsaná datová struktura převede následujícím způsobem.
+
+Nejprve se vytvoří pole záznamů, které se očekávalo podle specifikace formátu, Dále se provede expanze polí, kdy se pro každou hodnotu v poli původního zapsaného záznamu vytvoří samostatný záznam, který se uloží do nově vytvořeného pole záznamů. Během této expanze se do nově vytvořených záznamů vkládají konkrétní hodnoty místo původních polí hodnot. Pokud v daném klíči v původním záznamu nebylo pole, ale hodnota či jiný záznam, tak se tato hodnota zkopíruje.
+
+%TODO desetinne hodnoty - v obrazku . ale v textu , - jak sjednotit?
+Nejjednodušší případ této konverze je znázorněn na obrázku~\ref{img:autoconversion_transposition}. Zde se pomocí transpozice definuje pole záznamů input\_fields. Každý z těchto záznamů má uveden klíč region a time. Zapsaná datová struktura se transponuje tak, že místo pole time, které obsahuje hodnoty 0,5 a 1,0 se vytvoří dva záznamy. Každý z těchto záznamů bude mít klíč time, přičemž první záznam bude mít hodnotu time 0,5, zatímco druhý záznam bude mít hodnotu time nastavenou na 1,0. Klíč region bude v obou záznamech totožný.
+
+Pokud zapsaný záznam obsahuje více polí, tak jejich expanze probíhá souběžně. První záznam bude tedy obsahovat vždy první prvky z polí, druhý záznam druhé prvky z polí atd. Vhodně použitá transpozice může výrazně zkrátit zápis, viz obrázek~\ref{}. Na obrázku je zároveň znázorněna expanze více polí naráz.
+
+\lstset{style=code}
+
+\begin{figure}[ht]
+\singlespacing
+\begin{minipage}[t]{0.5\linewidth}
+\vspace{0pt}
+\textbf{Zapsaná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+input_fields: 
+  region: MyRegion
+  bc_type: neumann
+  time: [0.5, 1.0, 1.5]
+  anisotropy: [2.5, 1.5, 1.8]
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\vspace{0pt}
+\textbf{Skutečná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+input_fields: 
+  - region: MyRegion
+    bc_type: neumann
+    time: 0.5
+    anisotropy: 2.5
+  - region: MyRegion
+    bc_type: neumann
+    time: 1.0
+    anisotropy: 1.5
+  - region: MyRegion
+    bc_type: neumann
+    time: 1.5
+    anisotropy: 1.8
+\end{lstlisting}
+\vspace*{-20pt}
+\end{minipage}
+\onehalfspacing
+\caption{Ukázka použití transpozice}
+\label{img:transposition_code_example}
+\end{figure}
 
 \section{Formát YAML pro konfigurační soubory}
 
