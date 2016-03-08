@@ -12,6 +12,10 @@
 \usepackage{float}
 \usepackage{subfig}
 
+% set figure counter to global
+\usepackage{chngcntr}
+\counterwithout*{figure}{chapter}
+
 % fix footnotes in table environments
 \usepackage{footnote}
 \makesavenoteenv{tabular}
@@ -499,11 +503,10 @@ Používají se tři základní typy autokonverzí, které jsou dále popsány. 
 \begin{figure}[ht]
 \begin{minipage}[t]{0.45\linewidth}
 \vspace{0pt}
-Zapsaná datová struktura\\
+\textbf{Zapsaná datová struktura}\\
 \vspace{-5pt}
 \begin{lstlisting}
 value: 2.5
-
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
@@ -514,11 +517,10 @@ value: 2.5
 \begin{minipage}[t]{0.45\linewidth}
 %\centering
 \vspace{0pt}
-Skutečná datová struktura\\
+\textbf{Skutečná datová struktura}\\
 \vspace{-5pt}
 \begin{lstlisting}
-value:
-  - 2.5
+value: [2.5]
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
@@ -526,6 +528,47 @@ value:
 \end{center}
 \end{minipage}
 \caption{Autokonverze na jednorozměrné pole}
+\label{img:autoconversion_array_1}
+\end{figure}	
+
+Autokonverze na pole je konverze, která se použije, pokud se dle specifikace formátu na dané pozici v datové struktuře očekává pole (typ \textit{Array}) a místo něj je nalezen libovolný jiný datový typ -- ať už se jedná o primitivní datový typ nebo o záznam.
+
+Obrázek~\ref{img:autoconversion_array_1} znázorňuje autokonverzi hodnoty na jednorozměrné pole. V klíči value v záznamu FieldConstant se očekává jednorozměrné pole, ale místo něj se na dané pozici vyskytla hodnota 2,5. Interní datová struktura tedy obsahuje jednorozměrné pole o jednom prvku, kterým je právě tato hodnota.
+
+Autokonverze na pole funguje obdobně i pro vícerozměrná pole. Příklad této autokonverze je uveden na obrázku~\ref{img:autoconversion_array_2}. Klíč anisotropy v záznamu DarcyFlowMH\_Data má být dvourozměrné pole. Místo toho se v datové struktuře vyskytla hodnota. Ta se zkonvertuje na dvourozměrné pole, jehož jediným prvek je právě tato hodnota.
+
+Autokonverze na vícerozměrné pole proběhne i v případě, pokud je v datové struktuře pole o menší dimenzi, než se očekává. Pokud takový případ nastane, tak se zadané pole zkonvertuje na pole vyšší dimenze obdobně jako to bylo popsáno u konverzí hodnot na pole.
+
+\begin{figure}[ht]
+%\vspace{10pt}
+\begin{minipage}[t]{0.45\linewidth}
+\vspace{0pt}
+\textbf{Zapsaná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+anisotropy: 1.5
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../img/autoconversion_array_2_before.pdf}
+\end{center}
+
+\end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
+%\centering
+\vspace{0pt}
+\textbf{Skutečná datová struktura}\\
+\vspace{-5pt}
+\begin{lstlisting}
+anisotropy: [[1.5]]
+\end{lstlisting}
+\vspace*{-20pt}
+\begin{center}
+\includegraphics[width=.6\textwidth]{../img/autoconversion_array_2_after.pdf}
+\end{center}
+\end{minipage}
+\caption{Autokonverze na vícerozměrné pole}
+\label{img:autoconversion_array_2}
 \end{figure}	
 
 \subsection{Autokonverze na záznam}
