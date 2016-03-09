@@ -231,7 +231,7 @@ Během používání tohoto formátu se ale jeho odlišnost od JSON projevila ja
 
 To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále hlídat správné uzávorkování objektů nebo zda na konci řádku nebyla zapomenuta čárka pro oddělení položek. To představoval problém obzvlášť u rozsáhlejších konfiguračních souborů, které obsahovaly velký počet úrovní vnoření. Jelikož formát JSON sdílí tyto vlastnosti, tak byl zavržen jako možný nástupce formátu CON.
 
-\subsection{Jazyk XML}
+\subsection{Formát XML}
 
 Extensible Markup Language (XML) je rozšiřitelný značkovací jazyk, který slouží pro popis dat. Tento jazyk vznikl z jazyka Standard Generalized Markup Language (SGML), z kterého je odvozen i jazyk HTML. Všechny správně zformátované XML dokumenty tedy zároveň i SGML dokumenty. Popis a doporučení týkající se jazyka XML lze nalézt na webových stránkách konsorcia W3C.
 %TODO SGML - ref ISO 8879
@@ -301,7 +301,8 @@ Jedná se o speciální zápis, který lze použít v datové struktuře při za
 
 Nevýhodou tohoto formátu je jeho \uv{vý\-řeč\-nost}. Té si lze na první pohled všimnout na obrázku~\ref{img:conf_files}. Jazyk XML vyžaduje z~uvedených možností pro zápis stejných dat nejvíce znaků. Hlavní nevýhodu v použití jazyka XML pro zápis konfiguračních souborů vývojáři Flow123d viděli v jeho zásadní odlišnosti oproti dosavadně po\-u\-ží\-va\-né\-mu formátu CON. Dle jejich názoru by to pro uživatele Flow123d byla příliš velká změna.
 
-\subsection{Jazyk YAML}
+\subsection{Formát YAML}
+\label{sec:problematika-format-yaml}
 
 Poslední z uvažovaných možností bylo použití jazyka YAML, který je zobecněním formátu JSON. Kterýkoliv JSON dokument je tím pádem i YAML dokumentem. Oproti formátu JSON ovšem umožňuje syntaktický zápis, který byl speciálně navržen s ohledem na to, aby ho mohli jednoduše zapisovat lidé.
 
@@ -322,9 +323,36 @@ Všechna tato vylepšení vedou k tomu, že soubory zapsané v jazyce YAML jsou 
 
 \chapter{Analýza}
 
+%TODO prepsat, zmena cleneni
 Tato kapitole se skládá ze dvou hlavních částí. V první z nich je rozebrána specifikace konfiguračních souborů, kterou generuje Flow123d. Tato specifikace je zásadní pro validaci, generování dokumentace a automatické doplňování textu. Zároveň jsou v této části popsány speciální případy zápisu polí nebo záznamů (tzv. autokonverze). Autokonverze mají zásadní vliv na validaci dat.
 
 V druhé části této kapitoly je popsán proces zpracování souborů ve formátu YAML. Dále je v této části navrženo vhodné použití syntaxe pro zápis datové struktury, referencí a abstraktních záznamů, které jsou popsány v první části této kapitoly.
+
+
+\section{Zápis konfiguračních souborů ve formátu YAML}
+%TODO footnote style Abc.
+Jak již bylo zmíněno v kapitole~\ref{sec:problematika-format-yaml}, pro zápis konfiguračních souborů se bude používat formát YAML. Jedná se o univerzální formát pro serializaci dat založený na kódování Unicode. Je navržen pro jednoduchý zápis seznamů, hashovacích tabulek a primitivních hodnot.
+
+Mezi cíle formátu YAML patří mimo jiné jednoduchá čitelnost a přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z cílů je čtení pomocí jediného průchodu, což s sebou oproti formátu CON přináší určité komplikace a změny, které jsou dále rozvedeny v kapitole~\ref{analyza-yaml-reference}.
+
+\subsection{Serializace a deserializace}
+
+%proudove zpracovani vs DOM
+Jelikož je formát YAML navržen tak, aby k jeho přečtení a reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné pracovat s proudem dat a na základě detekovaných symbolů generovat události, nebo z dat vytvořit objektovou reprezentaci.
+%TODO zkratka
+
+Oficiální dokumentace formátu YAML popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu YAML.
+
+\includeimg{yaml}{Zpracování formátu YAML}
+
+\subsection{Zápis datových typů}
+
+% implicitni/explicitni
+% zapis type
+
+\subsection{Reference}
+
+% popsat REF, nahrazeni &, *
 
 \section{Specifikace formátu konfiguračních souborů}
 
@@ -714,21 +742,6 @@ input_fields:
 \label{img:transposition_code_example}
 \end{figure}
 
-\section{Formát YAML pro konfigurační soubory}
-
-\subsection{Serializace a deserializace}
-
-%proudove zpracovani vs DOM
-
-\subsection{Zápis datových typů}
-
-% implicitni/explicitni
-% zapis type
-
-\subsection{Reference}
-
-% popsat REF, nahrazeni &, *
-
 \chapter{Návrh}
 
 % big picture - pohled na aplikaci jako celek
@@ -747,6 +760,9 @@ input_fields:
 
 
 \chapter{Implementace a testování}
+
+
+%TODO zminit odlisnosti ve zpracovani YAML oproti standardnimu chovani - poradi klicu, aliasy, tagy?
 
 % kapitoly obdobne navrhu?
 % pouzite knihovny a technologie
