@@ -335,7 +335,7 @@ Jak již bylo zmíněno v kapitole~\ref{sec:problematika-format-yaml}, pro zápi
 
 Mezi cíle formátu YAML patří mimo jiné jednoduchá čitelnost a přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z cílů je čtení pomocí jediného průchodu, což s sebou oproti formátu CON přináší určité komplikace a změny, které jsou dále rozvedeny v kapitole~\ref{analyza-yaml-reference}.
 
-\subsection{Serializace a deserializace}
+\subsection{Uložení a načtení formátu YAML}
 
 %proudove zpracovani vs DOM
 Jelikož je formát YAML navržen tak, aby k jeho přečtení a reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné pracovat s proudem dat a na základě detekovaných symbolů generovat události, nebo z dat vytvořit objektovou reprezentaci.
@@ -344,6 +344,15 @@ Jelikož je formát YAML navržen tak, aby k jeho přečtení a reprezentaci sta
 Oficiální dokumentace formátu YAML popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu YAML.
 
 \includeimg{yaml}{Zpracování formátu YAML}
+
+Proces načtení souboru ve formátu YAML prochází třemi fázemi. V první fázi proběhne syntaktická analýza, která převede vstupní soubor na posloupnost událostí. Syntaktická analýza hledá symboly a hodnoty na základě syntaxe YAML, kontroluje správné odsazení a vypustí ze vstupu komentáře.
+
+V druhé fázi proběhne kompozice, která převede posloupnost událostí na reprezentaci dat pomocí grafu. V této fázi se z dat odstraní kotvy a aliasy se nahradí příslušnými daty. Použití kotev a aliasů je dále vysvětleno v kapitole~\ref{sec:analyza-yaml-reference}.
+
+%------
+V poslední fázi se převede graf reprezentující data na datovou strukturu dané aplikace. Tato fáze reprezentuje rozhraní mezi reprezentací formátu YAML a nativní datovou strukturou aplikace. a nativními datovými strukturami dané aplikace.
+
+V každé fázi se ztratí část informace.
 
 \subsection{Zápis datových typů}
 

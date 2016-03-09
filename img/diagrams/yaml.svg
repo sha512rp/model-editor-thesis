@@ -145,11 +145,11 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.55"
-     inkscape:cx="295.24556"
-     inkscape:cy="884.90957"
+     inkscape:cx="252.58079"
+     inkscape:cy="895.4632"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1028"
      inkscape:window-x="0"
@@ -187,255 +187,6 @@
          x="230"
          y="162.3622"
          id="tspan4162" /></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       x="120.01753"
-       y="160.15021"
-       id="text4150"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4152"
-         x="120.01753"
-         y="160.15021"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle;">Datová</tspan><tspan
-         sodipodi:role="line"
-         x="120.01753"
-         y="177.33771"
-         id="tspan4166"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle;">struktura</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4168"
-       y="225.58801"
-       x="120.28053"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-         id="tspan4172"
-         y="225.58801"
-         x="120.28053"
-         sodipodi:role="line">programová</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-         y="241.21301"
-         x="120.28053"
-         sodipodi:role="line"
-         id="tspan4176">data</tspan></text>
-    <g
-       id="g4220"
-       transform="translate(-9.0322581,150.32258)">
-      <rect
-         y="-7.6377954"
-         x="70"
-         height="140"
-         width="120"
-         id="rect4216"
-         style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path4218"
-         d="m 70,32.362205 120,0"
-         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    </g>
-    <g
-       id="g4444"
-       transform="translate(-20.645161,0)">
-      <text
-         sodipodi:linespacing="125%"
-         id="text4263"
-         y="165.95667"
-         x="460.66269"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle"
-           id="tspan4265"
-           y="165.95667"
-           x="460.66269"
-           sodipodi:role="line">Serializace</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="460.28052"
-         y="226.23317"
-         id="text4267"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           x="460.28052"
-           y="226.23317"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-           id="tspan4320">kotvy</tspan><tspan
-           sodipodi:role="line"
-           x="460.28052"
-           y="241.85817"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-           id="tspan4316">alisy</tspan><tspan
-           sodipodi:role="line"
-           x="460.28052"
-           y="257.48315"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-           id="tspan4318">pořadí klíčů</tspan></text>
-      <g
-         transform="translate(330.96775,150.32258)"
-         id="g4277">
-        <rect
-           style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="rect4279"
-           width="120"
-           height="140"
-           x="70"
-           y="-7.6377954" />
-        <path
-           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 70,32.362205 120,0"
-           id="path4281"
-           inkscape:connector-curvature="0" />
-      </g>
-      <text
-         sodipodi:linespacing="125%"
-         id="text4401"
-         y="196.55576"
-         x="404.83871"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'"
-           y="196.55576"
-           x="404.83871"
-           id="tspan4403"
-           sodipodi:role="line">(seznam událostí)</tspan></text>
-    </g>
-    <g
-       id="g4457"
-       transform="translate(-30.322581,-0.64516129)">
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="630.98523"
-         y="165.95667"
-         id="text4326"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           x="630.98523"
-           y="165.95667"
-           id="tspan4328"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle">Prezentace</tspan></text>
-      <text
-         sodipodi:linespacing="125%"
-         id="text4330"
-         y="227.5235"
-         x="631.89343"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-           y="227.5235"
-           x="631.89343"
-           sodipodi:role="line"
-           id="tspan4364">odsazení</tspan><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-           y="243.1485"
-           x="631.89343"
-           sodipodi:role="line"
-           id="tspan4366">komentáře</tspan><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-           y="258.7735"
-           x="631.89343"
-           sodipodi:role="line"
-           id="tspan4368">formát hodnot</tspan></text>
-      <g
-         id="g4342"
-         transform="translate(501.29033,150.32258)">
-        <rect
-           y="-7.6377954"
-           x="70"
-           height="140"
-           width="120"
-           id="rect4344"
-           style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <path
-           inkscape:connector-curvature="0"
-           id="path4346"
-           d="m 70,32.362205 120,0"
-           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      </g>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="587.41937"
-         y="196.55576"
-         id="text4405"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan4407"
-           x="587.41937"
-           y="196.55576"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'">(proud znaků)</tspan></text>
-    </g>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4231"
-       y="165.95665"
-       x="280.34009"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle"
-         id="tspan4235"
-         y="165.95665"
-         x="280.34009"
-         sodipodi:role="line">Reprezentace</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="280.60309"
-       y="220.4267"
-       id="text4237"
-       sodipodi:linespacing="125%"><tspan
-         id="tspan4372"
-         sodipodi:role="line"
-         x="280.60309"
-         y="220.4267"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle">hashovací tabulky</tspan><tspan
-         sodipodi:role="line"
-         x="280.60309"
-         y="236.0517"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-         id="tspan4257">seznamy</tspan><tspan
-         sodipodi:role="line"
-         x="280.60309"
-         y="251.6767"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-         id="tspan4259">skalární hodnoty</tspan><tspan
-         sodipodi:role="line"
-         x="280.60309"
-         y="267.3017"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
-         id="tspan4261">tagy</tspan></text>
-    <g
-       transform="translate(150.64517,150.32258)"
-       id="g4243">
-      <rect
-         style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect4245"
-         width="120"
-         height="140"
-         x="70"
-         y="-7.6377954" />
-      <path
-         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 70,32.362205 120,0"
-         id="path4247"
-         inkscape:connector-curvature="0" />
-    </g>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4422"
-       y="195.91058"
-       x="247.74196"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'"
-         y="195.91058"
-         x="247.74196"
-         id="tspan4424"
-         sodipodi:role="line">(graf uzlů)</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
        d="m 310,142.3622 c 0,0 20,-30 50,-30 30,0 50,30 50,30"
@@ -475,152 +226,413 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="168.74144"
-       y="331.85757"
+       x="489.3866"
+       y="102.18015"
        id="text6775"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6777"
-         x="168.74144"
-         y="331.85757"
+         x="489.3866"
+         y="102.18015"
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'">konstrukce</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6793"
-       y="103.47047"
-       x="164.87048"
+       y="326.69626"
+       x="482.28983"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'"
-         y="103.47047"
-         x="164.87048"
+         y="326.69626"
+         x="482.28983"
          id="tspan6795"
          sodipodi:role="line">reprezentace</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="326.1608"
-       y="102.82531"
+       x="330.67694"
+       y="327.9866"
        id="text6797"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6799"
-         x="326.1608"
-         y="102.82531"
+         x="330.67694"
+         y="327.9866"
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'">serializace</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6801"
-       y="102.18015"
-       x="484.87048"
+       y="327.34146"
+       x="165.51564"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'"
-         y="102.18015"
-         x="484.87048"
+         y="327.34146"
+         x="165.51564"
          id="tspan6803"
          sodipodi:role="line">prezentace</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="326.16083"
-       y="332.50275"
+       x="328.74149"
+       y="100.88985"
        id="text6805"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6807"
-         x="326.16083"
-         y="332.50275"
+         x="328.74149"
+         y="100.88985"
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'">kompozice</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6809"
-       y="325.40598"
-       x="525.6214"
+       y="90.567268"
+       x="202.3956"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique';text-align:center;text-anchor:middle"
-         y="325.40598"
-         x="525.6214"
+         y="90.567268"
+         x="202.3956"
          id="tspan6811"
          sodipodi:role="line">syntaktická</tspan><tspan
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique';text-align:center;text-anchor:middle"
-         y="341.03098"
-         x="525.6214"
+         y="106.19227"
+         x="202.3956"
          sodipodi:role="line"
          id="tspan6813">analýza</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.07976794;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4.31907142, 4.31907142;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 200,7.846076 0,81.612903"
+       d="m 520.64516,5.2654308 0,81.6129032"
        id="path6821"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4,4;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 200,122.3622 0,180"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 520.64516,119.78155 0,180"
        id="path6823"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4,4;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 200,342.3622 0,70"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 520.64516,339.78155 0,70"
        id="path6827"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="126.45164"
-       y="32.039616"
+       x="540.00006"
+       y="29.458971"
        id="text6849"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6851"
-         x="126.45164"
-         y="32.039616"
+         x="540.00006"
+         y="29.458971"
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'">Aplikace</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6853"
-       y="32.039616"
-       x="218.06454"
+       y="30.104132"
+       x="470.96777"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          style="font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Oblique'"
-         y="32.039616"
-         x="218.06454"
+         y="30.104132"
+         x="470.96777"
          id="tspan6855"
          sodipodi:role="line">YAML</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="323.22583"
-       y="55.910583"
+       x="337.41937"
+       y="379.78156"
        id="text6857"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6859"
-         x="323.22583"
-         y="55.910583"
+         x="337.41937"
+         y="379.78156"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold'">uložení</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text6861"
-       y="383.00735"
-       x="322.58069"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold'"
-         y="383.00735"
-         x="322.58069"
-         id="tspan6863"
-         sodipodi:role="line">načtení</tspan></text>
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker6873)"
-       d="m 59.354839,66.555753 600.000001,0"
-       id="path6865"
-       inkscape:connector-curvature="0" />
+    <g
+       id="g7850"
+       transform="translate(0.64516129,-3.2258065)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="331.61295"
+         y="56.555744"
+         id="text6861"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan6863"
+           x="331.61295"
+           y="56.555744"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold'">načtení</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path6865"
+         d="m 59.354839,66.555753 600.000001,0"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker6873)" />
+    </g>
     <path
        inkscape:connector-curvature="0"
        id="path7003"
        d="m 660,363.32995 -600.000001,0"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker7005)" />
+    <g
+       id="g7661"
+       transform="translate(480,-0.32258069)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="120.01753"
+         y="160.15021"
+         id="text7663"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan7665"
+           x="120.01753"
+           y="160.15021"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle">Datová</tspan><tspan
+           sodipodi:role="line"
+           x="120.01753"
+           y="177.33771"
+           id="tspan7667"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle">struktura</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text7669"
+         y="225.58801"
+         x="120.28053"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           id="tspan7671"
+           y="225.58801"
+           x="120.28053"
+           sodipodi:role="line">programová</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           y="241.21301"
+           x="120.28053"
+           sodipodi:role="line"
+           id="tspan7673">data</tspan></text>
+      <g
+         id="g7675"
+         transform="translate(-9.0322581,150.32258)">
+        <rect
+           y="-7.6377954"
+           x="70"
+           height="140"
+           width="120"
+           id="rect7677"
+           style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path7679"
+           d="m 70,32.362205 120,0"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      </g>
+    </g>
+    <g
+       transform="translate(-510.64516,0)"
+       id="g7681">
+      <text
+         sodipodi:linespacing="125%"
+         id="text7683"
+         y="165.95667"
+         x="630.98523"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle"
+           id="tspan7685"
+           y="165.95667"
+           x="630.98523"
+           sodipodi:role="line">Prezentace</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="631.89343"
+         y="227.5235"
+         id="text7687"
+         sodipodi:linespacing="125%"><tspan
+           id="tspan7689"
+           sodipodi:role="line"
+           x="631.89343"
+           y="227.5235"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle">odsazení</tspan><tspan
+           id="tspan7691"
+           sodipodi:role="line"
+           x="631.89343"
+           y="243.1485"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle">komentáře</tspan><tspan
+           id="tspan7693"
+           sodipodi:role="line"
+           x="631.89343"
+           y="258.7735"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle">formát hodnot</tspan></text>
+      <g
+         transform="translate(501.29033,150.32258)"
+         id="g7695">
+        <rect
+           style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect7697"
+           width="120"
+           height="140"
+           x="70"
+           y="-7.6377954" />
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 70,32.362205 120,0"
+           id="path7699"
+           inkscape:connector-curvature="0" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text7701"
+         y="196.55576"
+         x="587.41937"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'"
+           y="196.55576"
+           x="587.41937"
+           id="tspan7703"
+           sodipodi:role="line">(proud znaků)</tspan></text>
+    </g>
+    <g
+       id="g7705"
+       transform="translate(159.47082,-0.05697582)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text7707"
+         y="165.95665"
+         x="280.34009"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle"
+           id="tspan7709"
+           y="165.95665"
+           x="280.34009"
+           sodipodi:role="line">Reprezentace</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="280.60309"
+         y="220.4267"
+         id="text7711"
+         sodipodi:linespacing="125%"><tspan
+           id="tspan7713"
+           sodipodi:role="line"
+           x="280.60309"
+           y="220.4267"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle">hashovací tabulky</tspan><tspan
+           sodipodi:role="line"
+           x="280.60309"
+           y="236.0517"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           id="tspan7715">seznamy</tspan><tspan
+           sodipodi:role="line"
+           x="280.60309"
+           y="251.6767"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           id="tspan7717">skalární hodnoty</tspan><tspan
+           sodipodi:role="line"
+           x="280.60309"
+           y="267.3017"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           id="tspan7719">tagy</tspan></text>
+      <g
+         transform="translate(150.64517,150.32258)"
+         id="g7721">
+        <rect
+           style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect7723"
+           width="120"
+           height="140"
+           x="70"
+           y="-7.6377954" />
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 70,32.362205 120,0"
+           id="path7725"
+           inkscape:connector-curvature="0" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text7727"
+         y="195.91058"
+         x="247.74196"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'"
+           y="195.91058"
+           x="247.74196"
+           id="tspan7729"
+           sodipodi:role="line">(graf uzlů)</tspan></text>
+    </g>
+    <g
+       transform="translate(-180.34686,-0.08383385)"
+       id="g7731">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="460.66269"
+         y="165.95667"
+         id="text7733"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="460.66269"
+           y="165.95667"
+           id="tspan7735"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.75px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Bold';text-align:center;text-anchor:middle">Serializace</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text7737"
+         y="226.23317"
+         x="460.28052"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan7739"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           y="226.23317"
+           x="460.28052"
+           sodipodi:role="line">kotvy</tspan><tspan
+           id="tspan7741"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           y="241.85817"
+           x="460.28052"
+           sodipodi:role="line">aliasy</tspan><tspan
+           id="tspan7743"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';text-align:center;text-anchor:middle"
+           y="257.48315"
+           x="460.28052"
+           sodipodi:role="line">pořadí klíčů</tspan></text>
+      <g
+         id="g7745"
+         transform="translate(330.96775,150.32258)">
+        <rect
+           y="-7.6377954"
+           x="70"
+           height="140"
+           width="120"
+           id="rect7747"
+           style="opacity:1;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path7749"
+           d="m 70,32.362205 120,0"
+           style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="404.83871"
+         y="196.55576"
+         id="text7751"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan7753"
+           x="404.83871"
+           y="196.55576"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans'">(seznam událostí)</tspan></text>
+    </g>
   </g>
 </svg>
