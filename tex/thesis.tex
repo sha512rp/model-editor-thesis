@@ -11,6 +11,7 @@
 \usepackage[hidelinks,unicode,hyperfootnotes=false]{hyperref}
 \usepackage{float}
 \usepackage{subfig}
+\usepackage{longtable}
 
 % set figure counter to global
 \usepackage{chngcntr}
@@ -121,15 +122,18 @@ English abstract
 
 \end{acknowledgement}
 
-\setcounter{tocdepth}{1}
+\renewcommand\contentsname{Obsah\vspace{-30pt}}
 \tableofcontents
 \clearpage
 
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 \begin{abbrList}
 %\textbf{EU} & Evropská unie \\
 \end{abbrList}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 
 \chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod}
 
 Existuje celá řada softwarů, která pro zajištění požadované funkce potřebuje správné nastavení, podle kterého pak daný program přizpůsobí svoji činnost. Může se jednat o~počáteční konfiguraci, jako je tomu například u~serverových aplikací nebo e-mailových klientů. Tato konfigurace se zpravidla dále nemění, pokud nedojde k nějakým podstatným změnám.
 
@@ -259,7 +263,7 @@ output = {
 }
 \end{lstlisting}
 
-\subsubsection*{Soubor v jazyce XML}
+\subsubsection*{Soubor ve formátu XML}
 \begin{lstlisting}
 <output>
   <output_stream>
@@ -275,7 +279,7 @@ output = {
 </output>
 \end{lstlisting}
 
-\subsubsection*{Soubor v jazyce YAML}
+\subsubsection*{Soubor ve formátu YAML}
 \begin{lstlisting}
 output:
   output_stream:
@@ -329,9 +333,9 @@ Tato kapitole se skládá ze dvou hlavních částí. V první z nich je rozebr�
 V druhé části této kapitoly je popsán proces zpracování souborů ve formátu YAML. Dále je v této části navrženo vhodné použití syntaxe pro zápis datové struktury, referencí a abstraktních záznamů, které jsou popsány v první části této kapitoly.
 
 
-\section{Zápis konfiguračních souborů ve formátu YAML}
+\section{Formát YAML}
 %TODO footnote style Abc.
-Jak již bylo zmíněno v kapitole~\ref{sec:problematika-format-yaml}, pro zápis konfiguračních souborů se bude používat formát YAML. Jedná se o univerzální formát pro serializaci dat založený na kódování Unicode. Je navržen pro jednoduchý zápis seznamů, hashovacích tabulek a primitivních hodnot.
+Jak již bylo zmíněno v kapitole~\ref{sec:problematika-format-yaml}, pro zápis konfiguračních souborů se bude používat formát YAML. Jedná se o univerzální formát pro serializaci dat založený na kódování Unicode. Je navržen pro jednoduchý zápis polí, hashovacích tabulek a primitivních hodnot.
 
 Mezi cíle formátu YAML patří mimo jiné jednoduchá čitelnost a přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z cílů je čtení pomocí jediného průchodu, což s sebou oproti formátu CON přináší určité komplikace a změny, které jsou dále rozvedeny v kapitole~\ref{analyza-yaml-reference}.
 
@@ -349,19 +353,101 @@ Proces načtení souboru ve formátu YAML prochází třemi fázemi. V první f�
 
 V druhé fázi proběhne kompozice, která převede posloupnost událostí na reprezentaci dat pomocí grafu. V této fázi se z dat odstraní kotvy a aliasy se nahradí příslušnými daty. Použití kotev a aliasů je dále vysvětleno v kapitole~\ref{sec:analyza-yaml-reference}.
 
-%------
-V poslední fázi se převede graf reprezentující data na datovou strukturu dané aplikace. Tato fáze reprezentuje rozhraní mezi reprezentací formátu YAML a nativní datovou strukturou aplikace. a nativními datovými strukturami dané aplikace.
+V poslední fázi se převede graf reprezentující data na datovou strukturu dané aplikace. Tato fáze představuje rozhraní mezi abstrakcí aplikace a procesem zpracování souboru v souborovém formátu YAML.
 
-V každé fázi se ztratí část informace.
+V každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o jejich pozici v původním textovém souboru. Také nelze určit, zda byla konkrétní data v souboru zapsána, nebo zda-li vznikla pouhým odkazem na již existující data z jiné části souboru.
+
+Formát YAML je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace ModelEditor je ovšem tato vlastnost nežádoucí. Například informace o pozici hodnoty v konfiguračním souboru je podstatná a dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
+
+%TODO zminit ulozeni? v aplikace nepouzite, ale na obrazku uvedeno
 
 \subsection{Zápis datových typů}
 
-% implicitni/explicitni
-% zapis type
+\subsubsection*{Skalární hodnoty}
 
-\subsection{Reference}
+Formát YAML podporuje několik skalárních datových typů, které jsou dále nedělitelné. Jedná se o celá a desetinná čísla, booleovské hodnoty a znakové řetězce. Zápis těchto hodnot je velice intuitivní. 
 
-% popsat REF, nahrazeni &, *
+Celá čísla se zapisují pomocí běžné konvence v desítkové soustavě. Dále je možné je zapsat v šestnáctkové nebo osmičkové soustavě pomocí prefixu \texttt{0x}, resp \texttt{0o}. Desetinná čísla se zapisují s desetinnou tečkou a dále je pro jejich zápis možné použít i věděckou notaci. Booleovské hodnoty se zapisují jako true a false, kde první písmeno může být velké, případně mohou být velká i všechna písmena zároveň.
+
+\vspace{0.5cm}
+\begin{tabular}{m{5cm}@{}l}
+\textit{celá čísla}\dotfill & \texttt{0, 0o7, 0x3A, -19} \\
+\textit{desetinná čísla}\dotfill & \texttt{0., -0.0, .5, +12e03, -2E+05, .inf, .NaN}  \\
+\textit{booleovské hodnoty}\dotfill & \texttt{true, True, false, FALSE}\\
+\end{tabular}
+\vspace{0.5cm}
+
+Řetězce se zapisují jako sekvence znaků, které není třeba psát do uvozovek ani pokud obsahují mezery nebo zalomení řádků. Pokud by řetězec obsahoval speciální znak, jako je třeba dvojtečka, která se používá na oddělení klíče od hodnoty, tak musí být řetězec napsán do uvozovek.
+
+%TODO link yaml doc
+Všechny tyto zápisy skalárních hodnot jsou popsány v dokumentaci YAML pomocí regulárních výrazů. Během fáze kompozice se na základě těchto regulárních výrazů určí implicitní datový typ proměnné, který se použije, pokud není explicitně zadán jiný datový typ pomocí tagu. Pro skalární datové typy jsou definované následující tagy.
+
+\vspace{0.5cm}
+\begin{tabular}{m{5cm}@{}l}
+\textit{celá čísla}\dotfill & \texttt{!!int} \\
+\textit{desetinná čísla}\dotfill & \texttt{!!float}  \\
+\textit{booleovské hodnoty}\dotfill & \texttt{!!bool}\\
+\textit{řetězec}\dotfill & \texttt{!!str} \\
+\end{tabular}
+\vspace{0.5cm}
+
+Pokud je potřeba explicitně zadat datový typ, píše se tento tag před samotnou hodnotu a odděluje se od ní mezerou. Následuje seznam ukázek zápisu hodnot a příslušných datových typů, na které budou převedeny.
+
+%TODO mely by mit ukazky cislovani a popisek?
+\setlength\LTleft\parindent
+\begin{longtable}{m{5cm}@{}l}
+\texttt{0}\dotfill & \textit{celé číslo} \\
+\texttt{!!float 0}\dotfill & \textit{desetinné číslo} \\
+\texttt{"0"}\dotfill & \textit{řetězec} \\
+\texttt{!!str 0}\dotfill & \textit{řetězec} \\
+\texttt{true}\dotfill & \textit{booleovská hodnota} \\
+\texttt{!!str true}\dotfill & \textit{řetězec} \\
+\end{longtable}
+
+\subsubsection*{Sekvence}
+
+Sekvence se používají pro reprezentaci polí. Formát YAML podporuje dva způsoby zápisu sekvencí. Lze je zapsat buď zjednodušeně\footnote{Angl. \textit{flow style} -- zde označován jako \textit{zjednodušený zápis}.} nebo blokově pomocí odrážek. Zjednodušený zápis seznamů je totožný se zápisem polí ve formátu JSON a vypadá následovně.
+
+\lstset{style=short}
+
+\vspace{5pt}
+\begin{lstlisting}
+[1, 2, 3]
+\end{lstlisting}
+\vspace*{-20pt}
+
+Pro blokový zápis se používá znak \texttt{-} (spojovník) jako odrážku, která musí být následována alespoň jednou mezerou a poté samotnou položkou seznamu. Každá odrážka musí být na samostatném řádku a odsazení všech položek seznamu musí být stejné. Zápis seznamu pomocí odrážek může vypadat například následovně.
+
+\vspace{5pt}
+\begin{lstlisting}
+- 1
+- 2
+- 3
+\end{lstlisting}
+\vspace*{-20pt}
+
+V rámci jednoho dokumentu lze používat oba typy zápisů sekvencí. V rámci jedné sekvence však musí být dodržena stejná syntaxe. Sekvence lze do sebe vnořovat do libovolné úrovně.
+
+\subsubsection*{Mapy}
+
+Mapy se ve formátu YAML používají pro zápis dvojic klíč a hodnota -- jedná se tedy o hashovací tabulku. Mapy lze obdobně jako sekvence zapsat buď zjednodušeně nebo blokově. Zjednodušený zápis se opět podobá formátu JSON.
+
+\vspace{5pt}
+\begin{lstlisting}
+{a: 1, b: 2}
+\end{lstlisting}
+\vspace*{-20pt}
+
+Blokový zápis vyžaduje, aby každý klíč byl na novém řádku. Při použití blokového zápisu opět závisí na odsazení, které musí být jednotné v rámci celé mapy. Blokový zápis může vypadat například následovně.
+
+\vspace{5pt}
+\begin{lstlisting}
+a: 1
+b: 2
+\end{lstlisting}
+\vspace*{-20pt}
+
+V rámci dokumentu lze opět používat oba typy zápisů map. Mapy i seznamy lze do sebe vzájemně vnořovat do libovolné úrovně.
 
 \section{Specifikace formátu konfiguračních souborů}
 
@@ -755,6 +841,14 @@ input_fields:
 
 % big picture - pohled na aplikaci jako celek
 
+\section{Speciální využití syntaxe YAML}
+
+\subsection{Abstraktní záznamy}
+% zapis type
+
+\subsection{Reference}
+% popsat REF, nahrazeni &, *
+
 \section{Autokonverze}
 
 \section{Validace}
@@ -769,6 +863,9 @@ input_fields:
 
 
 \chapter{Implementace a testování}
+
+
+% YAML tab vs spaces - 2 mezery
 
 
 %TODO zminit odlisnosti ve zpracovani YAML oproti standardnimu chovani - poradi klicu, aliasy, tagy?
@@ -823,6 +920,7 @@ input_fields:
 
 
 \chapter*{Závěr}
+\addcontentsline{toc}{chapter}{Závěr}
 V rámci této diplomové práce byl vytvořen editor konfiguračních souborů pro Flow123d. Jedná se o samostatně funkční aplikaci, která je ovšem navržena s ohledem na její použití jako součást softwarového balíku GeoMop, který obsahuje další nástroje, které usnadňují práci uživatelům Flow123d.
 %TODO zminovat GeoMop?
 
