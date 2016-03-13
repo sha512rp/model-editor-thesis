@@ -601,32 +601,6 @@ Používají se tři základní typy autokonverzí, které jsou dále popsány. 
 
 %TODO hodnoty na obrazcich - nejsou nesmyslne?
 
-%\newsavebox\arrayautoconvbeforebox
-%\begin{lrbox}{\arrayautoconvbeforebox}
-%\begin{lstlisting}
-%value: 2.5
-%
-%\end{lstlisting}
-%\end{lrbox}
-%
-%\begin{figure}[H]
-%    \captionsetup{labelfont=bf}
-%    \centering
-%    \subfloat[Zapsaná datová struktura]{
-%    \centering
-%    \includegraphics[width=.25\textwidth]{../img/autoconversion_array_1_before.pdf}
-%    \newline
-%    \newline
-%    \usebox\arrayautoconvbeforebox
-%    }\qquad
-%    \subfloat[Skutečná datová struktura]{
-%    \centering
-%    \includegraphics[width=.25\textwidth]{../img/autoconversion_array_1_after.pdf}
-%    \newline
-%\lstinputlisting{../code/autoconversion_array_1_after.yaml}
-%}
-%\end{figure}
-
 \begin{figure}[ht]
 \begin{minipage}[t]{0.45\linewidth}
 \vspace{0pt}
@@ -637,7 +611,7 @@ value: 2.5
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[height=150pt]{../img/autoconversion_array_1_before.pdf}
+\includegraphics[height=120pt]{../img/autoconversion_array_1_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -650,7 +624,7 @@ value: [2.5]
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[height=235pt]{../img/autoconversion_array_1_after.pdf}
+\includegraphics[height=190pt]{../img/autoconversion_array_1_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na jednorozměrné pole}
@@ -676,7 +650,7 @@ anisotropy: 1.5
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[height=150pt]{../img/autoconversion_array_2_before.pdf}
+\includegraphics[height=120pt]{../img/autoconversion_array_2_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -689,7 +663,7 @@ anisotropy: [[1.5]]
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[height=310pt]{../img/autoconversion_array_2_after.pdf}
+\includegraphics[height=250pt]{../img/autoconversion_array_2_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na vícerozměrné pole}
@@ -713,7 +687,7 @@ balance: true
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[height=150pt]{../img/autoconversion_record_before.pdf}
+\includegraphics[height=120pt]{../img/autoconversion_record_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -728,7 +702,7 @@ balance:
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[height=235pt]{../img/autoconversion_record_after.pdf}
+\includegraphics[height=190pt]{../img/autoconversion_record_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na záznam}
@@ -860,6 +834,13 @@ Formát CON měl vyhrazené dva speciální klíče -- \texttt{TYPE} a \texttt{R
 Abstraktní záznamy jsou datovým typem, který definuje specifikace formátu. Tyto záznamy mohou mít více různých implementací. V konfiguračním souboru, kde se podle specifikace formátu očekává abstraktní záznam, musí být uvedena konkrétní implementace. Implementace abstraktního záznamu je záznam, který má v jeho specifikaci uvedeno, že implementuje daný abstraktní záznam. To bylo popsáno v kapitole~\ref{sec:analyza-specifikace-formatu-datove-typy}.
 
 Příkladem je třeba klíč primary\_equation v datovém typu SequentialCoupling. Typ klíče primary\_equation je DarcyFlow, což je abstraktní záznam. V současné verzi Flow123d existují tři implementace -- Steady\_MH, Unsteady\_MH a Unsteady\_LMH. To znázorňuje obrázek~\ref{}.
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[height=190pt]{../img/abstract_record_darcyflow.pdf}
+    \caption{Abstraktní záznam DarcyFlow a jeho implementace}
+	\label{img:abstract_record_darcyflow}
+\end{figure}
 
 V konfiguračním souboru je nutné nějakým způsobem určit, jaká implementace byla zvolena. Formát CON toto řešil pomocí speciálního klíče \texttt{TYPE}. Tento klíč obsahoval výběrový typ, který mohl nabývat hodnot, které odpovídaly názvům jednotlivých implementací. Nevýhodou tohoto řešení bylo, že klíč TYPE ve skutečnosti nebyl součástí záznamu, ale pouze určoval jeho typ.
 
