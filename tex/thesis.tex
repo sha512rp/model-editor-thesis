@@ -362,6 +362,7 @@ Formát YAML je takto navržen záměrně za účelem oddělení prezentace dat 
 %TODO zminit ulozeni? v aplikace nepouzite, ale na obrazku uvedeno
 
 \subsection{Zápis datových typů}
+\label{sec:analyza-yaml-zapis-datovych-typu}
 
 \subsubsection*{Skalární hodnoty}
 
@@ -462,7 +463,7 @@ Mezi vývojáři Flow123d se specifikace formátu také označuje jako Input Str
 Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu JSON. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce ModelEditoru, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
 
 \subsection{Datové typy}
-
+\label{sec:analyza-specifikace-formatu-datove-typy}
 Jak již bylo zmíněno v kapitole \ref{sec:datova-sturktura}, konfigurační soubory obsahují hierarchickou datovou strukturu, která tvoří strom. Specifikace formátu definuje datový typ pro každý uzel stromu, ať už se jedná o interní uzel nebo list stromu. Datové typy definované ve specifikaci formátu mohou mít následující parametry:
 
 \vspace{0.5cm}
@@ -636,7 +637,7 @@ value: 2.5
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.5\textwidth]{../img/autoconversion_array_1_before.pdf}
+\includegraphics[height=150pt]{../img/autoconversion_array_1_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -649,7 +650,7 @@ value: [2.5]
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.5\textwidth]{../img/autoconversion_array_1_after.pdf}
+\includegraphics[height=235pt]{../img/autoconversion_array_1_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na jednorozměrné pole}
@@ -675,7 +676,7 @@ anisotropy: 1.5
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.6\textwidth]{../img/autoconversion_array_2_before.pdf}
+\includegraphics[height=150pt]{../img/autoconversion_array_2_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -688,7 +689,7 @@ anisotropy: [[1.5]]
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.6\textwidth]{../img/autoconversion_array_2_after.pdf}
+\includegraphics[height=310pt]{../img/autoconversion_array_2_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na vícerozměrné pole}
@@ -712,7 +713,7 @@ balance: true
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.5\textwidth]{../img/autoconversion_record_before.pdf}
+\includegraphics[height=150pt]{../img/autoconversion_record_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -727,7 +728,7 @@ balance:
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
-\includegraphics[width=.55\textwidth]{../img/autoconversion_record_after.pdf}
+\includegraphics[height=235pt]{../img/autoconversion_record_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze na záznam}
@@ -759,9 +760,9 @@ input_fields:
     - 0.5
     - 1.0
 \end{lstlisting}
-\vspace*{-20pt}
+\vspace{-20pt}
 \begin{center}
-\includegraphics[height=250pt]{../img/autoconversion_transposition_before.pdf}
+\includegraphics[height=245pt]{../img/autoconversion_transposition_before.pdf}
 \end{center}
 \end{minipage}
 \quad
@@ -776,9 +777,9 @@ input_fields:
   - region: Region1
     time: 1
 \end{lstlisting}
-\vspace*{-20pt}
+\vspace{-20pt}
 \begin{center}
-\includegraphics[height=250pt]{../img/autoconversion_transposition_after.pdf}
+\includegraphics[height=245pt]{../img/autoconversion_transposition_after.pdf}
 \end{center}
 \end{minipage}
 \caption{Autokonverze -- transpozice}
@@ -841,10 +842,29 @@ input_fields:
 
 % big picture - pohled na aplikaci jako celek
 
-\section{Speciální využití syntaxe YAML}
+\section{Použití syntaxe YAML}
+
+V kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} byla uvedena základní syntaxe formátu YAML, která se používá pro zápis skalárních hodnot, sekvencí a map. V této kapitole je dále upřesněno použití syntaxe YAML pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu CON. 
+%TODO v kapitole X ... v teto kapitole -- o kterou kapitolu se jedna? preformulovat
+
+Formát CON měl vyhrazené dva speciální klíče -- \texttt{TYPE} a \texttt{REF}. První z nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
+
+\subsection{Základní použití syntaxe}
+
+% skalary -> primitivni dat, hodnoty
+% sekvence -> pole
+% mapy -> zaznamy
 
 \subsection{Abstraktní záznamy}
-% zapis type
+
+Abstraktní záznamy jsou datovým typem, který definuje specifikace formátu. Tyto záznamy mohou mít více různých implementací. V konfiguračním souboru, kde se podle specifikace formátu očekává abstraktní záznam, musí být uvedena konkrétní implementace. Implementace abstraktního záznamu je záznam, který má v jeho specifikaci uvedeno, že implementuje daný abstraktní záznam. To bylo popsáno v kapitole~\ref{sec:analyza-specifikace-formatu-datove-typy}.
+
+Příkladem je třeba klíč primary\_equation v datovém typu SequentialCoupling. Typ klíče primary\_equation je DarcyFlow, což je abstraktní záznam. V současné verzi Flow123d existují tři implementace -- Steady\_MH, Unsteady\_MH a Unsteady\_LMH. To znázorňuje obrázek~\ref{}.
+
+V konfiguračním souboru je nutné nějakým způsobem určit, jaká implementace byla zvolena. Formát CON toto řešil pomocí speciálního klíče \texttt{TYPE}. Tento klíč obsahoval výběrový typ, který mohl nabývat hodnot, které odpovídaly názvům jednotlivých implementací. Nevýhodou tohoto řešení bylo, že klíč TYPE ve skutečnosti nebyl součástí záznamu, ale pouze určoval jeho typ.
+
+Ve formátu YAML existují takzvané tagy, které slouží pro určení datového typu. 
+
 
 \subsection{Reference}
 % popsat REF, nahrazeni &, *
