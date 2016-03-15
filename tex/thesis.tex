@@ -330,86 +330,77 @@ Jelikož se pro zápis vnořených dat používá odsazení, není nadále nutn�
 Všechna tato vylepšení vedou k~tomu, že soubory zapsané ve formátu \gls{YAML} jsou velice dobře čitelné a~jednoduché pro zápis. Navíc se formát \gls{YAML} od původního formátu \gls{CON} neliší natolik, jako formát \gls{XML}. To vedlo k~rozhodnutí, že ve verzi Flow123d~2.0 bude použit jazyk \gls{YAML} pro zápis konfiguračních souborů.
 
 Vytvářená aplikace tedy bude pracovat s~konfiguračními soubory napsanými ve formátu \gls{YAML}. Aplikace bude zároveň podporovat i import dříve používaného formátu \gls{CON} a jeho převod do formátu \gls{YAML}.\footnote{Import formátu CON je nad rámec této diplomové práce a~v~rámci projektu ho řešil Ing. Pavel Richter.} Podpora exportu do formátu \gls{CON} se neplánuje.
-%TODO je vhodne takto zminit, ze import resil pavel?
-
-
-%\section{Formát konfiguračních souborů}
-% nastinit autokonverze, abstraktni zaznamy (zminit ze nemaji dedicnost, spise interface)
-% vztah a vznik souboru s formatem - zavislost na verzi
-% datove typy - scalar, array, record, abstract
-% autokonverze + priklady?
 
 
 \chapter{Analýza}
 
 %TODO prepsat, zmena cleneni
-Tato kapitole se skládá ze dvou hlavních částí. V~první z~nich je rozebrána specifikace konfiguračních souborů, kterou generuje Flow123d. Tato specifikace je zásadní pro validaci, generování dokumentace a~automatické doplňování textu. Zároveň jsou v~této části popsány speciální případy zápisu polí nebo záznamů (tzv. autokonverze). Autokonverze mají zásadní vliv na validaci dat.
 
-V~druhé části této kapitoly je popsán proces zpracování souborů ve formátu YAML. Dále je v~této části navrženo vhodné použití syntaxe pro zápis datové struktury, referencí a~abstraktních záznamů, které jsou popsány v~první části této kapitoly.
+Tato kapitola se skládá ze tří hlavních částí. V~první z~nich je popsán formát \gls{YAML}, proces jeho zpracování a~jeho základní syntaxe. Druhá část kapitoly rozebírá specifikaci konfiguračních souborů, která je stěžejní pro validaci datové struktury, generování dokumentace a~funkci automatického doplňování textu. Poslední část popisuje autokonverze, což jsou speciální zkrácené typy zápisů, které se používají v~konfiguračních souborech a~mají zásadní dopad na zpracování datové struktury.
+
+% Tato kapitola se skládá ze dvou hlavních částí. V~první z~nich je rozebrána specifikace konfiguračních souborů, kterou generuje Flow123d. Tato specifikace je zásadní pro validaci, generování dokumentace a~automatické doplňování textu. Zároveň jsou v~této části popsány speciální případy zápisu polí nebo záznamů (tzv. autokonverze). Autokonverze mají zásadní vliv na validaci dat.
+
+% V~druhé části této kapitoly je popsán proces zpracování souborů ve formátu YAML. Dále je v~této části navrženo vhodné použití syntaxe pro zápis datové struktury, referencí a~abstraktních záznamů, které jsou popsány v~první části této kapitoly.
 
 
 \section{Formát YAML}
 %TODO footnote style Abc.
-Jak již bylo zmíněno v~kapitole~\ref{sec:problematika-format-yaml}, pro zápis konfiguračních souborů se bude používat formát YAML. Jedná se o~univerzální formát pro serializaci dat založený na kódování Unicode. Je navržen pro jednoduchý zápis polí, hashovacích tabulek a~primitivních hodnot.
+Jak již bylo zmíněno v~kapitole~\ref{sec:problematika-format-yaml}, pro zápis konfiguračních souborů se bude používat formát \gls{YAML}. Jedná se o~univerzální formát pro serializaci dat založený na kódování Unicode. Je navržen pro jednoduchý zápis polí, hashovacích tabulek a~primitivních hodnot.
 
-Mezi cíle formátu YAML patří mimo jiné jednoduchá čitelnost a~přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z~cílů je čtení pomocí jediného průchodu, což s~sebou oproti formátu CON přináší určité komplikace a~změny, které jsou dále rozvedeny v~kapitole~\ref{analyza-yaml-reference}.
+Mezi cíle formátu \gls{YAML} patří mimo jiné jednoduchá čitelnost a~přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z~cílů je čtení pomocí jediného průchodu, což s~sebou oproti formátu \gls{CON} přináší určité komplikace a~změny, které jsou dále rozvedeny v~kapitole~\ref{sec:navrh-yaml-reference}.
 
-\subsection{Uložení a~načtení formátu YAML}
+\subsection{Proces zpracování souboru}
 
-%proudove zpracovani vs DOM
-Jelikož je formát YAML navržen tak, aby k~jeho přečtení a~reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné pracovat s~proudem dat a~na základě detekovaných symbolů generovat události, nebo z~dat vytvořit objektovou reprezentaci.
-%TODO zkratka
+Jelikož je formát \gls{YAML} navržen tak, aby k~jeho přečtení a~reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné data zpracovávat proudově a~generovat seznam událostí, nebo lze přečíst celý soubor a vytvořit z~něj datovou reprezentaci.
 
-Oficiální dokumentace formátu YAML popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu YAML.
+Oficiální dokumentace formátu \gls{YAML}~\cite{bib:yaml} popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu \gls{YAML}.
 
-\includeimg{yaml}{Zpracování formátu YAML}
+%TODO syntakticka vs lexikalni analyza
+\includeimg{yaml}{Zpracování formátu \gls{YAML}}
 
-Proces načtení souboru ve formátu YAML prochází třemi fázemi. V~první fázi proběhne syntaktická analýza, která převede vstupní soubor na posloupnost událostí. Syntaktická analýza hledá symboly a~hodnoty na základě syntaxe YAML, kontroluje správné odsazení a~vypustí ze vstupu komentáře.
+Proces načtení souboru ve formátu \gls{YAML} prochází třemi fázemi. V~první fázi proběhne syntaktická analýza, která převede vstupní soubor na posloupnost událostí. Syntaktická analýza hledá symboly a~hodnoty na základě syntaxe \gls{YAML}, kontroluje správné odsazení a~vypustí ze vstupu komentáře.
 
-V~druhé fázi proběhne kompozice, která převede posloupnost událostí na reprezentaci dat pomocí grafu. V~této fázi se z~dat odstraní kotvy a~aliasy se nahradí příslušnými daty. Použití kotev a~aliasů je dále vysvětleno v~kapitole~\ref{sec:analyza-yaml-reference}.
+V~druhé fázi proběhne kompozice, která převede posloupnost událostí na reprezentaci dat pomocí grafu. V~této fázi se z~dat odstraní kotvy a~aliasy se nahradí příslušnými daty. Použití kotev a~aliasů je dále vysvětleno v~kapitole~\ref{sec:navrh-yaml-reference}.
 
-V~poslední fázi se převede graf reprezentující data na datovou strukturu dané aplikace. Tato fáze představuje rozhraní mezi abstrakcí aplikace a~procesem zpracování souboru v~souborovém formátu YAML.
+V~poslední fázi se převede graf reprezentující data na datovou strukturu dané aplikace. Tato fáze představuje rozhraní mezi abstrakcí aplikace a~procesem zpracování souboru v~souborovém formátu \gls{YAML}.
 
 V~každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o~jejich pozici v~původním textovém souboru. Také nelze určit, zda byla konkrétní data v~souboru zapsána, nebo zda-li vznikla pouhým odkazem na již existující data z~jiné části souboru.
 
-Formát YAML je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace ModelEditor je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
-
-%TODO zminit ulozeni? v aplikace nepouzite, ale na obrazku uvedeno
+Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace ModelEditor je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
 
 \subsection{Zápis datových typů}
 \label{sec:analyza-yaml-zapis-datovych-typu}
 
 \subsubsection*{Skalární hodnoty}
 
-Formát YAML podporuje několik skalárních datových typů, které jsou dále nedělitelné. Jedná se o~celá a~desetinná čísla, booleovské hodnoty a~znakové řetězce. Zápis těchto hodnot je velice intuitivní. 
+Formát \gls{YAML} podporuje několik skalárních datových typů, které jsou dále nedělitelné. Jedná se o~celá a~desetinná čísla, booleovské hodnoty a~znakové řetězce. Zápis těchto hodnot je velice intuitivní. 
 
-Celá čísla se zapisují pomocí běžné konvence v~desítkové soustavě. Dále je možné je zapsat v~šestnáctkové nebo osmičkové soustavě pomocí prefixu \texttt{0x}, resp \texttt{0o}. Desetinná čísla se zapisují s~desetinnou tečkou a~dále je pro jejich zápis možné použít i~věděckou notaci. Booleovské hodnoty se zapisují jako true a~false, kde první písmeno může být velké, případně mohou být velká i~všechna písmena zároveň.
+Celá čísla se zapisují pomocí běžné konvence v~desítkové soustavě. Dále je možné je zapsat v~šestnáctkové nebo osmičkové soustavě pomocí prefixu \texttt{0x}, resp \texttt{0o}. Desetinná čísla se zapisují s~desetinnou tečkou a~dále je pro jejich zápis možné použít i~věděckou notaci. Booleovské hodnoty se zapisují jako \texttt{true} a~\texttt{false}, kde první písmeno může být velké, případně mohou být velká i~všechna písmena zároveň.
 
-\vspace{0.5cm}
+\vspace{8pt}
 \begin{tabular}{m{5cm}@{}l}
 \textit{celá čísla}\dotfill & \texttt{0, 0o7, 0x3A, -19} \\
 \textit{desetinná čísla}\dotfill & \texttt{0., -0.0, .5, +12e03, -2E+05, .inf, .NaN}  \\
 \textit{booleovské hodnoty}\dotfill & \texttt{true, True, false, FALSE}\\
 \end{tabular}
-\vspace{0.5cm}
+\vspace{8pt}
 
 Řetězce se zapisují jako sekvence znaků, které není třeba psát do uvozovek ani pokud obsahují mezery nebo zalomení řádků. Pokud by řetězec obsahoval speciální znak, jako je třeba dvojtečka, která se používá na oddělení klíče od hodnoty, tak musí být řetězec napsán do uvozovek.
 
-%TODO link yaml doc
-Všechny tyto zápisy skalárních hodnot jsou popsány v~dokumentaci YAML pomocí regulárních výrazů. Během fáze kompozice se na základě těchto regulárních výrazů určí implicitní datový typ proměnné, který se použije, pokud není explicitně zadán jiný datový typ pomocí tagu. Pro skalární datové typy jsou definované následující tagy.
+Všechny tyto zápisy skalárních hodnot jsou popsány v~dokumentaci YAML~\cite{bib:yaml} pomocí regulárních výrazů. Během fáze kompozice se na základě těchto regulárních výrazů určí implicitní datový typ proměnné, který se použije, pokud není explicitně zadán jiný datový typ. Datový typ lze explicitně zadat pomocí tzv. tagu. Dokumentace \gls{YAML} definuje následující tagy pro skalární datové typy.
 
-\vspace{0.5cm}
+\vspace{8pt}
 \begin{tabular}{m{5cm}@{}l}
 \textit{celá čísla}\dotfill & \texttt{!!int} \\
 \textit{desetinná čísla}\dotfill & \texttt{!!float}  \\
 \textit{booleovské hodnoty}\dotfill & \texttt{!!bool}\\
 \textit{řetězec}\dotfill & \texttt{!!str} \\
 \end{tabular}
-\vspace{0.5cm}
+\vspace{8pt}
 
 Pokud je potřeba explicitně zadat datový typ, píše se tento tag před samotnou hodnotu a~odděluje se od ní mezerou. Následuje seznam ukázek zápisu hodnot a~příslušných datových typů, na které budou převedeny.
 
-%TODO mely by mit ukazky cislovani a popisek?
+\vspace{-2pt}
 \setlength\LTleft\parindent
 \begin{longtable}{m{5cm}@{}l}
 \texttt{0}\dotfill & \textit{celé číslo} \\
@@ -419,10 +410,11 @@ Pokud je potřeba explicitně zadat datový typ, píše se tento tag před samot
 \texttt{true}\dotfill & \textit{booleovská hodnota} \\
 \texttt{!!str true}\dotfill & \textit{řetězec} \\
 \end{longtable}
+\vspace{-15pt}
 
 \subsubsection*{Sekvence}
 
-Sekvence se používají pro reprezentaci polí. Formát YAML podporuje dva způsoby zápisu sekvencí. Lze je zapsat buď zjednodušeně\footnote{Angl. \textit{flow style} -- zde označován jako \textit{zjednodušený zápis}.} nebo blokově pomocí odrážek. Zjednodušený zápis seznamů je totožný se zápisem polí ve formátu JSON a~vypadá následovně.
+Sekvence se používají pro reprezentaci polí. Formát \gls{YAML} podporuje dva způsoby zápisu sekvencí. Lze je zapsat buď zjednodušeně\footnote{Angl. \textit{flow style} -- zde označován jako \textit{zjednodušený zápis}.} nebo blokově pomocí odrážek. Zjednodušený zápis sekvencí je totožný se zápisem polí ve formátu \gls{JSON} a~vypadá následovně.
 
 \lstset{style=short}
 
@@ -432,7 +424,7 @@ Sekvence se používají pro reprezentaci polí. Formát YAML podporuje dva způ
 \end{lstlisting}
 \vspace*{-20pt}
 
-Pro blokový zápis se používá znak \texttt{-} (spojovník) jako odrážku, která musí být následována alespoň jednou mezerou a~poté samotnou položkou seznamu. Každá odrážka musí být na samostatném řádku a~odsazení všech položek seznamu musí být stejné. Zápis seznamu pomocí odrážek může vypadat například následovně.
+Pro blokový zápis se používá znak \texttt{-} (spojovník) jako odrážka, která musí být následována alespoň jednou mezerou a~poté samotnou položkou sekvence. Každá odrážka musí být na samostatném řádku a~odsazení všech položek sekvence musí být stejné. Zápis sekvence pomocí odrážek může vypadat například následovně.
 
 \vspace{5pt}
 \begin{lstlisting}
@@ -446,7 +438,7 @@ V~rámci jednoho dokumentu lze používat oba typy zápisů sekvencí. V~rámci 
 
 \subsubsection*{Mapy}
 
-Mapy se ve formátu YAML používají pro zápis dvojic klíč a~hodnota -- jedná se tedy o~hashovací tabulku. Mapy lze obdobně jako sekvence zapsat buď zjednodušeně nebo blokově. Zjednodušený zápis se opět podobá formátu JSON.
+Mapy se ve formátu \gls{YAML} používají pro zápis dvojic klíč a~hodnota -- jedná se tedy o~hashovací tabulku. Mapy lze obdobně jako sekvence zapsat buď zjednodušeně nebo blokově. Zjednodušený zápis se opět podobá formátu \gls{JSON}.
 
 \vspace{5pt}
 \begin{lstlisting}
@@ -463,7 +455,7 @@ b: 2
 \end{lstlisting}
 \vspace*{-20pt}
 
-V~rámci dokumentu lze opět používat oba typy zápisů map. Mapy i~seznamy lze do sebe vzájemně vnořovat do libovolné úrovně.
+V~rámci dokumentu lze opět používat oba typy zápisů map a~v~rámci jedné mapy musí být dodržena jednotná syntaxe. Mapy i~seznamy lze do sebe vzájemně vnořovat do libovolné úrovně.
 
 \section{Specifikace formátu konfiguračních souborů}
 
@@ -474,6 +466,7 @@ Zatímco formát udává syntaktická pravidla pro vytváření dokumentů, spec
 
 Mezi vývojáři Flow123d se specifikace formátu také označuje jako Input Structure Tree (IST). S~tím, jak se vyvíjí nová a~rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i~tato specifikace. Z~toho plyne zásadní požadavek na validaci konfiguračních souborů -- proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d.
 %TODO zkratka
+%TODO zduraznit zavislost na verzi Flow123d
 
 Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu JSON. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce ModelEditoru, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
 
@@ -970,6 +963,10 @@ BŘEZINA, Jan et al. \textit{Flow123d version 1.8.2: Documentation of file forma
 
 \bibitem{bib:xml}
 \textit{Extensible Markup Language (XML) 1.0}. Fifth Edition. [online]. W3C, 2008. [cit. 2016-02-26]. Dostupné z: \url{http://www.w3.org/TR/2008/REC-xml-20081126}
+
+\bibitem{bib:yaml}
+BEN-KIKI, Oren et al. \textit{YAML Ain’t Markup Language (YAML™) Version 1.2}. 3rd Edition. [online]. 2009. [cit. 2016-03-06]. Dostupné z: \url{http://www.yaml.org/spec/1.2/spec.html}
+
 
 \end{thebibliography}
 

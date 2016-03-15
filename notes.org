@@ -4,3 +4,6 @@
 ** L150 - jak se uzivatel dozvi o chybe?
 ** L179 - jak uvadet linky na web - GMSH, SALOME?
 ** L207 - jak oznacit cesky boolean
+** L333 - zminit, kterou cast prace delal Pavel pomoci footnote?
+** obecne - jak citovat normy bez autora?
+** L403 - ukazky YAML syntaxe - uvadet popisky a cislovani?
