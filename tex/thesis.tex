@@ -109,14 +109,14 @@
 
 % glossaries
 \setacronymstyle{long-short}
-\newacronym{con}{CON}{C++ Object Notation}
-
-\newglossaryentry{scm}{
-	type=\acronymtype,
-	name={SCM},
-	description={Source code management},
-	first={SCM}
-}
+\newacronym{CON}{CON}{C++ Object Notation}
+\newacronym{JSON}{JSON}{JavaScript Object Notation}
+\newacronym{XML}{XML}{Extensible Markup Language}
+\newacronym{SGML}{SGML}{Standard Generalized Markup Language}
+\newacronym{HTML}{HTML}{HyperText Markup Language}
+\newacronym{W3C}{W3C}{World Wide Web Consorcium}
+\newacronym{YAML}{YAML}{YAML Ain't Markup Language}
+\newacronym{DTD}{DTD}{Document Type Definition}
 
 \begin{document}
 \ThesisStart{male}
@@ -241,26 +241,19 @@ Na obrázku~\ref{img:data_tree} je znázorněna hierarchická struktura složen�
 
 \subsection{Formát CON}
 
-Ve verzi Flow123d~1.8.2 se pro reprezentaci výše popsané datové struktury používá speciální formát \gls{con}, který byl navržen vývojáři Flow123d pro účel zápisu konfiguračních souborů. Jedná se o~formát, který vychází z~JavaScript Object Notation, který je specifikován standardem ECMA-404. Oproti tomuto standardu se liší v~několika detailech.
-%TODO zkratka JSON
-%TODO zkratka CON - co znamena + do seznamu
+Ve verzi Flow123d~1.8.2 se pro reprezentaci výše popsané datové struktury používá speciální formát \gls{CON}, který byl navržen vývojáři Flow123d pro účel zápisu konfiguračních souborů. Jedná se o~formát, který vychází z~\gls{JSON}, který je specifikován standardem ECMA-404~\cite{bib:ecma404}. Oproti tomuto standardu se liší v~několika detailech.
 %TODO reference na JSON - http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
 
-Příklad části konfiguračního souboru ve formátu CON je znázorněn na obrázku~\ref{img:conf_files}. Jednou z~ihned zřejmých odlišností od formátu JSON je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a~hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a~kompletní specifikaci formátu CON lze nalézt v~dokumentaci k~Flow123d 1.8.2.
+Příklad části konfiguračního souboru ve formátu \gls{CON} je znázorněn na obrázku~\ref{img:conf_files}. Jednou z~ihned zřejmých odlišností od formátu \gls{JSON} je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a~hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a~kompletní specifikaci formátu \gls{CON} lze nalézt v~dokumentaci k~Flow123d~1.8.2~\cite{bib:flow123d-manual}.
 %TODO ref dokumentace flow
 
-Během používání tohoto formátu se ale jeho odlišnost od JSON projevila jako jeden z~nedostatků. Kvůli nekompatibilitě formátu s~formátem JSON nelze použít pro zpracování CON formátu standardní knihovny. To je jeden z~důvodů, proč bylo rozhodnuto, že ve verzi Flow123d 2.0 bude použit nějaký standardní formát pro výměnu dat.
+Během používání tohoto formátu se ale jeho odlišnost od \gls{JSON} projevila jako jeden z~nedostatků. Kvůli nekompatibilitě s~formátem \gls{JSON} nelze použít pro zpracování formátu \gls{CON} standardní knihovny. To je jeden z~důvodů, proč bylo rozhodnuto, že ve verzi Flow123d~2.0 bude použit nějaký standardní formát pro výměnu dat.
 
-To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále hlídat správné uzávorkování objektů nebo zda na konci řádku nebyla zapomenuta čárka pro oddělení položek. To představoval problém obzvlášť u~rozsáhlejších konfiguračních souborů, které obsahovaly velký počet úrovní vnoření. Jelikož formát JSON sdílí tyto vlastnosti, tak byl zavržen jako možný nástupce formátu CON.
+To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále kontrolovat správné uzávorkování objektů nebo zda na konci řádku nebyla vynechána čárka pro oddělení položek. To představovalo problém  obzvlášť u~rozsáhlejších konfiguračních souborů, které obsahují hodně úrovní vnoření. Jelikož formát \gls{JSON} sdílí tyto vlastnosti, tak byl zavržen jako možný nástupce formátu \gls{CON}.
 
 \subsection{Formát XML}
 
-Extensible Markup Language (XML) je rozšiřitelný značkovací jazyk, který slouží pro popis dat. Tento jazyk vznikl z~jazyka Standard Generalized Markup Language (SGML), z~kterého je odvozen i~jazyk HTML. Všechny správně zformátované XML dokumenty tedy zároveň i~SGML dokumenty. Popis a~doporučení týkající se jazyka XML lze nalézt na webových stránkách konsorcia W3C.
-%TODO SGML - ref ISO 8879
-%TODO ref http://www.w3.org/TR/2008/REC-xml-20081126 23.2.2016
-
-Použití jazyka XML pro zápis konfiguračních souborů bylo jednou ze zvažovaných možností. Ukázku takového zápisu lze vidět na obrázku~\ref{img:conf_files}, na němž si lze zároveň všimnout odlišností zápisu XML oproti jiným možnostem.  
-%TODO zkratka XML
+\gls{XML} je rozšiřitelný značkovací jazyk, který slouží pro popis dat. Tento jazyk vznikl z~jazyka \gls{SGML}~\cite{bib:sgml-iso}, z~kterého je odvozen i~jazyk \gls{HTML}. Všechny správně zformátované \gls{XML} dokumenty jsou zároveň i~\gls{SGML} dokumenty. Popis a~doporučení týkající se jazyka \gls{XML} lze nalézt na webových stránkách \gls{W3C}~\cite{bib:xml}.
 
 \begin{figure}[H]
 \singlespacing
@@ -315,24 +308,28 @@ output:
 \label{img:conf_files}
 \end{figure}
 
-Velkou výhodou tohoto jazyka je, že umožňuje nadefinovat si vlastní strukturu dokumentu. Lze tedy specifikovat kde se mohou vyskytnou jaké elementy, jaké mohou mít atributy a~tak podobně. K~tomu slouží DTD nebo XML Schema, které má oproti DTD více funkcí, např. dokáže omezit počet výskytů elementů.
+Použití jazyka \gls{XML} pro zápis konfiguračních souborů bylo jednou ze zvažovaných možností. Ukázku takového zápisu lze vidět na obrázku~\ref{img:conf_files}, na němž si lze zároveň všimnout odlišností zápisu formátu XML oproti formátům \gls{CON} a~\gls{YAML}. 
 
-Použití XML Schema by velice usnadnilo validaci datové struktury a~navíc existuje celá řada nástrojů, které jsou schopné ověřit, zda je daný XML dokument validní pro dané XML Schema. Úskalím použití této validace by však byly tzv. autokonverze, které jsou popsány v~kapitole \ref{}.
+Velkou výhodou tohoto jazyka je, že umožňuje nadefinovat si vlastní strukturu dokumentu. Lze tedy specifikovat kde se mohou vyskytnou jaké elementy, jaké mohou mít atributy a~tak podobně. K~tomu slouží \gls{DTD} nebo \gls{XML} Schema, které má oproti \gls{DTD} více funkcí, např. dokáže omezit počet výskytů elementů.
 
-Jedná se o~speciální zápis, který lze použít v~datové struktuře při zapisování polí nebo záznamů. V~těchto speciálních případech lze místo pole či záznamu zapsat pouze hodnotu. To znemožňuje běžnou validaci pomocí XML Schema a~bylo by nutné validaci XML upravit tak, aby byla schopná brát ohled na autokonverze. To znamená, že by bohužel nebylo možné použít univerzální nástroje pro validaci XML.
+Použití \gls{XML} Schema by velice usnadnilo validaci datové struktury a~navíc existuje celá řada nástrojů, které jsou schopné ověřit, zda je daný \gls{XML} dokument validní pro dané \gls{XML} Schema. Úskalím použití této validace by však byly tzv. autokonverze, které jsou popsány v~kapitole~\ref{sec:analyza-autokonverze}.
 
-Nevýhodou tohoto formátu je jeho \uv{vý\-řeč\-nost}. Té si lze na první pohled všimnout na obrázku~\ref{img:conf_files}. Jazyk XML vyžaduje z~uvedených možností pro zápis stejných dat nejvíce znaků. Hlavní nevýhodu v~použití jazyka XML pro zápis konfiguračních souborů vývojáři Flow123d viděli v~jeho zásadní odlišnosti oproti dosavadně po\-u\-ží\-va\-né\-mu formátu CON. Dle jejich názoru by to pro uživatele Flow123d byla příliš velká změna.
+Jedná se o~speciální zápis, který lze použít v~datové struktuře při zapisování polí nebo záznamů. V~těchto speciálních případech lze místo pole či záznamu zapsat přímo hodnotu. To znemožňuje běžnou validaci pomocí XML Schema a~bylo by nutné validaci \gls{XML} upravit tak, aby byla schopná brát ohled na autokonverze. To znamená, že by bohužel nebylo možné použít univerzální nástroje pro validaci \gls{XML}.
+
+Nevýhodou formátu \gls{XML} je jeho \uv{vý\-řeč\-nost}. Té si lze na první pohled všimnout na obrázku~\ref{img:conf_files}. Formát \gls{XML} vyžaduje z~uvedených možností pro zápis stejných dat nejvíce znaků. Hlavní nevýhodu v~použití formátu \gls{XML} pro zápis konfiguračních souborů ovšem viděli vývojáři Flow123d jinde. Dle jejich názoru by odlišnost v zápisu formátu \gls{XML} od formátu \gls{CON} byla pro uživatele Flow123d příliš velkou změnou.
 
 \subsection{Formát YAML}
 \label{sec:problematika-format-yaml}
 
-Poslední z~uvažovaných možností bylo použití jazyka YAML, který je zobecněním formátu JSON. Kterýkoliv JSON dokument je tím pádem i~YAML dokumentem. Oproti formátu JSON ovšem umožňuje syntaktický zápis, který byl speciálně navržen s~ohledem na to, aby ho mohli jednoduše zapisovat lidé.
+Poslední z~uvažovaných možností bylo použití formátu \gls{YAML}, který je zobecněním formátu \gls{JSON}. Kterýkoliv \gls{JSON} dokument je tím pádem i~\gls{YAML} dokumentem. Oproti formátu \gls{JSON} ovšem umožňuje syntaktický zápis, který byl speciálně navržen s~ohledem na to, aby ho mohli jednoduše zapisovat lidé.
 
-Toho si lze všimnou opět na obrázku~\ref{img:conf_files}. Ze všech uvedených možností je zápis v~jazyce YAML nejkratší, a~to jak počtem napsaných řádek, tak i~počtem potřebných znaků. Zároveň ovšem elegantně řeší problémy původně použitého formátu CON, resp. formátu JSON.
+Toho si lze všimnou opět na obrázku~\ref{img:conf_files}. Ze všech uvedených možností je zápis v~jazyce YAML nejkratší, a~to jak počtem napsaných řádek, tak i~počtem potřebných znaků. Zároveň i~elegantně řeší problémy původně použitého formátu \gls{CON}, resp. formátu \gls{JSON}.
 
-Jelikož pro zápis vnořených dat používá odsazení, není nadále nutné používat závorky pro uzavření záznamů a~polí. Dále podporuje zápis polí pomocí odrážek, což je dobře čitelné a~pohodlné pro zápis. Oproti formátu JSON také odpadá nutnost psaní čárek na koncích řádků pro oddělení klíčů v~záznamů nebo položek v~poli. Dále není nutné psát řetězce do uvozovek, protože se datové typy odlišují implicitně\footnote{V případě potřeby lze datový typ specifikovat i~explicitně.}.
+Jelikož se pro zápis vnořených dat používá odsazení, není nadále nutné používat závorky pro ohraničení záznamů a~polí. Dále podporuje zápis polí pomocí odrážek, což je dobře čitelné a~pohodlné pro zápis. Oproti formátu \gls{JSON} také odpadá nutnost psaní čárek na koncích řádků pro oddělení klíčů v~záznamů nebo položek v~poli. Dále není nutné psát řetězce do uvozovek, protože se datové typy rozlišují implicitně.\footnote{V případě potřeby lze datový typ specifikovat i~explicitně, viz kapitola~\ref{sec:analyza-yaml-zapis-datovych-typu}.}
 
-Všechna tato vylepšení vedou k~tomu, že soubory zapsané v~jazyce YAML jsou velice dobře čitelné a~jednoduché pro zápis. Navíc se jazyk YAML od původního formátu CON neliší natolik, jako jazyk XML. To vedlo k~rozhodnutí, že ve verzi Flow123d 2.0 bude použit jazyk YAML pro zápis konfiguračních souborů. Vytvářená aplikace tedy bude pracovat s~konfiguračními soubory napsanými v~jazyce YAML. Předchozí formát CON bude možné v~rámci aplikace importovat\footnote{Import formátu CON je nad rámec této diplomové práce a~v~rámci projektu ho řešil Ing. Pavel Richter.}, ale již nebude podporován export ve formátu CON.
+Všechna tato vylepšení vedou k~tomu, že soubory zapsané ve formátu \gls{YAML} jsou velice dobře čitelné a~jednoduché pro zápis. Navíc se formát \gls{YAML} od původního formátu \gls{CON} neliší natolik, jako formát \gls{XML}. To vedlo k~rozhodnutí, že ve verzi Flow123d~2.0 bude použit jazyk \gls{YAML} pro zápis konfiguračních souborů.
+
+Vytvářená aplikace tedy bude pracovat s~konfiguračními soubory napsanými ve formátu \gls{YAML}. Aplikace bude zároveň podporovat i import dříve používaného formátu \gls{CON} a jeho převod do formátu \gls{YAML}.\footnote{Import formátu CON je nad rámec této diplomové práce a~v~rámci projektu ho řešil Ing. Pavel Richter.} Podpora exportu do formátu \gls{CON} se neplánuje.
 %TODO je vhodne takto zminit, ze import resil pavel?
 
 
@@ -597,6 +594,7 @@ Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žád
 
 
 \section{Autokonverze}
+\label{sec:analyza-autokonverze}
 
 V~konfiguračních souborech pro Flow123d se používají speciální zápisy záznamů a~polí, které vývojáři a~uživatelé Flow123d označují jako automatické konverze, nebo zkráceně pouze autokonverze. Cílem autokonverzí je zjednodušení a~zkrácení zápisu.
 
@@ -961,9 +959,18 @@ V~rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná 
 
 \addcontentsline{toc}{chapter}{\bibname}
 
+\bibitem{bib:ecma404}
+\textit{Standard ECMA-404: The JSON Data Interchange Format}. [online]. Geneva: Ecma International, 2013. [cit. 2016-02-23] Dostupné z: \url{http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf}
+
 \bibitem{bib:flow123d-manual}
 BŘEZINA, Jan et al. \textit{Flow123d version 1.8.2: Documentation of file formats and brief user manual}. [online]. Liberec, 2015 [cit. 2016-02-24]. Dostupné z: \url{http://flow.nti.tul.cz/packages/1.8.2_release/flow123d_1.8.2_doc.pdf}
-	
+
+\bibitem{bib:sgml-iso}
+\textit{ISO 8879}. Amd.1:1988. International Organization for Standardization, 1988. [cit. 2016-02-26]. 
+
+\bibitem{bib:xml}
+\textit{Extensible Markup Language (XML) 1.0}. Fifth Edition. [online]. W3C, 2008. [cit. 2016-02-26]. Dostupné z: \url{http://www.w3.org/TR/2008/REC-xml-20081126}
+
 \end{thebibliography}
 
 
