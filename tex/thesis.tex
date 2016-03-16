@@ -13,6 +13,10 @@
 \usepackage{subfig}
 \usepackage{longtable}
 \usepackage[nonumberlist,acronym]{glossaries}
+\usepackage{enumitem}
+
+% no vertical spcaing between items in list
+\setlist{nosep}
 
 % set figure counter to global
 \usepackage{chngcntr}
@@ -117,6 +121,8 @@
 \newacronym{W3C}{W3C}{World Wide Web Consorcium}
 \newacronym{YAML}{YAML}{YAML Ain't Markup Language}
 \newacronym{DTD}{DTD}{Document Type Definition}
+\newacronym{IST}{IST}{Input Structure Tree}
+
 
 \begin{document}
 \ThesisStart{male}
@@ -459,34 +465,33 @@ V~rámci dokumentu lze opět používat oba typy zápisů map a~v~rámci jedné 
 
 \section{Specifikace formátu konfiguračních souborů}
 
-Simulátor Flow123d umožňuje exportovat popis vstupní datové struktury konfiguračních souborů. Tento popis struktury bude v~textu nadále označován jako \textit{specifikace formátu}. Oproti tomu slovo \textit{formát} udává použitou textovou reprezentaci pro zápis konfiguračního souboru -- nejčastěji tedy označuje buď starší souborový formát CON, nebo nově používaný formát YAML.
+Simulátor Flow123d umožňuje exportovat popis datové struktury konfiguračních souborů. Tento popis struktury bude v~textu nadále označován jako \textit{specifikace formátu}. Oproti tomu slovo \textit{formát} udává použitou textovou reprezentaci pro zápis konfiguračního souboru -- nejčastěji tedy označuje buď souborový formát \gls{YAML} nebo starší formát \gls{CON}.
 %TODO specifikace vs specifikace formatu?
 
-Zatímco formát udává syntaktická pravidla pro vytváření dokumentů, specifikace formátu popisuje sémantický význam zapsaných dat, definuje použitelné uživatelské typy a~klade různá omezení na vstupní datovou strukturu. Formát a~specifikaci formátu lze považovat za analogii k~XML, resp. XML Schema.
+Zatímco formát udává syntaktická pravidla pro vytváření konfiguračních souborů, specifikace formátu popisuje sémantický význam zapsaných dat, definuje použitelné uživatelské typy a~klade různá omezení na vstupní datovou strukturu. Formát a~specifikaci formátu lze považovat za analogii k~\gls{XML}, resp. \gls{XML} Schema.
 
-Mezi vývojáři Flow123d se specifikace formátu také označuje jako Input Structure Tree (IST). S~tím, jak se vyvíjí nová a~rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i~tato specifikace. Z~toho plyne zásadní požadavek na validaci konfiguračních souborů -- proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d.
-%TODO zkratka
-%TODO zduraznit zavislost na verzi Flow123d
+Mezi vývojáři Flow123d se specifikace formátu také označuje jako \gls{IST}. S~tím, jak se vyvíjí nová a~rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i~tato specifikace. Z~toho plyne zásadní požadavek na validaci konfiguračních souborů -- \textbf{proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d}.
+%TODO tucne zvyrazneni?
 
-Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu JSON. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce ModelEditoru, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
+Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu \gls{JSON}. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce ModelEditoru, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
 
-\subsection{Datové typy}
-\label{sec:analyza-specifikace-formatu-datove-typy}
+\subsection{Základní datové typy}
+\label{sec:analyza-specifikace-formatu-zakladni-datove-typy}
 Jak již bylo zmíněno v~kapitole \ref{sec:datova-sturktura}, konfigurační soubory obsahují hierarchickou datovou strukturu, která tvoří strom. Specifikace formátu definuje datový typ pro každý uzel stromu, ať už se jedná o~interní uzel nebo list stromu. Datové typy definované ve specifikaci formátu mohou mít následující parametry:
 
 \vspace{0.5cm}
 \begin{tabular}{m{3cm}@{}l}
 \texttt{id}\dotfill & unikátní řetězec označující datový typ \\
 \texttt{input\_type}\dotfill & základní typ, ze kterého je datový typ odvozen  \\
-\texttt{name}\dotfill & název datového typu, nemusí být unikátní \\
+\texttt{name}\dotfill & název datového typu (nemusí být unikátní) \\
 \texttt{description}\dotfill & dokumentační řetězec popisující datový typ \\
 \texttt{attributes}\dotfill & pomocné atributy obsahující dodatečné informace \\
 \end{tabular}
 \vspace{0.5cm}
 
-Základní typ input\_type udává pouze typ, ze kterého je konkrétní datový typ odvozen. Konkrétní datové typy navíc obsahují výše vyjmenované informace a~případná další upřesnění či omezení. Specifikace formátu může takových datových typů definovat neomezený počet. Oproti tomu je možné využít pouze následující základní datové typy:
+Základní typ \texttt{input\_type} udává pouze typ, ze kterého je konkrétní datový typ odvozen. Konkrétní datové typy obsahují výše vyjmenované informace a~případná další upřesnění či omezení. Specifikace formátu může takových datových typů definovat neomezený počet. Oproti tomu je možné využít pouze následující základní datové typy:
 
-\begin{itemize}
+\begin{itemize}[itemsep=2pt, topsep=12pt, partopsep=0pt]
 \item \textit{Integer} pro celá čísla,
 \item \textit{Double} pro reálná čísla,
 \item \textit{String} pro řetězce,
@@ -497,11 +502,7 @@ Základní typ input\_type udává pouze typ, ze kterého je konkrétní datový
 \item \textit{Abstract} pro abstraktní záznamy.
 \end{itemize}
 
-% označen unikátním řetězcem id, dále je odvozen z nějakého základního vstupního typu input\_type a obsahuje název name, který ho označuje v rámci dokumentace, ale nemusí být jedinečný.
-
-%Popis datových typů, které jsou přiřazeny k jednotlivým uzlům stromu,obsahují často kromě výše popsaných základních údajů i další informace. 
-
-\subsubsection{Primitivní datové typy}
+\subsection{Primitivní datové typy}
 
 Mezi tyto datové typy patří všechny typy odvozené z~\textit{Integer}, \textit{Double}, \textit{String}, \textit{Filename} nebo \textit{Selection}. Jedná se o~datové typy, jejichž hodnota je z~pohledu datové struktury konfiguračního souboru dále nedělitelná. Ve stromové datové struktuře se tedy vždy jedná o~listy stromu.
 
@@ -521,20 +522,20 @@ Datové typy odvozené z~typu \textit{Selection} slouží pro specifikaci výčt
 \texttt{values}\dotfill & seznam přípustných hodnot včetně jejich popisu \\
 \end{tabular}
 
-\subsubsection{Pole}
+\subsection{Pole}
 
-Všechna pole ve specifikaci datové struktury jsou homogenní -- obsahují tedy prvky, které jsou stejného datového typu (případně jsou odvozeny ze stejného abstraktního datového typu, viz dále). Datový typ potomků pole definuje parametr \texttt{subtype}, která obsahuje identifikátor datového typu. Pole dále mohou obsahovat omezení minimálního a~maximálního počtu prvků, zadaného pomocí \texttt{range}.
+Všechna pole ve specifikaci datové struktury jsou homogenní -- obsahují tedy prvky, které jsou stejného datového typu (případně jsou odvozeny ze stejného abstraktního datového typu, viz dále). Datový typ potomků pole definuje parametr \texttt{subtype}, který obsahuje identifikátor datového typu. Pole dále mohou obsahovat omezení minimálního a~maximálního počtu prvků, zadaného pomocí \texttt{range}.
+%TODO je pole homogenni pokud obsahuje ruzne objekty, ktere maji stejneho predka?
 
 \vspace{0.5cm}
 \begin{tabular}{m{3cm}@{}l}
 \texttt{range}\dotfill & dvojice čísel udávající minimální a~maximální počet prvků \\
 \texttt{subtype}\dotfill & datový typ jednotlivých prvků pole \\
 \end{tabular}
-\vspace{0.5cm}
 
-\subsubsection{Záznamy}
+\subsection{Záznamy}
 
-Záznamy slouží pro inicializaci tříd a~jejich atributy tvoří dvojice klíč a~hodnota. Každý datový typ odvozen z~typu Record má v~rámci specifikace formátu definován množinu klíčů \texttt{keys}. Dále mohou mít záznamy definován parametr reducible\_to\_key, který se používá pro autokonverzi na záznam (viz kapitola \ref{sec:autokonverze-zaznam}).
+Záznamy slouží pro inicializaci tříd a~jejich atributy tvoří dvojice klíč a~hodnota. Každý datový typ odvozen z~typu \textit{Record} má v~rámci specifikace formátu definován množinu klíčů \texttt{keys}. Dále mohou mít záznamy definován parametr \texttt{reducible\_to\_key}, který se používá pro autokonverzi na záznam (viz kapitola \ref{sec:analyza-autokonverze-zaznam}).
 
 \vspace{0.5cm}
 \begin{tabular}{m{4cm}@{}l}
@@ -554,24 +555,22 @@ Definice každého klíče dále obsahuje další parametry. Mezi ně patří \t
 \end{tabular}
 \vspace{0.5cm}
 
-Parametr \texttt{default} se skládá z~dvojice parametrů \texttt{type} a~\texttt{value}. Parametr \texttt{value} udává výchozí hodnotu klíče. Tato hodnota se použije v~případě, že se v~konfiguračním souboru nevyskytne daný klíč. Parametr \texttt{type} udává, zda je potřeba klíč explicitně zadat či nikoliv a~může nabývat následujících hodnot:
+Parametr \texttt{default} se skládá z~dvojice parametrů \texttt{type} a~\texttt{value}. Parametr \texttt{value} udává výchozí hodnotu klíče. Tato hodnota se použije v~případě, že se v~konfiguračním souboru nevyskytne daný klíč. Parametr \texttt{type} udává, zda je potřeba klíč explicitně zadat či nikoliv a~může nabývat následujících hodnot.
 
-\vspace{0.5cm}
-\begin{tabular}{m{4cm}@{}l}
+\begin{longtable}{m{4cm}@{}l}
 \textit{obligatory}\dotfill & klíč je povinný a~jeho hodnota musí být explicitně zadána \\
 \textit{optional}\dotfill & klíč je nepovinný a~nemá žádnou výchozí hodnotu \\
 \textit{value at declaration}\dotfill & výchozí hodnota je součástí deklarace typu \\
 \textit{value at run time}\dotfill & výchozí hodnota se načte při spuštění \\
-\end{tabular}
-\vspace{0.5cm}
+\end{longtable}
 
 Z~pohledu aplikace ModelEditor je podstatná pouze hodnota \textit{obligatory}, která udává, že klíč musí být v~konfiguračním souboru uveden. Ostatní typy klíčů nemusí být v~konfiguračním souboru explicitně uvedeny. Pokud se však objeví, provede se jejich validace jako stejně jako u~ostatních klíčů.
 
-\subsubsection{Abstraktní záznamy}
+\subsection{Abstraktní záznamy}
 
 Posledním speciálním typem, který se používá ve struktuře konfiguračních souborů je abstraktní záznam. Jedná se o~všechny typy, které jsou odvozené ze základního typu označovaného jako \textit{Abstract}. Abstraktní záznamy slouží jako zástupný typ, který se ve specifikaci formátu datové struktury objevuje na místech, kde se mohou vyskytovat různé typy (ovšem ne zcela libovolné).
 
-Příkladem je například záznam, který udává řešenou rovnici. Existuje několik typů rovnic, které je možné řešit, a~každá z~nich má jinou datovou strukturu. V~takových případech se na místě, kde se očekává rovnice uvede abstraktní datový typ. V~konkrétních datových typech (např. pro jednotlivé typy rovnic) se pak pomocí klíče \texttt{implements} definuje, které abstraktní záznamy implementují.
+Jeden z~příkladů využití je při výběru typu řešené rovnice. Existuje několik typů rovnic, které je možné řešit. Jednotlivé rovnice se však liší a~tím pádem i~vyžadují jiná data a~mají odlišnou datovou strukturu. V~konfiguračním souboru se na místě, kde se očekává nějaká rovnice, uvede abstraktní datový typ. Jednotlivé rovnice jsou potom reprezentovány konkrétními datovými typy, u kterých je uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
 %TODO je to takhle receno spravne z pohledu uzivatele flow?
 
 Použitá terminologie se rozchází s~programátorskou terminologií, kde by se tento abstraktní záznam označil spíše jako rozhraní. Abstraktní záznamy totiž nemohou mít definované žádné klíče -- tím pádem se nepoužívají pro dědičnost. Navíc jeden konkrétní typ může implementovat více abstraktních typů, což je z~pohledu objektového programování typické spíše pro rozhraní. Pro zachování jednotné terminologie se specifikací formátu Flow123d a~její dokumentací bude ale nadále tento typ označován jako abstraktní záznam.
@@ -583,7 +582,7 @@ Použitá terminologie se rozchází s~programátorskou terminologií, kde by se
 \end{tabular}
 \vspace{0.5cm}
 
-Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žádnou definici klíčů. Obsahují však navíc parametr \texttt{default\_descendant}, který udává identifikátor záznamu, který se použije v~případě, že záznam, který je uveden na místě, kde se očekává abstraktní záznam, nemá explicitně uvedený typ. Abstraktní záznam navíc obsahuje parametr \texttt{implementations}, který obsahuje seznam identifikátorů všech jeho implementací. Jedná se o~duplicitní informaci a~v~rámci aplikace ModelEditor není využita, protože se používá parametr \texttt{implements} u~konkrétních záznamů.
+Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žádnou definici klíčů. Obsahují však navíc parametr \texttt{default\_descendant}, který udává identifikátor datového typu, který se použije v~případě, že záznam, který je uveden na místě, kde se očekává abstraktní záznam, nemá explicitně uvedený typ. Abstraktní záznam navíc obsahuje parametr \texttt{implementations}, který obsahuje seznam identifikátorů všech jeho implementací. Jedná se o~duplicitní informaci a~v~rámci aplikace ModelEditor není využita, protože se používá parametr \texttt{implements} u~konkrétních datových typů.
 
 
 \section{Autokonverze}
@@ -680,6 +679,7 @@ anisotropy: [[1.5]]
 \end{figure}	
 
 \subsection{Autokonverze na záznam}
+\label{sec:analyza-autokonverze-zaznam}
 
 Autokonverze na záznam se provádí v~případě, že se v~datové struktuře na dané pozici očekává záznam\footnote{typ Record nebo Abstract, viz dále} a~místo něj se v~datové struktuře nachází pole či primitivní datový typ. Oproti autokonverzi na pole, která proběhne vždy, musí být autokonverze na záznam explicitně povolena ve specifikaci formátu pro daný záznam.
 

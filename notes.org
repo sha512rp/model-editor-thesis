@@ -7,3 +7,6 @@
 ** L333 - zminit, kterou cast prace delal Pavel pomoci footnote?
 ** obecne - jak citovat normy bez autora?
 ** L403 - ukazky YAML syntaxe - uvadet popisky a cislovani?
+** L463 - oznaceni "specifikace formatu"
+** L470 - pouzit tucne zvyrzneni?
+** L528 - homogenni pole a polymorfismus
