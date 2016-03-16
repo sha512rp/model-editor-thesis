@@ -10,3 +10,6 @@
 ** L463 - oznaceni "specifikace formatu"
 ** L470 - pouzit tucne zvyrzneni?
 ** L528 - homogenni pole a polymorfismus
+** L574 - popis rovnic, korektni z pohldu uzivatele flow?
+** L611 - hodnoty na obrazcich u autokonverzi - nejsou nesmyslne?
+** L642 - desetinna cisla v textu vs na obrazku? tecka vs carka

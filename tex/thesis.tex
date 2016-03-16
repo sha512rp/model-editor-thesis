@@ -592,23 +592,23 @@ V~konfiguračních souborech pro Flow123d se používají speciální zápisy z�
 
 Pomocí autokonverzí lze například vynechat definici typu a~klíče a~místo toho zapsat pouze hodnotu. Zápis se tím výrazně zkrátí, ale zároveň to způsobí značné komplikace z~pohledu validace konfiguračního souboru nebo určení přesné polohy v~rámci datové struktury. Situace se dále zkomplikuje tím, že je možné použít vnořené autokonverze -- tedy provést autokonverzi v~rámci jiné autokonverze.
 
-Logika autokonverzí je zhruba následující. Pokud datový typ neodpovídá očekávanému datovému typu dle specifikace formátu, zkusí se provést některá z~autokonverzí, pokud je na tomto místě použitelná. V~případě, že po autokonverzi již datový typ odpovídá očekávanému, postupuje se standardně dál a~datový typ se prochází do hloubky, kde dojde k~dalším případným autokonverzím.
-%TODO vyvojovy diagram - jak se provadi autokonverze - implementace?
+Logika autokonverzí je zhruba následující. Pokud datový typ neodpovídá o\-če\-ká\-va\-né\-mu datovému typu dle specifikace formátu, zkusí se provést některá z~autokonverzí, pokud je na tomto místě použitelná. V~případě, že po autokonverzi již datový typ odpovídá očekávanému datovému typu, tak se datová struktura dále prochází do hloubky, kde může dojít k případným dalším autokonverzím.
 
-Autokonverze jsou hlavní důvodem, proč není možné použít XML Schema a~souborový formát XML pro validaci konfiguračních souborů. Kvůli autokonverzím by nebylo možné pouze triviálně použít nástroj pro validaci XML schématu k~validaci konfiguračního souboru.
+Autokonverze jsou hlavní důvodem, proč není možné použít \gls{XML} Schema a~souborový formát \gls{XML} pro validaci konfiguračních souborů. Kvůli autokonverzím by nebylo možné pouze triviálně použít nástroj pro validaci \gls{XML} schématu k~validaci konfiguračního souboru.
 
-Z~pohledu neznalého uživatele se jedná o~poměrně matoucí záležitost, protože datová struktura ve skutečnosti obsahuje něco jiného, než je napsáno v~konfiguračním souboru. Z~praktického hlediska jsou ovšem autokonverze pro zkušené uživatele Flow123d přínosem a~jsou zvyklí je používat. S~přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
+Autokonverze mohou působit poněkud chaoticky, protože datová struktura obsahuje ve skutečnosti něco jiného, než je zapsáno v~konfiguračním souboru. Zkušení uživatelé Flow123d jsou ovšem zvyklí autokonverze používat a jsou pro ně přínosem. S~přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
 
 Aplikace ModelEditor tedy musí podporovat používání autokonverzí a~je nutné je zohlednit při validaci konfiguračních souborů a~určování pozice v~rámci datového stromu, která je dále použita pro funkce kontextové dokumentace nebo automatického doplňování textu. 
 
-Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě dvou doposud používaných (autokonverze na pole a~autokonverze na záznam) nově přibyla i~nová autokonverze nazývaná transpozice, která je zobecněním transpozice na záznam.
+Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě doposud používaných autokonverzí na pole a~na záznam přibyla i~nová autokonverze, která se nazývá transpozice. Transpozice zobecňuje a rozšiřuje současně používanou autokonverzi na pole.
 
 \subsection{Autokonverze na pole}
 
 \lstset{style=short}
 
-%TODO hodnoty na obrazcich - nejsou nesmyslne?
+Autokonverze na pole je konverze, která se použije, pokud se dle specifikace formátu na dané pozici v~datové struktuře očekává pole (typ \textit{Array}) a~místo něj je nalezen libovolný jiný datový typ -- ať už se jedná o~primitivní datový typ nebo o~záznam.
 
+%TODO hodnoty na obrazcich - nejsou nesmyslne?
 \begin{figure}[ht]
 \begin{minipage}[t]{0.45\linewidth}
 \vspace{0pt}
@@ -639,11 +639,10 @@ value: [2.5]
 \label{img:autoconversion_array_1}
 \end{figure}	
 
-Autokonverze na pole je konverze, která se použije, pokud se dle specifikace formátu na dané pozici v~datové struktuře očekává pole (typ \textit{Array}) a~místo něj je nalezen libovolný jiný datový typ -- ať už se jedná o~primitivní datový typ nebo o~záznam.
+%TODO desetinna cisla v textu - uvadet s , nebo .?
+Obrázek~\ref{img:autoconversion_array_1} znázorňuje autokonverzi hodnoty na jednorozměrné pole. V~klíči \texttt{value} v~záznamu \textit{FieldConstant} se očekává jednorozměrné pole, ale místo něj se na dané pozici vyskytla hodnota \texttt{2.5}. Provede se tedy autokonverze na pole a~poté skutečná datová struktura obsahuje jednorozměrné pole o~jednom prvku, kterým je právě tato hodnota.
 
-Obrázek~\ref{img:autoconversion_array_1} znázorňuje autokonverzi hodnoty na jednorozměrné pole. V~klíči value v~záznamu FieldConstant se očekává jednorozměrné pole, ale místo něj se na dané pozici vyskytla hodnota 2,5. Interní datová struktura tedy obsahuje jednorozměrné pole o~jednom prvku, kterým je právě tato hodnota.
-
-Autokonverze na pole funguje obdobně i~pro vícerozměrná pole. Příklad této autokonverze je uveden na obrázku~\ref{img:autoconversion_array_2}. Klíč anisotropy v~záznamu DarcyFlowMH\_Data má být dvourozměrné pole. Místo toho se v~datové struktuře vyskytla hodnota. Ta se zkonvertuje na dvourozměrné pole, jehož jediným prvek je právě tato hodnota.
+Autokonverze na pole funguje obdobně i~pro vícerozměrná pole. Příklad této autokonverze je uveden na obrázku~\ref{img:autoconversion_array_2}. Klíč \texttt{anisotropy} v~záznamu \textit{DarcyFlowMH\_Data} má být dvourozměrné pole. Místo toho se v~datové struktuře vyskytla hodnota. Ta se zkonvertuje na dvourozměrné pole, jehož jediným prvek je právě tato hodnota.
 
 Autokonverze na vícerozměrné pole proběhne i~v~případě, pokud je v~datové struktuře pole o~menší dimenzi, než se očekává. Pokud takový případ nastane, tak se zadané pole zkonvertuje na pole vyšší dimenze obdobně jako to bylo popsáno u~konverzí hodnot na pole.
 
@@ -681,9 +680,9 @@ anisotropy: [[1.5]]
 \subsection{Autokonverze na záznam}
 \label{sec:analyza-autokonverze-zaznam}
 
-Autokonverze na záznam se provádí v~případě, že se v~datové struktuře na dané pozici očekává záznam\footnote{typ Record nebo Abstract, viz dále} a~místo něj se v~datové struktuře nachází pole či primitivní datový typ. Oproti autokonverzi na pole, která proběhne vždy, musí být autokonverze na záznam explicitně povolena ve specifikaci formátu pro daný záznam.
+Autokonverze na záznam se provádí v~případě, že se v~datové struktuře na dané pozici očekává záznam\footnote{Záznam je datový typ, který je odvozený ze základního typu \textit{Record} nebo \textit{Abstract}, viz dále.} a~místo něj se v~datové struktuře nachází pole či primitivní datový typ. Oproti autokonverzi na pole, která proběhne vždy, musí být autokonverze na záznam explicitně povolena ve specifikaci formátu pro daný záznam.
 
-Záznam musí mít ve specifikaci formátu uvedený parametr reducible\_to\_key\footnote{pokud je uveden reducible\_to\_key, obsahuje vždy jeden z~klíčů, který je v~rámci daného záznamu definován}, který udává, do kterého klíče se má nalezená datová struktura vložit. Pokud tento parametr není uveden, tak záznam autokonverzi nepodporuje a~nelze ji provést.
+Záznam musí mít ve specifikaci formátu uvedený parametr \texttt{reducible\_to\_key}, který udává, do kterého klíče se má nalezená datová struktura vložit. Pokud tento parametr není uveden, tak záznam autokonverzi nepodporuje a~nelze ji provést.
 
 \begin{figure}[ht]
 \begin{minipage}[t]{0.45\linewidth}
@@ -718,17 +717,17 @@ balance:
 \label{img:autoconversion_record}
 \end{figure}	
 
-Příklad autokonverze na záznam je znázorněn na obrázku~\ref{img:autoconversion_record}. Záznam Steady\_MH obsahuje klíč balance. V~zapsané datové struktuře je pro tento klíč uvedena hodnota true, tedy datový typ Boolean. Podle specifikace formátu se zde však očekává záznam typu Balance. Jelikož má záznam Balance uvedený klíč reducible\_to\_key, který je nastaven na hodnotu balance\_on, tak dojde k~autokonverzi na záznam. Ve skutečné datové struktuře tedy v~klíči balance je záznam Balance, jehož klíč balance\_on je nastaven na původně uvedenou hodnotu true.
+Příklad autokonverze na záznam je znázorněn na obrázku~\ref{img:autoconversion_record}. Záznam \textit{Steady\_MH} obsahuje klíč \texttt{balance}. V~zapsané datové struktuře je pro tento klíč uvedena hodnota \texttt{true}, tedy datový typ \textit{Boolean}. Ovšem podle specifikace formátu se zde očekává záznam typu \textit{Balance}. Jelikož má datový typ \textit{Balance} uveden klíč \texttt{reducible\_to\_key}, který je nastaven na hodnotu \texttt{balance\_on}, tak dojde k~autokonverzi na záznam. Ve skutečné datové struktuře je tedy v~klíči \texttt{balance} záznam typu \textit{Balance}, jehož klíč \texttt{balance\_on} je nastaven na původně uvedenou hodnotu \texttt{true}.
 
-U~záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel chce však nejčastěji měnit pouze jeden z~nich a~právě tento klíč je ve specifikaci formátu uveden jako reducible\_to\_key. Přínos této autokonverze spočívá v~tom, že uživatel ve většině případů nemusí psát navíc název klíče.
+U~záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel přitom nejčastěji mění právě jeden z těchto klíčů. Tento klíč je pak ve specifikaci formátu uveden jako \texttt{reducible\_to\_key}. Díky autokonverzi na záznam pak uživatel může měnit hodnotu tohoto klíče bez nutnosti psát název tohoto klíče.
 
 %TODO zalomeni klice?
-Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v~datové struktuře abstraktní záznam. Abstraktní záznamy samy o~sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč default\_de\-scend\-ant, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v~kapitole \ref{sec:implementace-autokonverze-zaznam}.
+Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v~datové struktuře abstraktní záznam. Abstraktní záznamy samy o~sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč \texttt{default\_de\-scend\-ant}, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v~kapitole \ref{sec:implementace-autokonverze-zaznam}.
 %TODO ref
 
 \subsection{Transpozice}
 %TODO neni to celkove matouci? je z toho jasne o co se jedna a jak to funguje?
-Transpozice je nově přidaná autokonverze, která umožňuje definovat více záznamů naráz pomocí speciálního zápisu pro jeden záznam. Přínos této konverze je především při definování několika záznamů, které obsahují více klíčů, přičemž některé z~nich zůstávají totožné, zatímco jiné se mění.
+Transpozice je nově přidaná autokonverze, která umožňuje definovat pole záznamů naráz pomocí speciálního zápisu pro jeden záznam. Transpozice může výrazně zkrátit zápis pole záznamů obzvlášť v~případech, kdy záznamy obsahují více klíčů a~mění se pouze hodnoty některých klíčů, zatímco hodnoty ostatních klíčů zůstávají totožné.
 
 
 \begin{figure}[ht]
@@ -771,12 +770,12 @@ input_fields:
 
 Transpozice je speciálním případem autokonverze na pole. Provádí se v~případě, kdy se v~datové struktuře očekává pole záznamů, ale místo něj je nalezen pouze jeden záznam. Pokud nastane tato situace, proběhnou další kontroly, zda je možné transpozici provést (viz kapitola~\ref{sec:implementace-autokonverze-transpozice}), a~pokud je to možné, tak se zapsaná datová struktura převede následujícím způsobem.
 
-Nejprve se vytvoří pole záznamů, které se očekávalo podle specifikace formátu, Dále se provede expanze polí, kdy se pro každou hodnotu v~poli původního zapsaného záznamu vytvoří samostatný záznam, který se uloží do nově vytvořeného pole záznamů. Během této expanze se do nově vytvořených záznamů vkládají konkrétní hodnoty místo původních polí hodnot. Pokud v~daném klíči v~původním záznamu nebylo pole, ale hodnota či jiný záznam, tak se tato hodnota zkopíruje.
+Nejprve se vytvoří pole záznamů, které se očekávalo podle specifikace formátu. Dále se provede expanze polí, kdy se pro každou hodnotu v~poli původně zapsaného záznamu vytvoří samostatný záznam, který se uloží do nově vytvořeného pole záznamů. Během této expanze se do nově vytvořených záznamů vkládají kon\-krétní hodnoty místo původních polí hodnot. Pokud v~daném klíči v~původním záznamu nebylo pole, ale hodnota či jiný záznam, tak se tato hodnota zkopíruje.
 
 %TODO desetinne hodnoty - v obrazku . ale v textu , - jak sjednotit?
-Nejjednodušší případ této konverze je znázorněn na obrázku~\ref{img:autoconversion_transposition}. Zde se pomocí transpozice definuje pole záznamů input\_fields. Každý z~těchto záznamů má uveden klíč region a~time. Zapsaná datová struktura se transponuje tak, že místo pole time, které obsahuje hodnoty 0,5 a~1,0 se vytvoří dva záznamy. Každý z~těchto záznamů bude mít klíč time, přičemž první záznam bude mít hodnotu time 0,5, zatímco druhý záznam bude mít hodnotu time nastavenou na 1,0. Klíč region bude v~obou záznamech totožný.
+Nejjednodušší případ této konverze je znázorněn na obrázku~\ref{img:autoconversion_transposition}. Zde se pomocí transpozice definuje pole \texttt{input\_fields}, které obsahuje záznamy typu \textit{Steady\_MH}. Tento záznam obsahuje klíče \texttt{region} a~\texttt{time}. Zapsaná datová struktura se transponuje tak, že se místo jediného uvedeného záznamu vytvoří pole záznamů o dvou prvcích, protože pole \texttt{time} obsahuje dvě hodnoty. Každý z~těchto záznamů bude mít klíč \texttt{time} i \texttt{region}. U~prvního záznamu bude klíč \texttt{time} nastaven na hodnotu~\texttt{0.5}, zatímco u~druhého záznamu bude mít klíč \texttt{time} hodnotu~\texttt{1.0}. Klíč \texttt{region} bude v~obou záznamech nastaven na totožnou hodnotu \texttt{Region1}.
 
-Pokud zapsaný záznam obsahuje více polí, tak jejich expanze probíhá souběžně. První záznam bude tedy obsahovat vždy první prvky z~polí, druhý záznam druhé prvky z~polí atd. Vhodně použitá transpozice může výrazně zkrátit zápis, viz obrázek~\ref{}. Na obrázku je zároveň znázorněna expanze více polí naráz.
+Pokud zapsaný záznam obsahuje více polí, tak jejich expanze probíhá souběžně. První záznam bude tedy obsahovat vždy první prvky z~polí, druhý záznam druhé prvky z~polí atd. To je znázorněno na obrázku~\ref{img:transposition_code_example}. Dále si lze všimnout, že vhodně použitá transpozice může výrazně zkrátit zápis.
 
 \lstset{style=code}
 
@@ -860,6 +859,8 @@ Ve formátu YAML existují takzvané tagy, které slouží pro určení datovéh
 % popsat REF, nahrazeni &, *
 
 \section{Autokonverze}
+
+% vyvojovy diagram - jak se provadi autokonverze - implementace?
 
 \section{Validace}
 
