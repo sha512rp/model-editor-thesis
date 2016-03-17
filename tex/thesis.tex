@@ -14,6 +14,7 @@
 \usepackage{longtable}
 \usepackage[nonumberlist,acronym]{glossaries}
 \usepackage{enumitem}
+\usepackage[toc]{appendix}
 
 % no vertical spcaing between items in list
 \setlist{nosep}
@@ -223,7 +224,7 @@ Textová reprezentace konfiguračních souborů s~sebou kromě čitelnosti přin
 
 \subsection{Datová struktura}
 \label{sec:datova-sturktura}
-Použití textového formátu konfiguračních souborů s~sebou však přináší otázku, jakým způsobem tato data v~textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou datovou strukturu. Tato datová struktura se skládá z objektů, které mají různé atributy. Každý atribut má název (dále označován jako klíč), datový typ a~hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje datový typ. Potom je tedy dostačující ukládat dvojici klíč a~hodnota.
+Použití textového formátu konfiguračních souborů s~sebou však přináší otázku, jakým způsobem tato data v~textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou datovou strukturu. Tato datová struktura se skládá z~objektů, které mají různé atributy. Každý atribut má název (dále označován jako klíč), datový typ a~hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje datový typ. Potom je tedy dostačující ukládat dvojici klíč a~hodnota.
 
 Existují i~situace, kdy z~názvu atributu nelze jednoznačně určit jeho datový typ. To je způsobené použitím polymorfismu. Z~klíče lze tedy odvodit pouze jakého datového typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný datový typ explicitně uvést. Tyto situace jsou prozatím zanedbány a~jsou popsány samostatně v~kapitole~\ref{sec:navrh-yaml-abstrakni-zaznamy}.
 
@@ -322,7 +323,7 @@ Použití \gls{XML} Schema by velice usnadnilo validaci datové struktury a~nav�
 
 Jedná se o~speciální zápis, který lze použít v~datové struktuře při zapisování polí nebo záznamů. V~těchto speciálních případech lze místo pole či záznamu zapsat přímo hodnotu. To znemožňuje běžnou validaci pomocí XML Schema a~bylo by nutné validaci \gls{XML} upravit tak, aby byla schopná brát ohled na autokonverze. To znamená, že by bohužel nebylo možné použít univerzální nástroje pro validaci \gls{XML}.
 
-Nevýhodou formátu \gls{XML} je jeho \uv{vý\-řeč\-nost}. Té si lze na první pohled všimnout na obrázku~\ref{img:conf_files}. Formát \gls{XML} vyžaduje z~uvedených možností pro zápis stejných dat nejvíce znaků. Hlavní nevýhodu v~použití formátu \gls{XML} pro zápis konfiguračních souborů ovšem viděli vývojáři Flow123d jinde. Dle jejich názoru by odlišnost v zápisu formátu \gls{XML} od formátu \gls{CON} byla pro uživatele Flow123d příliš velkou změnou.
+Nevýhodou formátu \gls{XML} je jeho \uv{vý\-řeč\-nost}. Té si lze na první pohled všimnout na obrázku~\ref{img:conf_files}. Formát \gls{XML} vyžaduje z~uvedených možností pro zápis stejných dat nejvíce znaků. Hlavní nevýhodu v~použití formátu \gls{XML} pro zápis konfiguračních souborů ovšem viděli vývojáři Flow123d jinde. Dle jejich názoru by odlišnost v~zápisu formátu \gls{XML} od formátu \gls{CON} byla pro uživatele Flow123d příliš velkou změnou.
 
 \subsection{Formát YAML}
 \label{sec:problematika-format-yaml}
@@ -335,7 +336,7 @@ Jelikož se pro zápis vnořených dat používá odsazení, není nadále nutn�
 
 Všechna tato vylepšení vedou k~tomu, že soubory zapsané ve formátu \gls{YAML} jsou velice dobře čitelné a~jednoduché pro zápis. Navíc se formát \gls{YAML} od původního formátu \gls{CON} neliší natolik, jako formát \gls{XML}. To vedlo k~rozhodnutí, že ve verzi Flow123d~2.0 bude použit jazyk \gls{YAML} pro zápis konfiguračních souborů.
 
-Vytvářená aplikace tedy bude pracovat s~konfiguračními soubory napsanými ve formátu \gls{YAML}. Aplikace bude zároveň podporovat i import dříve používaného formátu \gls{CON} a jeho převod do formátu \gls{YAML}.\footnote{Import formátu CON je nad rámec této diplomové práce a~v~rámci projektu ho řešil Ing. Pavel Richter.} Podpora exportu do formátu \gls{CON} se neplánuje.
+Vytvářená aplikace tedy bude pracovat s~konfiguračními soubory napsanými ve formátu \gls{YAML}. Aplikace bude zároveň podporovat i~import dříve používaného formátu \gls{CON} a~jeho převod do formátu \gls{YAML}.\footnote{Import formátu CON je nad rámec této diplomové práce a~v~rámci projektu ho řešil Ing. Pavel Richter.} Podpora exportu do formátu \gls{CON} se neplánuje.
 
 
 \chapter{Analýza}
@@ -357,7 +358,7 @@ Mezi cíle formátu \gls{YAML} patří mimo jiné jednoduchá čitelnost a~přen
 
 \subsection{Proces zpracování souboru}
 
-Jelikož je formát \gls{YAML} navržen tak, aby k~jeho přečtení a~reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné data zpracovávat proudově a~generovat seznam událostí, nebo lze přečíst celý soubor a vytvořit z~něj datovou reprezentaci.
+Jelikož je formát \gls{YAML} navržen tak, aby k~jeho přečtení a~reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné data zpracovávat proudově a~generovat seznam událostí, nebo lze přečíst celý soubor a~vytvořit z~něj datovou reprezentaci.
 
 Oficiální dokumentace formátu \gls{YAML}~\cite{bib:yaml} popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu \gls{YAML}.
 
@@ -567,10 +568,11 @@ Parametr \texttt{default} se skládá z~dvojice parametrů \texttt{type} a~\text
 Z~pohledu aplikace ModelEditor je podstatná pouze hodnota \textit{obligatory}, která udává, že klíč musí být v~konfiguračním souboru uveden. Ostatní typy klíčů nemusí být v~konfiguračním souboru explicitně uvedeny. Pokud se však objeví, provede se jejich validace jako stejně jako u~ostatních klíčů.
 
 \subsection{Abstraktní záznamy}
+\label{sec:analyza-specifikace-formatu-abstraktni-zaznamy}
 
 Posledním speciálním typem, který se používá ve struktuře konfiguračních souborů je abstraktní záznam. Jedná se o~všechny typy, které jsou odvozené ze základního typu označovaného jako \textit{Abstract}. Abstraktní záznamy slouží jako zástupný typ, který se ve specifikaci formátu datové struktury objevuje na místech, kde se mohou vyskytovat různé typy (ovšem ne zcela libovolné).
 
-Jeden z~příkladů využití je při výběru typu řešené rovnice. Existuje několik typů rovnic, které je možné řešit. Jednotlivé rovnice se však liší a~tím pádem i~vyžadují jiná data a~mají odlišnou datovou strukturu. V~konfiguračním souboru se na místě, kde se očekává nějaká rovnice, uvede abstraktní datový typ. Jednotlivé rovnice jsou potom reprezentovány konkrétními datovými typy, u kterých je uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
+Jeden z~příkladů využití je při výběru typu řešené rovnice. Existuje několik typů rovnic, které je možné řešit. Jednotlivé rovnice se však liší a~tím pádem i~vyžadují jiná data a~mají odlišnou datovou strukturu. V~konfiguračním souboru se na místě, kde se očekává nějaká rovnice, uvede abstraktní datový typ. Jednotlivé rovnice jsou potom reprezentovány konkrétními datovými typy, u~kterých je uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
 %TODO je to takhle receno spravne z pohledu uzivatele flow?
 
 Použitá terminologie se rozchází s~programátorskou terminologií, kde by se tento abstraktní záznam označil spíše jako rozhraní. Abstraktní záznamy totiž nemohou mít definované žádné klíče -- tím pádem se nepoužívají pro dědičnost. Navíc jeden konkrétní typ může implementovat více abstraktních typů, což je z~pohledu objektového programování typické spíše pro rozhraní. Pro zachování jednotné terminologie se specifikací formátu Flow123d a~její dokumentací bude ale nadále tento typ označován jako abstraktní záznam.
@@ -592,15 +594,15 @@ V~konfiguračních souborech pro Flow123d se používají speciální zápisy z�
 
 Pomocí autokonverzí lze například vynechat definici typu a~klíče a~místo toho zapsat pouze hodnotu. Zápis se tím výrazně zkrátí, ale zároveň to způsobí značné komplikace z~pohledu validace konfiguračního souboru nebo určení přesné polohy v~rámci datové struktury. Situace se dále zkomplikuje tím, že je možné použít vnořené autokonverze -- tedy provést autokonverzi v~rámci jiné autokonverze.
 
-Logika autokonverzí je zhruba následující. Pokud datový typ neodpovídá o\-če\-ká\-va\-né\-mu datovému typu dle specifikace formátu, zkusí se provést některá z~autokonverzí, pokud je na tomto místě použitelná. V~případě, že po autokonverzi již datový typ odpovídá očekávanému datovému typu, tak se datová struktura dále prochází do hloubky, kde může dojít k případným dalším autokonverzím.
+Logika autokonverzí je zhruba následující. Pokud datový typ neodpovídá o\-če\-ká\-va\-né\-mu datovému typu dle specifikace formátu, zkusí se provést některá z~autokonverzí, pokud je na tomto místě použitelná. V~případě, že po autokonverzi již datový typ odpovídá očekávanému datovému typu, tak se datová struktura dále prochází do hloubky, kde může dojít k~případným dalším autokonverzím.
 
 Autokonverze jsou hlavní důvodem, proč není možné použít \gls{XML} Schema a~souborový formát \gls{XML} pro validaci konfiguračních souborů. Kvůli autokonverzím by nebylo možné pouze triviálně použít nástroj pro validaci \gls{XML} schématu k~validaci konfiguračního souboru.
 
-Autokonverze mohou působit poněkud chaoticky, protože datová struktura obsahuje ve skutečnosti něco jiného, než je zapsáno v~konfiguračním souboru. Zkušení uživatelé Flow123d jsou ovšem zvyklí autokonverze používat a jsou pro ně přínosem. S~přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
+Autokonverze mohou působit poněkud chaoticky, protože datová struktura obsahuje ve skutečnosti něco jiného, než je zapsáno v~konfiguračním souboru. Zkušení uživatelé Flow123d jsou ovšem zvyklí autokonverze používat a~jsou pro ně přínosem. S~přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
 
 Aplikace ModelEditor tedy musí podporovat používání autokonverzí a~je nutné je zohlednit při validaci konfiguračních souborů a~určování pozice v~rámci datového stromu, která je dále použita pro funkce kontextové dokumentace nebo automatického doplňování textu. 
 
-Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě doposud používaných autokonverzí na pole a~na záznam přibyla i~nová autokonverze, která se nazývá transpozice. Transpozice zobecňuje a rozšiřuje současně používanou autokonverzi na pole.
+Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě doposud používaných autokonverzí na pole a~na záznam přibyla i~nová autokonverze, která se nazývá transpozice. Transpozice zobecňuje a~rozšiřuje současně používanou autokonverzi na pole.
 
 \subsection{Autokonverze na pole}
 
@@ -719,7 +721,7 @@ balance:
 
 Příklad autokonverze na záznam je znázorněn na obrázku~\ref{img:autoconversion_record}. Záznam \textit{Steady\_MH} obsahuje klíč \texttt{balance}. V~zapsané datové struktuře je pro tento klíč uvedena hodnota \texttt{true}, tedy datový typ \textit{Boolean}. Ovšem podle specifikace formátu se zde očekává záznam typu \textit{Balance}. Jelikož má datový typ \textit{Balance} uveden klíč \texttt{reducible\_to\_key}, který je nastaven na hodnotu \texttt{balance\_on}, tak dojde k~autokonverzi na záznam. Ve skutečné datové struktuře je tedy v~klíči \texttt{balance} záznam typu \textit{Balance}, jehož klíč \texttt{balance\_on} je nastaven na původně uvedenou hodnotu \texttt{true}.
 
-U~záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel přitom nejčastěji mění právě jeden z těchto klíčů. Tento klíč je pak ve specifikaci formátu uveden jako \texttt{reducible\_to\_key}. Díky autokonverzi na záznam pak uživatel může měnit hodnotu tohoto klíče bez nutnosti psát název tohoto klíče.
+U~záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel přitom nejčastěji mění právě jeden z~těchto klíčů. Tento klíč je pak ve specifikaci formátu uveden jako \texttt{reducible\_to\_key}. Díky autokonverzi na záznam pak uživatel může měnit hodnotu tohoto klíče bez nutnosti psát název tohoto klíče.
 
 %TODO zalomeni klice?
 Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v~datové struktuře abstraktní záznam. Abstraktní záznamy samy o~sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč \texttt{default\_de\-scend\-ant}, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v~kapitole \ref{sec:implementace-autokonverze-zaznam}.
@@ -773,8 +775,8 @@ Transpozice je speciálním případem autokonverze na pole. Provádí se v~př�
 Nejprve se vytvoří pole záznamů, které se očekávalo podle specifikace formátu. Dále se provede expanze polí, kdy se pro každou hodnotu v~poli původně zapsaného záznamu vytvoří samostatný záznam, který se uloží do nově vytvořeného pole záznamů. Během této expanze se do nově vytvořených záznamů vkládají kon\-krétní hodnoty místo původních polí hodnot. Pokud v~daném klíči v~původním záznamu nebylo pole, ale hodnota či jiný záznam, tak se tato hodnota zkopíruje.
 
 %TODO desetinne hodnoty - v obrazku . ale v textu , - jak sjednotit?
-Nejjednodušší případ této konverze je znázorněn na obrázku~\ref{img:autoconversion_transposition}. Zde se pomocí transpozice definuje pole \texttt{input\_fields}, které obsahuje záznamy typu \textit{Steady\_MH}. Tento záznam obsahuje klíče \texttt{region} a~\texttt{time}. Zapsaná datová struktura se transponuje tak, že se místo jediného uvedeného záznamu vytvoří pole záznamů o dvou prvcích, protože pole \texttt{time} obsahuje dvě hodnoty. Každý z~těchto záznamů bude mít klíč \texttt{time} i \texttt{region}. U~prvního záznamu bude klíč \texttt{time} nastaven na hodnotu~\texttt{0.5}, zatímco u~druhého záznamu bude mít klíč \texttt{time} hodnotu~\texttt{1.0}. Klíč \texttt{region} bude v~obou záznamech nastaven na totožnou hodnotu \texttt{Region1}.
-
+Nejjednodušší případ této konverze je znázorněn na obrázku~\ref{img:autoconversion_transposition}. Zde se pomocí transpozice definuje pole \texttt{input\_fields}, které obsahuje záznamy typu \textit{Steady\_MH}. Tento záznam obsahuje klíče \texttt{region} a~\texttt{time}. Zapsaná datová struktura se transponuje tak, že se místo jediného uvedeného záznamu vytvoří pole záznamů o~dvou prvcích, protože pole \texttt{time} obsahuje dvě hodnoty. Každý z~těchto záznamů bude mít klíč \texttt{time} i~\texttt{region}. U~prvního záznamu bude klíč \texttt{time} nastaven na hodnotu~\texttt{0.5}, zatímco u~druhého záznamu bude mít klíč \texttt{time} hodnotu~\texttt{1.0}. Klíč \texttt{region} bude v~obou záznamech nastaven na totožnou hodnotu \texttt{Region1}.
+bo
 Pokud zapsaný záznam obsahuje více polí, tak jejich expanze probíhá souběžně. První záznam bude tedy obsahovat vždy první prvky z~polí, druhý záznam druhé prvky z~polí atd. To je znázorněno na obrázku~\ref{img:transposition_code_example}. Dále si lze všimnout, že vhodně použitá transpozice může výrazně zkrátit zápis.
 
 \lstset{style=code}
@@ -826,22 +828,24 @@ input_fields:
 
 \section{Použití syntaxe YAML}
 
-V~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} byla uvedena základní syntaxe formátu YAML, která se používá pro zápis skalárních hodnot, sekvencí a~map. V~této kapitole je dále upřesněno použití syntaxe YAML pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu CON. 
+V~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} byla uvedena základní syntaxe formátu \gls{YAML}, která se používá pro zápis skalárních hodnot, sekvencí a~map. V~této kapitole je dále upřesněno použití syntaxe \gls{YAML} pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu \gls{CON}.
 %TODO v kapitole X ... v teto kapitole -- o kterou kapitolu se jedna? preformulovat
 
-Formát CON měl vyhrazené dva speciální klíče -- \texttt{TYPE} a~\texttt{REF}. První z~nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v~datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
+Formát \gls{CON} měl vyhrazené dva speciální klíče -- \texttt{TYPE} a~\texttt{REF}. První z~nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v~datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
 
 \subsection{Základní použití syntaxe}
 
-% skalary -> primitivni dat, hodnoty
-% sekvence -> pole
-% mapy -> zaznamy
+Pro reprezentace primitivních datových typů, polí a~záznamů v~konfiguračních souborech lze jednoduše využít výše popsanou syntaxi formátu \gls{YAML}. Primitivní datové typy lze zapsat s~využitím syntaxe pro skalární hodnoty, pole je možné reprezentovat pomocí syntaxe pro sekvence a~záznamy lze zapsat pomocí syntaxe pro mapy.
+
+Pro reprezentaci polí se doporučuje použít syntaxe pro blokový zápis, kromě případů, kdy je zjednodušený zápis výrazně kratší bez újmy na čitelnosti (např. zápis pole celočíselných hodnot). Pro reprezentaci záznamů se doporučuje používat výhradně syntaxe pro blokový zápis. Zjednodušený zápis záznamů působí chaoticky a~editor nemusí podporovat některé funkce při používání tohoto zápisu.
+
+Formát \gls{YAML} nepředepisuje, jaké by mělo být odsazení při vnořování blokových zápisů, ale pouze vyžaduje, aby bylo v~rámci daného bloku stejné. V~rámci konfiguračních souborů Flow123d se ale doporučuje používat odsazení pomocí dvou mezer, aby byl styl použitý pro zápis konfiguračních souborů jednotný. Editor je optimalizován na použití odsazení pomocí dvou mezer a~znaky tabulátor automaticky převádí na toto odsazení.
 
 \subsection{Abstraktní záznamy}
 \label{sec:navrh-yaml-abstrakni-zaznamy}
-Abstraktní záznamy jsou datovým typem, který definuje specifikace formátu. Tyto záznamy mohou mít více různých implementací. V~konfiguračním souboru, kde se podle specifikace formátu očekává abstraktní záznam, musí být uvedena konkrétní implementace. Implementace abstraktního záznamu je záznam, který má v~jeho specifikaci uvedeno, že implementuje daný abstraktní záznam. To bylo popsáno v~kapitole~\ref{sec:analyza-specifikace-formatu-datove-typy}.
+Abstraktní záznamy jsou datovým typem, který definuje specifikace formátu. Tyto záznamy mohou mít více různých implementací. V~konfiguračním souboru, kde se podle specifikace formátu očekává abstraktní záznam, musí být uvedena konkrétní implementace. Implementace abstraktního záznamu je záznam, který má v~jeho specifikaci uvedeno, že implementuje daný abstraktní záznam. To bylo popsáno v~kapitole~\ref{sec:analyza-specifikace-formatu-abstraktni-zaznamy}.
 
-Příkladem je třeba klíč primary\_equation v~datovém typu SequentialCoupling. Typ klíče primary\_equation je DarcyFlow, což je abstraktní záznam. V~současné verzi Flow123d existují tři implementace -- Steady\_MH, Unsteady\_MH a~Unsteady\_LMH. To znázorňuje obrázek~\ref{}.
+Příkladem je třeba klíč \texttt{primary\_equation} v~datovém typu \textit{SequentialCoupling}. Typ klíče \texttt{primary\_equation} je \textit{DarcyFlow}, což je abstraktní záznam. V~současné verzi Flow123d existují tři implementace tohoto záznamu -- \textit{Steady\_MH}, \textit{Unsteady\_MH} a~\textit{Unsteady\_LMH}. To znázorňuje obrázek~\ref{img:abstract_record_darcyflow}.
 
 \begin{figure}[h]
 	\centering
@@ -850,13 +854,46 @@ Příkladem je třeba klíč primary\_equation v~datovém typu SequentialCouplin
 	\label{img:abstract_record_darcyflow}
 \end{figure}
 
-V~konfiguračním souboru je nutné nějakým způsobem určit, jaká implementace byla zvolena. Formát CON toto řešil pomocí speciálního klíče \texttt{TYPE}. Tento klíč obsahoval výběrový typ, který mohl nabývat hodnot, které odpovídaly názvům jednotlivých implementací. Nevýhodou tohoto řešení bylo, že klíč TYPE ve skutečnosti nebyl součástí záznamu, ale pouze určoval jeho typ.
+V~konfiguračním souboru je nutné nějakým způsobem určit, jaká implementace byla zvolena. Formát \gls{CON} toto řešil pomocí speciálního klíče \texttt{TYPE}. Tento klíč obsahoval výběrový typ, který mohl nabývat hodnot, které odpovídaly názvům jednotlivých implementací. Nevýhoda tohoto řešení byla, že klíč \texttt{TYPE} byl uveden v~záznamu jako běžný klíč i~přes to, že pouze určoval datový typ záznamu a~měl jiný význam než ostatní klíče. Ukázka výběru konkrétní implementace ve formátu CON je na obrázku~\ref{img:abstract-record-con} na straně~\pageref{img:abstract-record-con}.
 
-Ve formátu YAML existují takzvané tagy, které slouží pro určení datového typu. 
+Ve formátu \gls{YAML} existují takzvané tagy, které slouží pro určení datového typu. Jsou definovány některé základní tagy, které se používají pro odlišení typů, které jsou univerzální pro všechny \gls{YAML} dokumenty. Tyto předdefinované tagy byly popsány v~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} a~jejich kompletní popis lze nalézt v~dokumentaci formátu YAML~\cite{bib:yaml}. Všechny předdefinované tagy začínají \texttt{!!} (dvěma vykřičníky).
+
+Lze ovšem využít i~uživatelsky definované tagy. Ty začínají pouze jedním znakem~\texttt{!}~(vykřičník) a~poté jsou následovány uživatelsky definovaným názvem. Zpracování těchto tagů je potom aplikačně specifické a~řeší se v~rámci procesu načtení \gls{YAML} dokumentu. Použití uživatelsky definovaného tagu může vypadat následovně.
+
+\lstset{style=short}
+\vspace{5pt}
+\begin{lstlisting}
+solver: !Petsc
+  a_tol: 1e-12
+  r_tol: 1e-12
+\end{lstlisting}
+\vspace{-20pt}
+
+Uživatelsky definované tagy jsou ideální pro výběr konkrétní implementace abstraktního záznamu. Jejich zápis je jednoznačně odlišuje od ostatních dat v~záznamu a~nejsou potom součástí samotných dat záznamu. Na obrázcích~\ref{img:abstract-record-con} a~\ref{img:abstract-record-yaml} na straně~\pageref{img:abstract-record-con} lze porovnat způsob výběru implementace abstraktního záznamu ve formátech \gls{CON} a \gls{YAML}.
 
 
 \subsection{Reference}
-% popsat REF, nahrazeni &, *
+
+Ve formátu CON bylo možné se pomocí referencí odkázat na libovolnou část datové struktury. Tento odkaz byl pak při zpracování nahrazen daty, na které se odkazoval. Dalo se tak předejít duplicitě dat. Pokud některá data byla totožná s daty v jiné části datové struktury, stačilo použít referenci.
+
+Reference se ve formátu CON používala tak, že se do speciálního klíče REF uvedla libovolná cesta do jiné části datové struktury. Ta mohla být buď absolutní nebo relativní a mohla být v libovolné části konfiguračního souboru. Ukázka použití reference ve formátu CON je na obrázku \ref{img:reference-con} na straně \pageref{img:reference-con}.
+
+Formát YAML poskytuje podobnou funkčnost v podobě kotev a aliasů. V libovolné části souboru je možné definovat tzv. kotvu, na kterou je pak možné se odkázat ve zbývající části souboru pomocí aliasu. Kotva začíná znakem \texttt{\&} (ampersand) a za ním následuje její název, který si uživatel může zvolit. Alias začíná znakem \texttt{*} (hvězdička) a za ní je bezprostředně uveden název již existující kotvy. Definice kotvy a použití aliasu může vypadat například následovně.
+
+\vspace{5pt}
+\begin{lstlisting}
+primary_equation: !Unsteady_LMH
+  time: &time
+    end_time: 0.5
+    max_dt: 0.01
+    min_dt: 0.01
+time: *time
+\end{lstlisting}
+\vspace{-20pt}
+
+Použití kotev a aliasů bylo navrženo ve formátu YAML za stejným účelem jako reference ve formátu CON -- ke zrychlení zápisu duplicitních dat.
+
+
 
 \section{Autokonverze}
 
@@ -970,6 +1007,80 @@ BEN-KIKI, Oren et al. \textit{YAML Ain’t Markup Language (YAML™) Version 1.2
 
 
 \end{thebibliography}
+
+\appendix
+\counterwithin{figure}{chapter}
+
+\chapter{Ukázky kódů konfiguračních souborů}
+
+\lstset{style=code}
+
+\begin{figure}[h]
+\begin{lstlisting}
+{
+  solver = {
+    TYPE = "Petsc",
+    a_tol = 1e-12,
+    r_tol = 1e-12
+  }
+}
+\end{lstlisting}
+\vspace*{-20pt}
+\caption{Výběr implementace abstraktního záznamu ve formátu CON}
+\label{img:abstract-record-con}
+\end{figure}
+
+\begin{figure}[h]
+\begin{lstlisting}
+solver: !petsc
+  a_tol: 1e-12
+  r_tol: 1e-12
+\end{lstlisting}
+\vspace*{-20pt}
+\caption{Výběr implementace abstraktního záznamu ve formátu YAML}
+\label{img:abstract-record-yaml}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+\begin{lstlisting}
+{
+  primary_equation = {
+    TYPE = "Unsteady_LMH",
+    ...
+    time = {
+      end_time = 0.5, 
+      max_dt = 0.01,
+      min_dt = 0.01
+    }
+  },
+  
+  time = {
+    REF = "../primary_equation/time"
+  }
+}
+\end{lstlisting}
+\vspace*{-20pt}
+\caption{Použití reference ve formátu CON}
+\label{img:reference-con}
+\end{figure}
+
+\begin{figure}[h]
+\begin{lstlisting}
+primary_equation: !Unsteady_LMH
+  ...
+  time: &time
+    end_time: 0.5
+    max_dt: 0.01
+    min_dt: 0.01
+
+time: *time
+\end{lstlisting}
+\vspace*{-20pt}
+\caption{Použití reference ve formátu YAML}
+\label{img:reference-yaml}
+\end{figure}
 
 
 \end{document}
