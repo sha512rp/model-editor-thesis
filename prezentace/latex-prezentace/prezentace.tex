@@ -1,0 +1,216 @@
+% Pøíklad použití šablony FM TUL 
+% vytvoøil Jan Koprnický
+% upraveno 14. 1. 2015
+
+% Nastavení šablony
+\input{settings_FM_template.tex}
+
+\title{Název prezentace}
+% 
+\subtitle{Podnázev prezentace}
+%
+\author{Autor prezentace}
+% 
+\date{\today} %14.\,1.\,2015} % pøedefinování data
+% Textový obsah pod linkou na titulní stranì
+\newcommand{\TextTitulniStranaPodLinkou}{\tiny
+Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} 
+tel.: +420 485 353 290 {\color{FM_TUL} |} {jmeno.prijmeni@tul.cz} {\color{FM_TUL} |} 
+\href{http://www.fm.tul.cz/}{www.fm.tul.cz}}
+%===============================================================================
+%===============================================================================
+\begin{document} 
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+%===============================================================================
+%===============================================================================
+\section*{Obsah}
+\begin{frame}
+  \frametitle{Obsah prezentace} 
+  \tableofcontents[sectionstyle=show,subsectionstyle=show/shaded]  
+\end{frame}
+%===============================================================================
+\section{Výètová prostøedí}
+
+\begin{frame}
+  \frametitle{Slide s výètovým prostøedím}
+  \framesubtitle{Podnázev} 
+  \begin{itemize}
+    \item První položka
+    \item Druhá
+    \item Tøetí
+  \end{itemize}
+  \begin{enumerate}
+    \item První položka
+    \item Druhá
+    \item Tøetí
+  \end{enumerate}
+\end{frame}  
+%===============================================================================
+\begin{frame}
+  \frametitle{Dva sloupce s výèty} 
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \begin{itemize}
+        \item První položka
+        \item Druhá
+        \item Tøetí
+      \end{itemize} 
+    \end{column}
+    \begin{column}{6cm}
+      \begin{enumerate}
+        \item První položka
+        \item Druhá
+        \item Tøetí
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+\end{frame}
+%===============================================================================
+\section{Bloky}
+
+\begin{frame}
+  \frametitle{Pøíklad blokù} 
+  \begin{block}{Blok}
+    Text.
+  \end{block}
+  \begin{exampleblock}{Example -- pøíklad}
+    Text.
+  \end{exampleblock}
+  \begin{alertblock}{Alert -- upozornìní}
+    Text.
+  \end{alertblock}
+\end{frame}
+%===============================================================================
+\section{Obrázky ve sloupcích}
+
+\begin{frame}
+  \frametitle{Vložení obrázkù ve sloupcích}
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \includegraphics[width=5cm]{obr/logo-fm-cmyk-cz.pdf}           
+    \end{column}
+    \begin{column}{6cm}
+      \includegraphics[width=5cm,angle=45]{obr/logo-fm-cmyk-en.pdf}
+    \end{column}
+  \end{columns}   
+\end{frame}
+%===============================================================================
+\section{Matematika}
+
+\begin{frame}
+  \frametitle{Matematika} 
+  $$ 
+  u(t) = \frac{x^2 + y_1^3}{\sqrt{y_2}}
+  $$
+%   $$
+%   f(n) = \left\{ 
+%    \begin{array}{l l}
+%      n/2 & \quad \text{if $n$ is \dots}\\
+%      -(n+1)/2 & \quad \text{if $n$ is odd}\\
+%    \end{array} \right.  
+%   $$
+  $$ 
+   {\frac {{\text d}}{{\text d}x}}\arctan(\sin({x}^{2}))=-2\,{\frac {\cos({x}^{2})x}{-2+
+   \left (\cos({x}^{2})\right )^{2}}}
+  $$
+  \begin{block}{Francisova rovnice}$$
+  \left.
+  \begin{array}{cll}
+        \cfrac{{\text d}n}{{\text d}t}& = & \alpha iv - \beta n\\[12pt]
+        \cfrac{v}{i}  & = & \cfrac{ F}{ n}
+  \end{array}\right\}
+  %\label{eqFrancis}
+  $$
+    
+  \end{block}
+
+\end{frame}
+%===============================================================================
+\section{Hyperaktivní odkazy}
+
+\begin{frame}
+  \frametitle{Hyperaktivní odkaz}
+  \begin{columns}[t]
+    \begin{column}{6cm}
+     \small 
+      \url{http://www.tul.cz}
+      \url{http://www.fm.tul.cz}
+      \begin{center}        
+        \includegraphics[width=2cm]{obr/FMTUL_QR_code.pdf}
+      \end{center}
+            
+    \end{column}
+    \begin{column}{6cm}
+      \begin{center}
+        \href{http://www.youtube.com/watch?feature=player_embedded&v=P1bbmkCItoA}{\beamerbutton{Video o TUL na YouTube}}
+        
+        \vspace{12pt}      
+        
+        \href{http://www.fm.tul.cz}{\includegraphics[width=4.5cm]{obr/logo-fm-cmyk-cz.pdf}}
+        
+        \vspace{12pt}
+        
+        \href{http://www.fm.tul.cz/en}{\includegraphics[width=4.5cm]{obr/logo-fm-cmyk-en.pdf}}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+%===============================================================================
+\section{Fotografie}
+
+\begin{frame}
+  \frametitle{Fotografie} 
+  \includegraphics[height=4cm]{obr/cajos_m.JPG} ~~ %\caption{Inteligentní tabule}~
+  \includegraphics[height=4cm]{obr/saldovo_nam_zlr.jpg} %\caption{Øízení dopravy}
+\end{frame}
+%===============================================================================
+\begin{frame}
+  \frametitle{Obrázek s popiskem}
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \begin{figure}[!ht]
+        \begin{center}
+          \includegraphics[angle=0,width=0.2\textwidth]{obr/FMTUL_QR_code.pdf}
+          \caption{QR kód FM} 
+        \end{center}
+      \end{figure}  
+    \end{column}
+    \begin{column}{6cm}
+         \begin{center}
+          QR kód FM
+          
+          \includegraphics[angle=0,width=0.2\textwidth]{obr/FMTUL_QR_code.pdf}           
+         \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+%===============================================================================
+\section{Literatura}
+
+\begin{frame}
+  \frametitle{Použitá literatura} 
+  \begin{thebibliography}{99}
+    \bibitem{CSNISO690} ÈSN ISO 690. \emph{Informace a dokumentace -- Pravidla pro bibliografické odkazy a citace informaèních 
+    zdrojù.} Praha: Úøad pro technickou normalizaci, metrologii a státní zkušebnictví, 2011. 
+    \setbeamertemplate{bibliography item}[book]    
+    \bibitem{Ryb2011} RYBIÈKA, J., P. ÈAÈKOVÁ a J. PØICHYSTAL. \emph{Prùvodce tvorbou dokumentù.} Buèovice: Nakladatelství Martin Støíž, 2011. 224 s. ISBN 978-80-87106-43-3.
+    
+    \setbeamertemplate{bibliography item}[online]
+    \bibitem{pliva2014cz}PLÍVA, Z., J. DRÁBKOVÁ, J. KOPRNICKÝ a L. PETRŽÍLKA. \emph{Metodika zpracování
+    bakaláøských a~diplomových prací.} 2. upravené vydání. Liberec: Technická univerzita
+    v Liberci, FM, 2014. ISBN 978-80-7494-049-1. Dostupné z:
+    doi: 10.15240/tul/002/2014-11-002   
+  \end{thebibliography}
+\end{frame}
+%===============================================================================
+\section*{Konec}
+\begin{frame}
+  \begin{center}
+  {\Large \bfseries
+    Dìkuji za pozornost.
+    } 
+  \end{center}
+\end{frame}
+\end{document}

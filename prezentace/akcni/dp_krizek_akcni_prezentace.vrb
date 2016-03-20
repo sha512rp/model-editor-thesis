@@ -1,0 +1,23 @@
+\frametitle{Nápověda a automatické doplňování}
+	\vspace*{-20pt}
+	\pause
+	\begin{minipage}[t]{0.55\textwidth}
+	\begin{block}{Nápověda}
+	\begin{itemize}[<+>]
+		\item kontextová dokumentace
+		\item alternativa k~rozsáhlé referenční dokumentaci
+	\end{itemize}
+	\end{block}
+	\begin{block}{Automatické doplňování}
+	\begin{itemize}[<+>]
+		\item doplňuje názvy klíčů, hodnoty výčtového typu, datové typy abstraktních záznamů
+		\item citlivé na kontext
+		\item filtrování v~průběhu psaní
+	\end{itemize}
+	\end{block}
+	\end{minipage}
+	\hspace*{-10pt}
+	\begin{minipage}[t]{0.35\textwidth}
+	\vspace{45pt}
+	\includegraphics[width=1.4\textwidth]{../../img/documentation_autocompletion.pdf}\\
+	\end{minipage}
