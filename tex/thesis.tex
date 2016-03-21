@@ -123,6 +123,7 @@
 \newacronym{YAML}{YAML}{YAML Ain't Markup Language}
 \newacronym{DTD}{DTD}{Document Type Definition}
 \newacronym{IST}{IST}{Input Structure Tree}
+\newacronym{UML}{UML}{Unified Modeling Language}
 
 
 \begin{document}
@@ -145,6 +146,9 @@ English abstract
 
 \renewcommand\contentsname{Obsah\vspace{-30pt}}
 \tableofcontents
+\clearpage
+
+\listoffigures
 \clearpage
 
 
@@ -223,7 +227,7 @@ Jelikož se pro předávání dat používají soubory, existují v~principu dv�
 Textová reprezentace konfiguračních souborů s~sebou kromě čitelnosti přináší i~další výhody. Oproti binárnímu formátu není závislá na architektuře, jelikož všechna data jsou kódována ve formě textu. Navíc díky tomu, že textový soubor umožňuje kromě přenosu samotných dat i~tyto data nějakým způsobem popsat, potom se změny v~interní struktuře Flow123d nemusí nutně projevit ve formátu konfiguračních souborů.
 
 \subsection{Datová struktura}
-\label{sec:datova-sturktura}
+\label{sec:datova-struktura}
 Použití textového formátu konfiguračních souborů s~sebou však přináší otázku, jakým způsobem tato data v~textu reprezentovat. Je důležité, aby pomocí vybraného formátu bylo možné inicializovat libovolnou datovou strukturu. Tato datová struktura se skládá z~objektů, které mají různé atributy. Každý atribut má název (dále označován jako klíč), datový typ a~hodnotu. Ve většině případů platí, že klíč jednoznačně implikuje datový typ. Potom je tedy dostačující ukládat dvojici klíč a~hodnota.
 
 Existují i~situace, kdy z~názvu atributu nelze jednoznačně určit jeho datový typ. To je způsobené použitím polymorfismu. Z~klíče lze tedy odvodit pouze jakého datového typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný datový typ explicitně uvést. Tyto situace jsou prozatím zanedbány a~jsou popsány samostatně v~kapitole~\ref{sec:navrh-yaml-abstrakni-zaznamy}.
@@ -363,7 +367,7 @@ Jelikož je formát \gls{YAML} navržen tak, aby k~jeho přečtení a~reprezenta
 Oficiální dokumentace formátu \gls{YAML}~\cite{bib:yaml} popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu \gls{YAML}.
 
 %TODO syntakticka vs lexikalni analyza
-\includeimg{yaml}{Zpracování formátu \gls{YAML}}
+\includeimg{yaml}{Zpracování formátu YAML}
 
 Proces načtení souboru ve formátu \gls{YAML} prochází třemi fázemi. V~první fázi proběhne syntaktická analýza, která převede vstupní soubor na posloupnost událostí. Syntaktická analýza hledá symboly a~hodnoty na základě syntaxe \gls{YAML}, kontroluje správné odsazení a~vypustí ze vstupu komentáře.
 
@@ -874,7 +878,7 @@ Uživatelsky definované tagy jsou ideální pro výběr konkrétní implementac
 
 \subsection{Reference}
 
-Ve formátu CON bylo možné se pomocí referencí odkázat na libovolnou část datové struktury. Tento odkaz byl pak při zpracování nahrazen daty, na které se odkazoval. Dalo se tak předejít duplicitě dat. Pokud některá data byla totožná s daty v jiné části datové struktury, stačilo použít referenci.
+Ve formátu CON bylo možné se pomocí referencí odkázat na libovolnou část datové struktury. Tento odkaz byl pak při zpracování nahrazen daty, na které odkazoval. Dalo se tak předejít duplicitě dat. Pokud některá data byla totožná s daty v jiné části datové struktury, stačilo použít referenci.
 
 Reference se ve formátu CON používala tak, že se do speciálního klíče REF uvedla libovolná cesta do jiné části datové struktury. Ta mohla být buď absolutní nebo relativní a mohla být v libovolné části konfiguračního souboru. Ukázka použití reference ve formátu CON je na obrázku \ref{img:reference-con} na straně \pageref{img:reference-con}.
 
@@ -891,12 +895,39 @@ time: *time
 \end{lstlisting}
 \vspace{-20pt}
 
-Použití kotev a aliasů bylo navrženo ve formátu YAML za stejným účelem jako reference ve formátu CON -- ke zrychlení zápisu duplicitních dat.
+Použití kotev a aliasů bylo navrženo ve formátu YAML za stejným účelem jako reference ve formátu CON -- ke zrychlení zápisu duplicitních dat. Formát YAML byl ovšem navržen tak, aby byl schopný zpracovávat i proud dat, nikoli pouze kompletní soubory. To vedlo k tomu, že kotvy je nutné vždy definovat dříve, než je možné je použít jako alias.
+
+Tím se použití kotev a aliasů liší od referencí ve formátu CON. V tom bylo možné se odkázat i na datovou strukturu, která v dané fázi zpracování souboru ještě nebyla definovaná. Nicméně vzhledem k účelu referencí -- předejití duplicitě dat -- není tato funkcionalita zásadní. 
 
 %TODO zminit operator merge?
 
 
+\section{Datová struktura}
+
+\subsection{Získání datové struktury}
+
+V rámci aplikace je zapotřebí s daty, která jsou zapsaná v konfiguračním souboru, dále pracovat. Z konfiguračního souboru je tedy potřeba získat vhodnou datovou strukturu, která bude podporovat operace, které potom využijí jiné části aplikace. Proces získání datové struktury z konfiguračního souboru je znázorněn na obrázku~\ref{img:data_structure_chain}.
+
+\includeimg{data_structure_chain}{Získání datové struktury z~konfiguračního souboru}
+
+Na začátku řetězce je vstupní konfigurační soubor. Z toho se získá obsah pomocí lexikální a syntaktické analýzy jazyka \gls{YAML}. Tato data se dále zpracovávají speciální vrstvou, která provede potřebné autokonverze. Výstupem z celého tohoto procesu je výsledná datová struktura, se kterou se v aplikaci dále pracuje.
+
+\subsection{Návrh datové struktury}
+
+Datová struktura z pohledu konfiguračních souborů, resp. Flow123d, byla popsána v kapitole~\ref{sec:datova-struktura}. Jak bylo řečeno, datová struktura tvoří strom. Jednotlivé uzly tedy mohou být buď interní, což znamená, že obsahují další potomky, nebo mohou být koncové a jsou to tedy tzv. listy. Na obrázku~\ref{img:data_node} je znázorněna navržená datová struktura pomocí diagramu \gls{UML}. Více o modelovacím jazyku \gls{UML} je možné se dočíst v příslušné normě~\cite{bib:uml}.
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.7\textwidth]{../img/data_node.pdf}
+    \caption{UML diagram datové struktury}
+	\label{img:data_node}
+\end{figure}
+
+Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a \textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Existují dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a \textit{SequenceDataNode} pro pole. 
+
 \section{Autokonverze}
+
+
 
 % vyvojovy diagram - jak se provadi autokonverze - implementace?
 
@@ -1005,6 +1036,11 @@ BŘEZINA, Jan et al. \textit{Flow123d version 1.8.2: Documentation of file forma
 
 \bibitem{bib:yaml}
 BEN-KIKI, Oren et al. \textit{YAML Ain’t Markup Language (YAML™) Version 1.2}. 3rd Edition. [online]. 2009. [cit. 2016-03-06]. Dostupné z: \url{http://www.yaml.org/spec/1.2/spec.html}
+
+\bibitem{bib:uml}
+\textit{ISO/IEC 19505-1: Information technology - Object Management Group
+Unified Modeling Language (OMG UML),
+Infrastructure}. [online]. Object Management Group, 2012. [cit. 2016-03-21]. Dostupné z: \url{http://www.omg.org/spec/UML/ISO/19505-1/PDF}
 
 
 \end{thebibliography}
