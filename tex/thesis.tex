@@ -923,9 +923,15 @@ Datová struktura z pohledu konfiguračních souborů, resp. Flow123d, byla pops
 	\label{img:data_node}
 \end{figure}
 
-Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a \textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Existují dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a \textit{SequenceDataNode} pro pole. 
+Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a \textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Existují dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a \textit{SequenceDataNode} pro pole.
+
+V aplikaci se pracuje s abstrakcí DataNode, která reprezentuje obecný uzel a poskytuje všechny potřebné informace o datové struktuře. Typicky se v rámci aplikace pracuje s kořenovým uzlem stromu, ze kterého je možné se dostat do všech ostatních uzlů.
 
 \section{Autokonverze}
+
+V konfiguračních souborech se často používají zkrácené zápisy, které je potřeba zpracovat pomocí autokonverzí, které byly podrobně popsány v kapitole~\ref{sec:analyza-autokonverze}. Proces autokonverzí obdobně jako třeba validace potřebuje ke své funkci ne pouze konfigurační soubor, ale i specifikaci formátu, která předepisuje očekávané datové typy.
+
+Pro zpracování autokonverzí byl v rámci aplikace navržen samostatný modul, který zkonvertuje vstupní datovou strukturu spolu se specifikací formátu dle dříve zmíněných pravidel pro autokonverze. 
 
 
 
