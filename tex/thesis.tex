@@ -609,6 +609,7 @@ Aplikace ModelEditor tedy musí podporovat používání autokonverzí a~je nutn
 Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě doposud používaných autokonverzí na pole a~na záznam přibyla i~nová autokonverze, která se nazývá transpozice. Transpozice zobecňuje a~rozšiřuje současně používanou autokonverzi na pole.
 
 \subsection{Autokonverze na pole}
+\label{sec:analyza-autokonverze-pole}
 
 \lstset{style=short}
 
@@ -728,10 +729,10 @@ Příklad autokonverze na záznam je znázorněn na obrázku~\ref{img:autoconver
 U~záznamů, které podporují tuto autokonverzi, jsou typicky nadefinované výchozí hodnoty klíčů. Uživatel přitom nejčastěji mění právě jeden z~těchto klíčů. Tento klíč je pak ve specifikaci formátu uveden jako \texttt{reducible\_to\_key}. Díky autokonverzi na záznam pak uživatel může měnit hodnotu tohoto klíče bez nutnosti psát název tohoto klíče.
 
 %TODO zalomeni klice?
-Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v~datové struktuře abstraktní záznam. Abstraktní záznamy samy o~sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč \texttt{default\_de\-scend\-ant}, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje. Tento případ je dále rozebrán v~kapitole \ref{sec:implementace-autokonverze-zaznam}.
-%TODO ref
+Existuje speciální případ této autokonverze, kdy se podle specifikace formátu očekává v~datové struktuře abstraktní záznam. Abstraktní záznamy samy o~sobě nepodporují autokonverzi na záznam. Pokud ovšem mají definovaný klíč \texttt{default\_de\-scend\-ant}, který udává výchozí typ záznamu, je možné provést autokonverzi, pokud ji daný záznam podporuje.
 
 \subsection{Transpozice}
+\label{sec:analyza-autokonverze-transpozice}
 %TODO neni to celkove matouci? je z toho jasne o co se jedna a jak to funguje?
 Transpozice je nově přidaná autokonverze, která umožňuje definovat pole záznamů naráz pomocí speciálního zápisu pro jeden záznam. Transpozice může výrazně zkrátit zápis pole záznamů obzvlášť v~případech, kdy záznamy obsahují více klíčů a~mění se pouze hodnoty některých klíčů, zatímco hodnoty ostatních klíčů zůstávají totožné.
 
@@ -931,9 +932,46 @@ V aplikaci se pracuje s abstrakcí DataNode, která reprezentuje obecný uzel a 
 
 V konfiguračních souborech se často používají zkrácené zápisy, které je potřeba zpracovat pomocí autokonverzí, které byly podrobně popsány v kapitole~\ref{sec:analyza-autokonverze}. Proces autokonverzí obdobně jako třeba validace potřebuje ke své funkci ne pouze konfigurační soubor, ale i specifikaci formátu, která předepisuje očekávané datové typy.
 
-Pro zpracování autokonverzí byl v rámci aplikace navržen samostatný modul, který zkonvertuje vstupní datovou strukturu spolu se specifikací formátu dle dříve zmíněných pravidel pro autokonverze. 
+Pro zpracování autokonverzí byl v rámci aplikace navržen samostatný modul, který zkonvertuje vstupní datovou strukturu spolu se specifikací formátu dle dříve zmíněných pravidel pro autokonverze. Autokonverze pracuje vždy s nějakým uzlem v datové struktuře a funguje rekurzivně. Pokud se tedy proces autokonverze spustí na kořen stromu, dojde ke všem potřebným autokonverzím. Kompletní logika procesu autokonverzí je znázorněna na obrázcích~\ref{img:autoconversion_process},~\ref{img:autoconversion_process_2}  a~\ref{img:autoconversion_process_3} pomocí vývojových diagramů. 
 
+\clearpage
 
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=\textwidth]{../img/autoconversion_process.pdf}
+    \caption{Proces autokonverze I.}
+	\label{img:autoconversion_process}
+\end{figure}
+
+Začátek celého procesu se nachází na obrázku~\ref{img:autoconversion_process}.  Nejprve se zkontroluje, zda datový typ uzlu odpovídá očekávanému datovému typu. Pokud je datový typ správný, tak se pro danou datovou strukturu žádná autokonverze neprovede, ale rekurzivně se stejný proces opakuje i pro všechny přímé potomky této datové struktury.
+
+K autokonverzi může dojít v případě, že se datový typ daného uzlu neshoduje s datovým typem, který se na tomto místě v datové struktuře očekává. Pokud tato situace nastane, tak se nejprve ověří, zda se očekává záznam. Pokud tomu tak je a zároveň tento záznam podporuje funkci autokonverze, tak dojde k autokonverzi na záznam, jak bylo popsáno v kaptiole~\ref{sec:analyza-autokonverze-zaznam}.
+
+Další fáze pokračuje na obrázku~\ref{img:autoconversion_process_2}. Zde se rozhoduje, zda je očekávaným datovým typem pole. Pokud tomu tak je, tak záleží, jakého datového typu je aktuální uzel. Pokud se jedná o skalární hodnotu, tak proběhne autokonverze na pole, která je schopná provést konverzi i na vícerozměrné pole. Funkce autokonverze na pole byla popsána v kapitole~\ref{sec:analyza-autokonverze-pole}.
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.9\textwidth]{../img/autoconversion_process_2.pdf}
+    \caption{Proces autokonverze II.}
+	\label{img:autoconversion_process_2}
+\end{figure}
+
+Pokud se očekává pole a místo toho je uzel typu záznam, tak situace je komplikovanější, protože je potřeba určit, zda stačí provést autokonverzi na pole, nebo zda-li se jedná o transpozici. Tento proces popisuje poslední obrázek týkající se procesu autokonverzí, obrázek~\ref{img:autoconversion_process_3}.
+
+Detekce transpozice spočívá v následujících krocích. Za prvé se již počítá s faktem, že v této fázi musí dojít buď k transpozici nebo autokonverzi na pole (pokud nedojde k chybě transpozice díky špatným vstupním datům). Díky tomu je znám očekávaný datový typ záznamu, který se má po autokonverzi získat, a tím pádem i očekávaný datový typ jeho potomků.
+
+U aktuálního uzlu se postupně projdou všichni přímí potomci a dojde ke kontrole jejich datového typu oproti očekávanému datovému typu. Pokud se jedná o pole, které se zde ovšem neočekává, signalizuje to použití transpozice. V tuto chvíli se délka tohoto pole uloží a zkontroluje.
+
+Aby transpozice mohla proběhnout, musí souhlasit délka všech neočekávaných polí -- pokud nesouhlasí, jedná se o chybně zadaný vstup. Po zkontrolování všech přímých potomků se dorazí do větve, která rozhoduje, zda se má provést transpozice nebo autokonverze na pole. Pokud byla během procesu kontroly potomků definována délka pole a nedošlo k chybě, tak se provede transpozice tak, jak byla popsána v kapitole~\ref{sec:analyza-autokonverze-transpozice}. Pokud se v záznamu nevyskytla žádná neočekávaná pole, tak se provede autokonverze na pole.
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=\textwidth]{../img/autoconversion_process_3.pdf}
+    \caption{Proces autokonverze III.}
+	\label{img:autoconversion_process_3}
+\end{figure}
 
 % vyvojovy diagram - jak se provadi autokonverze - implementace?
 
