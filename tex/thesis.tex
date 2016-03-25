@@ -638,6 +638,8 @@ Autokonverze na pole funguje obdobně i~pro vícerozměrná pole. Příklad tét
 
 Autokonverze na vícerozměrné pole proběhne i~v~případě, pokud je v~datové struktuře pole o~menší dimenzi, než se očekává. Pokud takový případ nastane, tak se zadané pole zkonvertuje na pole vyšší dimenze obdobně jako to bylo popsáno u~konverzí hodnot na pole.
 
+%TODO value: 1.5  misto anisotropy
+
 \begin{figure}[ht]
 %\vspace{10pt}
 \begin{minipage}[t]{0.45\linewidth}
@@ -923,7 +925,7 @@ Pro zpracování autokonverzí byl v rámci aplikace navržen samostatný modul,
 
 \begin{figure}[h]
 	\centering
-    \includegraphics[width=\textwidth]{../img/autoconversion_process.pdf}
+    \includegraphics[width=0.95\textwidth]{../img/autoconversion_process.pdf}
     \caption{Proces autokonverze I.}
 	\label{img:autoconversion_process}
 \end{figure}
@@ -970,7 +972,7 @@ Validace ke své funkci potřebuje obdobně jako autokonverze specifikaci formá
 
 \begin{figure}[h]
 	\centering
-    \includegraphics[width=0.7\textwidth]{../img/validation_type.pdf}
+    \includegraphics[width=0.65\textwidth]{../img/validation_type.pdf}
     \caption{Validace správného datového typu}
 	\label{img:validation_type}
 \end{figure}
@@ -993,7 +995,7 @@ U polí může být omezen počet prvků, které mohou obsahovat. Toto omezení 
 
 \begin{figure}[h]
 	\centering
-    \includegraphics[width=\textwidth]{../img/validation_record.pdf}
+    \includegraphics[width=0.91\textwidth]{../img/validation_record.pdf}
     \caption{Validace záznamu -- \textit{Record}}
 	\label{img:validation_record}
 \end{figure}
@@ -1017,7 +1019,17 @@ Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ 
 
 \section{Vizualizace datové struktury}
 
+Jednou z komponent editoru je grafický strom, který slouží pro vizualizaci datové struktury. V prvotní fázi plánování editoru se uvažovalo o tom, že by se pomocí tohoto grafického stromu kompletně zadávala celá konfigurace a editor by neměl žádnou komponentu pro přímou úpravu zdrojového textu konfiguračního souboru. 
 
+Nakonec se ovšem od tohoto návrhu upustilo z několika důvodů. Jednou z nevýhod je například to, že takový editor by uživateli neposkytoval žádnou kontrolu nad formátováním textu v konfiguračních souborech. S tím souvisí i problém komentářů, které by nebylo možné do konfiguračního souboru jednoduše zapsat na požadované místo. Dalším z důvodů bylo i to, že jsou modeláři zvyklí editovat konfigurační soubor ve formě textu.
+
+Komponenta stromu ovšem má i určité výhody a proto byla v aplikaci nakonec použita, ale slouží primárně k zobrazení dat. Všechny úpravy probíhají v textové části editoru. Strom slouží k rychlé orientaci v konfiguračním souboru, označování hodnot a náhled jak vypadá datová struktura po provedení autokonverzí.
+
+Komponenta stromu je rozdělena do dvou sloupců. V levém se nachází klíče nebo indexy pole a v pravém sloupci jsou příslušné hodnoty. Stromová struktura je znázorněna pomocí odsazení v levém sloupci. Jednotlivé větve stromu je možné zabalit pro přehlednější výpis požadovaných informací. Komponentu stromu je možné vidět na obrázku~\ref{img:gui_tree} na straně~\pageref{img:gui_tree}.
+
+Po kliknutí na libovolnou hodnotu či klíč dojde k jejímu označení v textu konfiguračního souboru. To má v zásadě dvě využití. Pokud je konfigurační soubor delší, než se vejde do okna editoru, tak se pozice okna textového editoru upraví tak, aby byla hodnota viditelná, takže uživatel se může rychle zorientovat. Díky tomu, že se zároveň označí, tak je možné ji rychle a pohodlně přepsat.
+
+Komponenta stromu aktuálně podporuje zvýraznění typů abstraktních záznamů. V rámci budoucích rozšíření aplikace by mohla podporovat i další zvýraznění někte\-rých hodnot či datových typů. Kromě toho by bylo pohodlné, kdyby strom dokázal lépe zobrazovat dvourozměrná pole hodnot, například pomocí matice. To je ovšem otázkou budoucích vylepšení aplikace \textit{ModelEditor}, nikoli předmětem této diplomové práce.
 
 \section{Kontextová dokumentace}
 
@@ -1037,6 +1049,8 @@ Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ 
 
 
 \section{Funkce editoru}
+
+% Qscintilla
 
 \section{GUI}
 
@@ -1213,6 +1227,25 @@ time: *time
     \includegraphics[width=0.75\textwidth]{../img/validation_array.pdf}
     \caption{Validace pole -- \textit{Array}}
 	\label{img:validation_array}
+\end{figure}
+
+
+
+\chapter{Grafické rozhraní aplikace}
+\label{apx:gui}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=\textwidth]{../img/screenshots/gui_overview.png}
+    \caption{GUI -- přehled rozhraní aplikace}
+	\label{img:gui_overview}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.5\textwidth]{../img/screenshots/gui_tree.png}
+    \caption{GUI -- Komponenta stromu pro vizualizaci dat}
+	\label{img:gui_tree}
 \end{figure}
 
 
