@@ -998,15 +998,24 @@ U polí může být omezen počet prvků, které mohou obsahovat. Toto omezení 
 	\label{img:validation_record}
 \end{figure}
 
+Záznamy jsou opět složeným typem, takže součástí procesu je opět validace potomků. Průběh validace záznamu je znázorněn na obrázku~\ref{img:validation_record}. Během tohoto procesu se postupně ověřují všechny klíče záznamu, které obsahují jeho potomky. Pro každý z těchto klíčů se najde jeho odpovídající datový typ ve specifikaci formátu. Pokud v ní není daný klíč uveden, dojde k upozornění \textit{UnknownRecordKey} a pokračuje se dalším klíčem. Po validaci všech klíčů, resp. potomků, se ještě ověří, ze jsou v záznamu uvedeny všechny povinné klíče. Pokud tomu tak není, tak je uživatel na chybějící klíče upozorněn pomocí chyby \textit{MissingObligatoryKey}.
+
+Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a fatální chyby. Ve výše popsaném příkladu může kromě chyb vzniknout i upozornění \textit{UnknownRecordKey}. V této situaci se nejedná o chybu, protože pokud klíč ve specifikaci formátu není uveden, neznamená to, že ho konfigurační soubor nemůže obsahovat. V praxi se však v těchto případech často jedná o překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i na tyto případy.
+
 \subsection{Validace abstraktního záznamu}
+
+Posledním datovým typem, který se může na vstupu očekávat, je abstraktní záznam (\textit{Abstract}). Proces validace abstraktního záznamu je znázorněn na obrázku~\ref{img:validation_abstract}. Nejprve se určí, zda je explicitně zadán typ abstraktního záznamu (viz kapitola~\ref{sec:navrh-yaml-abstrakni-zaznamy}). Pokud je uveden, tak se ověří, ze tento záznam je implementací očekávaného abstraktního záznamu. Pokud by nebyl, validace skončí chybou \textit{InvalidAbstractType}.
+
+Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ implementace, pokud je uveden ve specifikaci formátu. Pokud ovšem abstraktní záznam nemá výchozí implementaci, validace skončí chybou \textit{UnknownRecordKey}. Ve chvíli, kdy je určen konkrétní datový typ záznamu, se může provést jeho validace tak, jak byla výše popsaná.
 
 \begin{figure}[h]
 	\centering
-    \includegraphics[width=\textwidth]{../img/validation_abstract.pdf}
+    \includegraphics[width=0.98\textwidth]{../img/validation_abstract.pdf}
     \caption{Validace abstraktního záznamu -- \textit{Abstract}}
 	\label{img:validation_abstract}
 \end{figure}
 
+\section{Vizualizace datové struktury}
 
 
 
