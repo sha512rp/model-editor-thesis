@@ -178,7 +178,6 @@ Specifikace formátu konfiguračních souborů pro Flow123d, která popisuje str
 
 Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí nové a~upřesňují stávající funkcionality softwaru Flow123d. Může dojít k~tomu, že některé změny ve formátu konfiguračních souborů nemusí být zpětně kompatibilní. Uživatel tedy potřebuje znovu prostudovat rozsáhlou referenční dokumentaci, aby zjistil, jakým způsobem zadat dříve realizovanou úlohu pro novou verzi Flow123d.
 
-%TODO dozvi se uzivatel o chybe pomoci textoveho rozhrani nebo z vystupnich souboru?  uzivatel se o tom dozvi z logu (chybi vystupni soubory s vysledky vypoctu); informace z logu casto nejsou dostatecne nazorne aby uzivatel mohl urcit, kde a proc k chybe doslo
 Pokud se stane, že uživatel spustí Flow123d s~nevalidní konfigurací, potom během inicializace dojde k~chybě, o~které se uživatel dozví pomocí textového rozhraní, ve kterém se Flow123d spouští. Jelikož se může jednat o~výpočetně náročné úlohy, které se často pouští na vzdáleném výpočetním clusteru, je tento proces poměrně časově náročný a~uživatelsky nepříjemný.
 
 Při vzdáleném spouštění Flow123d se úloha zařadí do fronty na výpočetním clusteru, kde dále čeká na přidělení zdrojů. Ty se přidělují na základě aktuálního vytížení. Buď jsou k~dispozici okamžitě, nebo je nutné čekat na dokončení některých předchozích úloh. Může tedy nastat situace, kdy uživatel zařadí úlohu do fronty a~poté čeká na výsledky několik hodin nebo dokonce dní, a~teprve potom zjistí, že v~konfiguračním souboru, který vytvořil, byla chyba. Kvůli tomu nemohlo dojít k~inicializaci úlohy a~tím pádem ani neproběhla simulace.
@@ -194,12 +193,6 @@ Dále bude editor umožňovat zobrazit datovou strukturu, která tvoří konfigu
 
 \chapter{Problematika}
 
-%TODO nastaveni flow - serializace objektu - binarni vs textovy format
-
-%TODO nekde zminit - jednosmerna konverze, protoze neplati WYSIWYG, nepracuje se s DOM ale primo s textem
-
-
-
 \section{Software Flow123d}
 
 Flow123d je software, který slouží k~výpočtu proudění v~porézním médiu, transportu látek nebo transportu tepla. Jedná se o~aplikaci, která je orientována na práci s~daty, a~vzhledem k~tomu neobsahuje žádné grafické uživatelské rozhraní. Uživatel tedy s~aplikací pracuje v~textovém režimu prostřednictvím terminálu, kde může aplikaci předat vstupní soubory a~případně další parametry.
@@ -208,14 +201,12 @@ Flow123d je software, který slouží k~výpočtu proudění v~porézním médiu
 
 Na obrázku~\ref{img:flow123d} jsou znázorněny vstupy a~výstupy simulátoru Flow123d spolu s~pomocnými aplikacemi, které uživatelé často používají. Vstupem do simulátoru Flow123d jsou dva soubory. První z~těchto souborů popisuje výpočetní síť pomocí seznamu uzlů a~elementů. Jedná se o~textový soubor ve formátu \texttt{.msh}. Tuto síť generují softwary GMSH\footnote{\url{http://www.gmsh.info/}} nebo SALOME\footnote{\url{http://www.salome-platform.org/}}. Druhým vstupním souborem je konfigurační soubor, který popisuje řešenou úlohu. Tento soubor si prozatím uživatelé tvořili sami pomocí obyčejných textových editorů.
 
-Pro tento konfigurační soubor vzniká v~rámci této práce specializovaný editor s~označením \textit{ModelEditor}, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové dokumentace nebo automatické doplňování textu. Vytváření a~editace konfiguračních souborů se tak uživateli značně zjednoduší. \textit{ModelEditor} je jednou ze součástí aplikace GeoMop, která obsahuje i~další komponenty.
+Pro tento konfigurační soubor vzniká v~rámci diplomové práce specializovaný editor s~označením \textit{ModelEditor}, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové dokumentace nebo automatické doplňování textu. Vytváření a~editace konfiguračních souborů se tak uživateli značně zjednoduší. \textit{ModelEditor} je jednou ze součástí aplikace GeoMop, která obsahuje i~další komponenty, které ovšem nejsou předmětem této práce.
 
-GeoMop má sloužit jako nástroj, který usnadní práci se simulátorem Flow123d. Jeho další komponenty mají za úkol např. zajišťovat vzdálené spouštění Flow123d na výpočetních clusterech. To bude zajišťovat modul JobsScheduler, který sjednotí rozhraní a~postup spouštění Flow123d na různých výpočetních clusterech. Další součástí aplikace GeoMop bude modul Analysis, který umožní úlohy parametrizovat a~dále je potom provádět pro různé sady hodnot. GeoMop je aktuálně ve vývoji a~je možné, že se bude rozšiřovat o~další funkce.
-
-%TODO Pozn - tyto dalsi moduly nejsou predmetem teto diplomvoe prace
+GeoMop má sloužit jako nástroj, který usnadní práci se simulátorem Flow123d. Jeho další komponenty mají za úkol např. zajišťovat vzdálené spouštění Flow123d na výpočetních clusterech. To bude zajišťovat modul JobsScheduler, který sjednotí rozhraní a~postup spouštění Flow123d na různých výpočetních clusterech. Další součástí aplikace GeoMop bude modul Analysis, který umožní úlohy parametrizovat a~dále je potom provádět pro různé sady hodnot. GeoMop je aktuálně ve vývoji a~je možné, že se bude rozšiřovat o~další funkce. 
+%TODO paragraph overflow
 
 Výstupem ze softwaru Flow123d je datový soubor, který obsahuje výsledky simulace. U~tohoto souboru si uživatel může vybrat požadovaný formát, podle toho, kterou aplikaci chce použít pro zpracování výsledků. Typicky uživatelé používají buď opět GMSH nebo ParaView\footnote{\url{http://www.paraview.org/}}. Existuje také celá řada jednoúčelových nástrojů, které si uživatelé často tvoří sami, nebo vznikají v~rámci různých projektů.
-%TODO link gmsh paraview
 
 \section{Konfigurační soubory}
 
@@ -236,7 +227,7 @@ Existují i~situace, kdy z~názvu atributu nelze jednoznačně určit jeho datov
 V~konfiguračních souborech je tedy potřeba ukládat dvojice klíč a~hodnota. Hodnota může být buď primitivního nebo složeného datového typu. Reprezentace primitivních datových typů je většinou triviální a~spočívá pouze v~převodu hodnoty na textový řetězec, pokud jím není. Podporované primitivní datové typy v~rámci konfiguračních souborů jsou následující:
 
 \begin{itemize}
-	\item booleovské hodnoty, %TODO jak se to spravne oznacuje cesky?  hodnota logickeho typu
+	\item booleovské hodnoty,
 	\item celá čísla,
 	\item desetinná čísla,
 	\item hodnoty výčtového typu (tzv. enum),
@@ -254,10 +245,8 @@ Na obrázku~\ref{img:data_tree} je znázorněna hierarchická struktura složen�
 \subsection{Formát CON}
 
 Ve verzi Flow123d~1.8.2 se pro reprezentaci výše popsané datové struktury používá speciální formát \gls{CON}, který byl navržen vývojáři Flow123d pro účel zápisu konfiguračních souborů. Jedná se o~formát, který vychází z~\gls{JSON}, který je specifikován standardem ECMA-404~\cite{bib:ecma404}. Oproti tomuto standardu se liší v~několika detailech.
-%TODO reference na JSON - http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
 
 Příklad části konfiguračního souboru ve formátu \gls{CON} je znázorněn na obrázku~\ref{img:conf_files}. Jednou z~ihned zřejmých odlišností od formátu \gls{JSON} je použití znaku \uv{\texttt{=}} místo \uv{\texttt{:}} pro oddělení klíče a~hodnoty. Dále není nutné psát názvy klíčů do uvozovek. Další odlišnosti a~kompletní specifikaci formátu \gls{CON} lze nalézt v~dokumentaci k~Flow123d~1.8.2~\cite{bib:flow123d-manual}.
-%TODO ref dokumentace flow
 
 Během používání tohoto formátu se ale jeho odlišnost od \gls{JSON} projevila jako jeden z~nedostatků. Kvůli nekompatibilitě s~formátem \gls{JSON} nelze použít pro zpracování formátu \gls{CON} standardní knihovny. To je jeden z~důvodů, proč bylo rozhodnuto, že ve verzi Flow123d~2.0 bude použit nějaký standardní formát pro výměnu dat.
 
@@ -348,7 +337,6 @@ Tato kapitola se skládá ze tří hlavních částí. V~první z~nich je popsá
 
 
 \section{Formát YAML}
-%TODO footnote style Abc.
 Jak již bylo zmíněno v~kapitole~\ref{sec:problematika-format-yaml}, pro zápis konfiguračních souborů se bude používat formát \gls{YAML}. Jedná se o~univerzální formát pro serializaci dat založený na kódování Unicode. Je navržen pro jednoduchý zápis polí, hashovacích tabulek a~primitivních hodnot.
 
 Mezi cíle formátu \gls{YAML} patří mimo jiné jednoduchá čitelnost a~přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z~cílů je čtení pomocí jediného průchodu, což s~sebou oproti formátu \gls{CON} přináší určité komplikace a~změny, které jsou dále rozvedeny v~kapitole~\ref{sec:navrh-yaml-reference}.
@@ -370,7 +358,7 @@ V~poslední fázi se převede graf reprezentující data na datovou strukturu da
 
 V~každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o~jejich pozici v~původním textovém souboru. Také nelze určit, zda byla konkrétní data v~souboru zapsána, nebo zda-li vznikla pouhým odkazem na již existující data z~jiné části souboru.
 
-Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace ModelEditor je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
+Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace \textit{ModelEditor} je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
 
 \subsection{Zápis datových typů}
 \label{sec:analyza-yaml-zapis-datovych-typu}
@@ -418,7 +406,7 @@ Pokud je potřeba explicitně zadat datový typ, píše se tento tag před samot
 
 \subsubsection*{Sekvence}
 
-Sekvence se používají pro reprezentaci polí. Formát \gls{YAML} podporuje dva způsoby zápisu sekvencí. Lze je zapsat buď zjednodušeně\footnote{Angl. \textit{flow style} -- zde označován jako \textit{zjednodušený zápis}.} nebo blokově pomocí odrážek. Zjednodušený zápis sekvencí je totožný se zápisem polí ve formátu \gls{JSON} a~vypadá následovně. %TODO preformulovat bez nasledovne, pripadne napsat dvoutecku
+Sekvence se používají pro reprezentaci polí. Formát \gls{YAML} podporuje dva způsoby zápisu sekvencí. Lze je zapsat buď zjednodušeně\footnote{Angl. \textit{flow style} -- zde označován jako \textit{zjednodušený zápis}.} nebo blokově pomocí odrážek. Zjednodušený zápis sekvencí je totožný se zápisem polí ve formátu \gls{JSON} a~vypadá následovně.
 
 \lstset{style=short}
 
@@ -464,19 +452,18 @@ V~rámci dokumentu lze opět používat oba typy zápisů map a~v~rámci jedné 
 \section{Specifikace formátu konfiguračních souborů}
 
 Simulátor Flow123d umožňuje exportovat popis datové struktury konfiguračních souborů. Tento popis struktury bude v~textu nadále označován jako \textit{specifikace formátu}. Oproti tomu slovo \textit{formát} udává použitou textovou reprezentaci pro zápis konfiguračního souboru -- nejčastěji tedy označuje buď souborový formát \gls{YAML} nebo starší formát \gls{CON}.
-%TODO specifikace vs specifikace formatu?
 
 Zatímco formát udává syntaktická pravidla pro vytváření konfiguračních souborů, specifikace formátu popisuje sémantický význam zapsaných dat, definuje použitelné uživatelské typy a~klade různá omezení na vstupní datovou strukturu. Formát a~specifikaci formátu lze považovat za analogii k~\gls{XML}, resp. \gls{XML} Schema.
 
-%TODO specifikace formatu
-Mezi vývojáři Flow123d se specifikace formátu také označuje jako \gls{IST}. S~tím, jak se vyvíjí nová a~rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i~tato specifikace. Z~toho plyne zásadní požadavek na validaci konfiguračních souborů -- \textbf{proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d}.
-%TODO tucne zvyrazneni?
+Mezi vývojáři Flow123d se specifikace formátu také označuje jako \gls{IST}. S~tím, jak se vyvíjí nová a~rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i~tato specifikace formátu. Z~toho plyne zásadní požadavek na validaci konfiguračních souborů -- \textbf{proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d}.
 
-Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu \gls{JSON}. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce ModelEditoru, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
+Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu \gls{JSON}. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce \textit{ModelEditoru}, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
 
 \subsection{Základní datové typy}
 \label{sec:analyza-specifikace-formatu-zakladni-datove-typy}
 Jak již bylo zmíněno v~kapitole \ref{sec:datova-sturktura}, konfigurační soubory obsahují hierarchickou datovou strukturu, která tvoří strom. Specifikace formátu definuje datový typ pro každý uzel stromu, ať už se jedná o~interní uzel nebo list stromu. Datové typy definované ve specifikaci formátu mohou mít následující parametry:
+
+%TODO colon
 
 \vspace{0.5cm}
 \begin{tabular}{m{3cm}@{}l}
@@ -562,7 +549,7 @@ Parametr \texttt{default} se skládá z~dvojice parametrů \texttt{type} a~\text
 \textit{value at run time}\dotfill & výchozí hodnota se načte při spuštění \\
 \end{longtable}
 
-Z~pohledu aplikace ModelEditor je podstatná pouze hodnota \textit{obligatory}, která udává, že klíč musí být v~konfiguračním souboru uveden. Ostatní typy klíčů nemusí být v~konfiguračním souboru explicitně uvedeny. Pokud se však objeví, provede se jejich validace jako stejně jako u~ostatních klíčů.
+Z~pohledu aplikace \textit{ModelEditor} je podstatná pouze hodnota \textit{obligatory}, která udává, že klíč musí být v~konfiguračním souboru uveden. Ostatní typy klíčů nemusí být v~konfiguračním souboru explicitně uvedeny. Pokud se však objeví, provede se jejich validace jako stejně jako u~ostatních klíčů.
 
 \subsection{Abstraktní záznamy}
 \label{sec:analyza-specifikace-formatu-abstraktni-zaznamy}
@@ -571,7 +558,10 @@ Posledním speciálním typem, který se používá ve struktuře konfigurační
 
 
 % resi se procesu, existuje nekoliik typu, ktere flow dokaze resit ; simluace jednotlivych procesu se lisi, maji jine param a data maji odlisnou strukturu;; simulovat / modelovat;; specifikace ocekava abstraktni typ; v konfiguracnim souboru musi byt konkretni datovy typ, ktery odpovida abstrakci (implemetuje dat typ)
-Jeden z~příkladů využití je při výběru typu řešené rovnice. Existuje několik typů rovnic, které je možné řešit. Jednotlivé rovnice se však liší a~tím pádem i~vyžadují jiná data a~mají odlišnou datovou strukturu. V~konfiguračním souboru se na místě, kde se očekává nějaká rovnice, uvede abstraktní datový typ. Jednotlivé rovnice jsou potom reprezentovány konkrétními datovými typy, u~kterých je uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
+Jeden z~příkladů využití je při výběru typu simulovaného procesu. Existuje několik typů procesů, které Flow123d dokáže řešit. Jednotlivé procesy se však liší a~tím pádem i~vyžadují jiné parametry a~data mají odlišnou strukturu.
+V místě, kde se zadává proces očekává specifikace formátu abstraktní záznam.
+V~konfiguračním souboru se daném místě uvede konkrétní záznam, který implementuje očekávaný abstraktní záznam. U těchto záznamů je ve specifikaci formátu uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
+
 %TODO je to takhle receno spravne z pohledu uzivatele flow?
 
 Použitá terminologie se rozchází s~programátorskou terminologií, kde by se tento abstraktní záznam označil spíše jako rozhraní. Abstraktní záznamy totiž nemohou mít definované žádné klíče -- tím pádem se nepoužívají pro dědičnost. Navíc jeden konkrétní typ může implementovat více abstraktních typů, což je z~pohledu objektového programování typické spíše pro rozhraní. Pro zachování jednotné terminologie se specifikací formátu Flow123d a~její dokumentací bude ale nadále tento typ označován jako abstraktní záznam.
@@ -583,7 +573,7 @@ Použitá terminologie se rozchází s~programátorskou terminologií, kde by se
 \end{tabular}
 \vspace{0.5cm}
 
-Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žádnou definici klíčů. Obsahují však navíc parametr \texttt{default\_descendant}, který udává identifikátor datového typu, který se použije v~případě, že záznam, který je uveden na místě, kde se očekává abstraktní záznam, nemá explicitně uvedený typ. Abstraktní záznam navíc obsahuje parametr \texttt{implementations}, který obsahuje seznam identifikátorů všech jeho implementací. Jedná se o~duplicitní informaci a~v~rámci aplikace ModelEditor není využita, protože se používá parametr \texttt{implements} u~konkrétních datových typů.
+Jak již bylo řečeno, oproti záznamům neobsahují abstraktní záznamy žádnou definici klíčů. Obsahují však navíc parametr \texttt{default\_descendant}, který udává identifikátor datového typu, který se použije v~případě, že záznam, který je uveden na místě, kde se očekává abstraktní záznam, nemá explicitně uvedený typ. Abstraktní záznam navíc obsahuje parametr \texttt{implementations}, který obsahuje seznam identifikátorů všech jeho implementací. Jedná se o~duplicitní informaci a~v~rámci aplikace \textit{ModelEditor} není využita, protože se využívá výše zmíněný parametr \texttt{implements}.
 
 
 \section{Autokonverze}
@@ -599,7 +589,7 @@ Autokonverze jsou hlavní důvodem, proč není možné použít \gls{XML} Schem
 
 Autokonverze mohou působit poněkud chaoticky, protože datová struktura obsahuje ve skutečnosti něco jiného, než je zapsáno v~konfiguračním souboru. Zkušení uživatelé Flow123d jsou ovšem zvyklí autokonverze používat a~jsou pro ně přínosem. S~přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
 
-Aplikace ModelEditor tedy musí podporovat používání autokonverzí a~je nutné je zohlednit při validaci konfiguračních souborů a~určování pozice v~rámci datového stromu, která je dále použita pro funkce kontextové dokumentace nebo automatického doplňování textu. 
+Aplikace \textit{ModelEditor} tedy musí podporovat používání autokonverzí a~je nutné je zohlednit při validaci konfiguračních souborů a~určování pozice v~rámci datového stromu, která je dále použita pro funkce kontextové dokumentace nebo automatického doplňování textu. 
 
 Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě doposud používaných autokonverzí na pole a~na záznam přibyla i~nová autokonverze, která se nazývá transpozice. Transpozice zobecňuje a~rozšiřuje současně používanou autokonverzi na pole.
 
@@ -948,7 +938,7 @@ Další fáze pokračuje na obrázku~\ref{img:autoconversion_process_2}. Zde se 
 
 \begin{figure}[h]
 	\centering
-    \includegraphics[width=0.9\textwidth]{../img/autoconversion_process_2.pdf}
+    \includegraphics[width=0.8\textwidth]{../img/autoconversion_process_2.pdf}
     \caption{Proces autokonverze II.}
 	\label{img:autoconversion_process_2}
 \end{figure}
@@ -970,22 +960,78 @@ Aby transpozice mohla proběhnout, musí souhlasit délka všech neočekávanýc
 
 % vyvojovy diagram - jak se provadi autokonverze - implementace?
 
+\clearpage
+
 \section{Validace}
+
+Jednou z hlavních funkcí a přínosů editoru je funkce validace, která umožňuje odhalit chyby a možné problémy se zadanou konfigurací již během vytváření konfiguračních souborů. Vstupem do validace je datová struktura, která vznikla z dat konfiguračního souboru po provedení výše popsaných autokonverzí. Během procesu validace se tato datová struktura rekurzivně prochází a detekované problémy či chyby se postupně ukládají. Po dokončení procesu validace je uživatel upozorněn na detekované chyby pomocí grafického uživatelského rozhraní aplikace.
+
+Validace ke své funkci potřebuje obdobně jako autokonverze specifikaci formátu, na základě které ověřuje, zda se vstupní data mají předepsanou strukturu a splňují všechna omezení. Jelikož validace pracuje s dynamicky zadanou specifikací formátu, tak je možné validaci provést pro libovolnou verzi Flow123d, kterou si uživatel může zvolit v uživatelském rozhraní.
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.7\textwidth]{../img/validation_type.pdf}
+    \caption{Validace správného datového typu}
+	\label{img:validation_type}
+\end{figure}
+
+Prvním krokem validace je detekce a ověření zadaného datového typu. Tento proces je znázorněn na obrázku~\ref{img:validation_type}. Pokud neodpovídá zadaný datový typ očekávanému, aplikace se pokusí převést datový typ na očekávaný, pokud je to možné. Poté se provede validace, která závisí na datovém typu (tyto validace jsou postupně popsány dále). Pokud datový typ nelze převést na očekávaný, dojde k chybě \textit{ValidationTypeError}. 
+
+\subsection{Validace primitivních datových typů}
+
+Některé z primitivních datových typů nemají žádnou typově specifickou validaci. Aktuálně se jedná o řetězce, názvy souborů a booleovské hodnoty (\textit{String}, \textit{Filename} a \textit{Boolean}). U těchto datových typů se pouze provede kontrola datového typu a případná konverze, jak bylo popsáno výše.
+
+Číselné datové typy pro reprezentaci celých a desetinných čísel (\textit{Integer} a \textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k chybě \textit{ValueTooSmall}. V opačném případě, kdy je hodnota větší než požadované maximum, dojdě k chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number} na straně~\pageref{img:validation_number}.
+
+Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U tohoto datového typu se oveří, zda je zadaná hodnota jednou z možných hodnot,která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection} na straně~\pageref{img:validation_selection}.
+
+\subsection{Validace pole}
+
+U polí může být omezen počet prvků, které mohou obsahovat. Toto omezení je zadáno pomocí intervalu, který je z obou stran uzavřený. Proces validace tedy probíhá obdobně jako při validaci číselných datových typů s tím rozdílem, že se kontroluje počet prvků pole. Případná chybová hlášení se také liší. Pokud je počet prvků v poli menší než zadané minimum, dojde k chybě \textit{NotEnoughItems}. V opačném případě dojde k chybě \textit{TooManyItems}. Po kontrole počtu prvků pole se postupně prochází jeho potomci, u kterých se opět provádí validace. Validace pole je znázorněna na obrázku~\ref{img:validation_array} na straně~\pageref{img:validation_array}.
+
+\subsection{Validace záznamu}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=\textwidth]{../img/validation_record.pdf}
+    \caption{Validace záznamu -- \textit{Record}}
+	\label{img:validation_record}
+\end{figure}
+
+\subsection{Validace abstraktního záznamu}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=\textwidth]{../img/validation_abstract.pdf}
+    \caption{Validace abstraktního záznamu -- \textit{Abstract}}
+	\label{img:validation_abstract}
+\end{figure}
+
+
+
 
 \section{Kontextová dokumentace}
 
 \section{Automatické doplňování textu}
 
-\section{Funkce editoru}
-
-\section{GUI}
 
 
 \chapter{Implementace a~testování}
 
 
+\section{Požadavky}
+
+%TODO nekde zminit - jednosmerna konverze, protoze neplati WYSIWYG, nepracuje se s DOM ale primo s textem
+
+
 % YAML tab vs spaces - 2 mezery
 
+
+\section{Funkce editoru}
+
+\section{GUI}
+
+\section{Testování}
 
 %TODO zminit odlisnosti ve zpracovani YAML oproti standardnimu chovani - poradi klicu, aliasy, tagy?
 
@@ -996,46 +1042,23 @@ Aby transpozice mohla proběhnout, musí souhlasit délka všech neočekávanýc
 % kdo delal co
 % testy
 
-\chapter{Uživatelská příručka}
 
-\section{Zápis konfiguračních souborů pomocí YAML}
-
-\section{Vytváření a~editace konfiguračních souborů}
-
-\section{Validace a~odstranění chyb}
-
-\section{Nastavení} 
+%\section{Funkce editoru}
+%
+%\section{GUI}
+%
+%\chapter{Uživatelská příručka}
+%
+%\section{Zápis konfiguračních souborů pomocí YAML}
+%
+%\section{Vytváření a~editace konfiguračních souborů}
+%
+%\section{Validace a~odstranění chyb}
+%
+%\section{Nastavení} 
 
 %TODO jak odlisit format ve smyslu pouziteho textoveho zapisu vs format semantickeho vyznamu dat (IST) - neco jako XML Schema
 
-
-%
-%
-%\section{Konfigurační soubory}
-%Priblizeni konfiguracnich souboru a jejich formatu.
-%
-%Stary format CON a prechod na novy format YAML.
-%
-%Diskuze XML/YAML(JSON). 
-%
-%\section{Input Structure Tree}
-%Popis formatu datovych souboru.
-%
-%Definice konkretnich datovych typu.
-%
-%Specifikovat mozne atributy.
-%
-%\section{Autokonverze}
-%Popsat mozne konverze, uvest do souvislosti s~XML transformacemi?
-%
-%
-%\chapter{Návrh}
-%Diagramy pro zpracovani YAML (inspirace SAX vs DOM).
-%
-%
-%
-%
-%\chapter{Implementace}
 
 
 \chapter*{Závěr}
@@ -1156,6 +1179,31 @@ time: *time
 \vspace*{-20pt}
 \caption{Použití reference ve formátu YAML}
 \label{img:reference-yaml}
+\end{figure}
+
+
+
+\chapter{Dodatečné obrázky}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.7\textwidth]{../img/validation_number.pdf}
+    \caption{Validace číselných datových typů -- \textit{Integer} a \textit{Double}}
+	\label{img:validation_number}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.6\textwidth]{../img/validation_selection.pdf}
+    \caption{Validace výběrového datového typu -- \textit{Selection}}
+	\label{img:validation_selection}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.75\textwidth]{../img/validation_array.pdf}
+    \caption{Validace pole -- \textit{Array}}
+	\label{img:validation_array}
 \end{figure}
 
 
