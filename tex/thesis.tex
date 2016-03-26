@@ -124,6 +124,15 @@
 \newacronym{DTD}{DTD}{Document Type Definition}
 \newacronym{IST}{IST}{Input Structure Tree}
 \newacronym{UML}{UML}{Unified Modeling Language}
+\newacronym{FSF}{FSF}{Free Software Foundation}
+\newacronym{GNU}{GNU}{GNU's Not Unix}
+\newacronym{GPL}{GPL}{General Public License}
+\newacronym{ECMA}{ECMA}{European Computer Manufacturers Association}
+\newacronym{ISO}{ISO}{International Organization for Standardization}
+\newacronym{OMG}{OMG}{Object Management Group}
+\newacronym{PSF}{PSF}{Python Software Foundation}
+\newacronym{RCL}{RCL}{Riverbank Computing Limited}
+
 
 
 \begin{document}
@@ -1088,10 +1097,47 @@ Vzhled komponenty v grafickém rozhraní aplikace a ukázky zobrazovaných dat j
 
 \chapter{Implementace a~testování}
 
+Aplikace \textit{ModelEditor} je součástí aplikačního balíku \textit{GeoMop}, za jehož vývoj je zodpovědný Ing. Pavel Richter. V rámci této diplomové práce byly v aplikaci \textit{ModelEditor} implementovány následující funkce:
+
+\begin{itemize}
+\item datová struktura pro práci s konfiguračními soubory a specifikací formátu,
+\item zpracování konfiguračního souboru ve formátu \gls{YAML},
+\item proces autokonverzí,
+\item proces validace,
+\item generování kontextové dokumentace,
+\item automatické doplňování textu,
+\item grafické rozhraní aplikace včetně jeho komponent.
+\end{itemize}
+
+Kromě těchto funkcí ovšem \textit{ModelEditor} obsahuje i části, na kterých pracoval Ing.~Richter a nevznikly tedy v rámci této diplomové práce. Konkrétně se jedná o následující funkce:
+
+\begin{itemize}
+\item rozhodovací logika, která určuje, kdy má dojít k opětovnému načtení datové struktury,
+\item import formátu \gls{CON},
+\item transformace.
+\end{itemize}
+
+Nejužší souvislost s touto diplomovou prací má rozhodovací logika pro opětovné načtení datové struktury. Výše popsaný proces zpracování formátu \gls{YAML}, autokonverzí, validací, generování dokumentace a reprezentace dat musí probíhat neustále dokola. Když uživatel upravuje text souboru, mění se data i pozice kurzoru. Na těchto informacích závisí všechny zmíněné funkce. Pokud by ovšem celý proces měl probíhat při každém napsaném znaku, vedlo by to ke zbytečnému vytížení procesoru a znatelnému zpomalení aplikace. Bylo tedy nutné implementovat funkčnost, která rozhodne, kdy má dojít k opětovnému načtení datové struktury a aktualizaci všech komponent, které na ní závisí.
+
+Dále \textit{ModelEditor} obsahuje doplňkové funkce jako import formátu CON, ve kterém se dříve psaly konfigurační soubory, nebo transformace, které umožňují upravovat datovou strukturu (a tedy i text konfiguračního souboru) pomocí předdefinované sady pravidel. Transformace je možné využít například pro konverzi konfiguračních souborů mezi různými verzemi Flow123d, kde došlo ke změně specifikace formátu.
+
 
 \section{Požadavky}
 
-%TODO nekde zminit - jednosmerna konverze, protoze neplati WYSIWYG, nepracuje se s DOM ale primo s textem
+Na aplikaci \textit{ModelEditor} se vztahují určité požadavky, které vychází z požadavků na celý aplikační balík \textit{GeoMop}. Jedná se především o následující požadavky.
+
+\begin{itemize}
+\item Aplikace je vyvíjena jako open-source pod licencí \acrshort{GNU} \gls{GPL} v3.0~\cite{bib:gnu-gpl3}.
+\item Aplikace musí být multiplatformní a má podporovat systémy Windows (XP a~novější) a Linux.
+\item Aplikace je napsaná v jazyce Python~3~\cite{bib:python3}.
+\item Aplikace používá knihovnu PyQt~5~\cite{bib:pyqt5} pro grafické rozhraní.
+\item Pro vývoj aplikace se používá verzovací systém Git.
+\item Pro dokumentaci zdrojových kódů se používá nástroj Sphinx~\cite{bib:sphinx}.
+\end{itemize}
+
+%TODO odkaz na git repo GeoMop
+
+
 
 
 % YAML tab vs spaces - 2 mezery
@@ -1116,22 +1162,6 @@ Vzhled komponenty v grafickém rozhraní aplikace a ukázky zobrazovaných dat j
 % kdo delal co
 % testy
 
-
-%\section{Funkce editoru}
-%
-%\section{GUI}
-%
-%\chapter{Uživatelská příručka}
-%
-%\section{Zápis konfiguračních souborů pomocí YAML}
-%
-%\section{Vytváření a~editace konfiguračních souborů}
-%
-%\section{Validace a~odstranění chyb}
-%
-%\section{Nastavení} 
-
-%TODO jak odlisit format ve smyslu pouziteho textoveho zapisu vs format semantickeho vyznamu dat (IST) - neco jako XML Schema
 
 
 
@@ -1159,29 +1189,45 @@ V~rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná 
 \addcontentsline{toc}{chapter}{\bibname}
 
 \bibitem{bib:ecma404}
-\textit{Standard ECMA-404: The JSON Data Interchange Format}. [online]. Geneva: Ecma International, 2013. [cit. 2016-02-23] Dostupné z: \url{http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf}
+\textsc{Ecma International.} \textit{Standard ECMA-404: The JSON Data Interchange Format.} [online]. Geneva: Ecma International, 2013. [cit. 2016-02-23] Dostupné na: $<$\url{http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf}$>$
 
 \bibitem{bib:flow123d-manual}
-BŘEZINA, Jan et al. \textit{Flow123d version 1.8.2: Documentation of file formats and brief user manual}. [online]. Liberec, 2015 [cit. 2016-02-24]. Dostupné z: \url{http://flow.nti.tul.cz/packages/1.8.2_release/flow123d_1.8.2_doc.pdf}
+\textsc{Březina, Jan et al.} \textit{Flow123d version 1.8.2: Documentation of file formats and brief user manual}. [online]. Liberec, 2015 [cit. 2016-02-24]. Dostupné na: $<$\url{http://flow.nti.tul.cz/packages/1.8.2_release/flow123d_1.8.2_doc.pdf}$>$
 
 \bibitem{bib:sgml-iso}
-\textit{ISO 8879}. Amd.1:1988. International Organization for Standardization, 1988. [cit. 2016-02-26]. 
+\textsc{\acrshort{ISO}.} \textit{ISO 8879}. Amd.1:1988. \acrfull{ISO}, 1988. [cit. 2016-02-26]. 
 
 \bibitem{bib:xml}
-\textit{Extensible Markup Language (XML) 1.0}. Fifth Edition. [online]. W3C, 2008. [cit. 2016-02-26]. Dostupné z: \url{http://www.w3.org/TR/2008/REC-xml-20081126}
+\textsc{\acrshort{W3C}.} \textit{Extensible Markup Language (XML) 1.0}. Fifth Edition. [online]. \acrfull{W3C}, 2008. [cit. 2016-02-26]. Dostupné na: $<$\url{http://www.w3.org/TR/2008/REC-xml-20081126}$>$
 
 \bibitem{bib:yaml}
-BEN-KIKI, Oren et al. \textit{YAML Ain’t Markup Language (YAML™) Version 1.2}. 3rd Edition. [online]. 2009. [cit. 2016-03-06]. Dostupné z: \url{http://www.yaml.org/spec/1.2/spec.html}
+\textsc{Ben-Kiki, Oren et al.} \textit{YAML Ain’t Markup Language (YAML™) Version 1.2}. 3rd Edition. [online]. 2009. [cit. 2016-03-06]. Dostupné na: $<$\url{http://www.yaml.org/spec/1.2/spec.html}$>$
 
 \bibitem{bib:uml}
-\textit{ISO/IEC 19505-1: Information technology - Object Management Group
+\textsc{\acrshort{OMG}.} \textit{ISO/IEC 19505-1: Information technology - Object Management Group
 Unified Modeling Language (OMG UML),
-Infrastructure}. [online]. Object Management Group, 2012. [cit. 2016-03-21]. Dostupné z: \url{http://www.omg.org/spec/UML/ISO/19505-1/PDF}
+Infrastructure}. [online]. \acrfull{OMG}, 2012. [cit. 2016-03-21]. Dostupné na: $<$\url{http://www.omg.org/spec/UML/ISO/19505-1/PDF}$>$
 
+\bibitem{bib:gnu-gpl3}
+\acrshort{FSF}. \textit{\acrshort{GNU} Project: The \acrshort{GNU} \acrlong{GPL} v3.0}. [online]. \acrfull{FSF}, 2007. [cit. 2016-03-26]. Dostupné na: $<$\url{http://www.gnu.org/copyleft/gpl.html}$>$
+
+\bibitem{bib:python3}
+\acrshort{PSF}. \textit{Python 3.4.4 Documentation}. [online]. \acrfull{PSF}, 2016. [cit. 2016-03-26]. Dostupné na: $<$\url{https://docs.python.org/3.4/}$>$
+
+\bibitem{bib:pyqt5}
+\textsc{\acrshort{RCL}.} \textit{PyQt~5 Reference Guide}. [online]. \acrfull{RCL}, 2016. [cit. 2016-03-26]. Dostupné na: $<$\url{http://pyqt.sourceforge.net/Docs/PyQt5/}$>$
+
+\bibitem{bib:sphinx}
+\textsc{Brandl, Georg et al.} \textit{Sphinx 1.3.7+ Documentation}. [online]. Georg Brandl and the Sphinx team, 2016. [cit. 2016-03-26]. Dostupné na: $<$\url{http://www.sphinx-doc.org/en/stable/}$>$
 
 \end{thebibliography}
 
+
+
 \appendix
+
+%TODO appendix age numbering
+
 \counterwithin{figure}{chapter}
 
 \chapter{Ukázky kódů konfiguračních souborů}
@@ -1346,5 +1392,13 @@ time: *time
 \end{figure}
 
 \clearpage
+
+
+
+\chapter{ModelEditor User Manual}
+
+\begin{quote}
+To write or not to write? That is the question...
+\end{quote}
 
 \end{document}
