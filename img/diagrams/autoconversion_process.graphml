@@ -330,7 +330,7 @@ na záznam<y:LabelModel>
     <edge id="e8" source="n2" target="n9">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="-119.84000000000005" ty="0.0">
+          <y:Path sx="0.0" sy="0.0" tx="19.978600120319797" ty="0.0">
             <y:Point x="-140.0" y="460.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -370,9 +370,7 @@ na záznam<y:LabelModel>
     <edge id="e10" source="n3" target="n9">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="-20.009765625" ty="0.0">
-            <y:Point x="-40.0" y="460.0"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="0.0" tx="-120.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -382,9 +380,7 @@ na záznam<y:LabelModel>
     <edge id="e11" source="n7" target="n9">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="20.009765625" ty="0.0">
-            <y:Point x="200.0" y="460.0"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="0.0" tx="120.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>

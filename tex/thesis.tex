@@ -183,7 +183,7 @@ Takovou aplikací je například simulátor Flow123d, který se používá pro m
 
 Software Flow123d podporuje různé typy úloh. Konfigurace jednotlivých úloh vyžaduje odlišné nastavení a~může tedy dojít k~tomu, že uživatelem zadaná konfigurace je nevalidní -- například kvůli tomu, že definice dané úlohy neobsahuje některé povinné parametry a~je tedy neúplná. V~souboru může vzniknout i~syntaktická chyba, která způsobí, že zadaná data nelze správně interpretovat.
 
-Specifikace formátu konfiguračních souborů pro Flow123d, která popisuje strukturu vstupních dat, je poměrně rozsáhlá. Tištěná referenční příručka, která obsahuje tuto specifikaci formátu, má několik desítek stran. To klade na uživatele velké nároky. Pokud chce například ověřit, že byly zadány všechny povinné parametry, buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit velké množství času studiem této dokumentace a zkoumáním souvislostí mezi parametry.
+Specifikace formátu konfiguračních souborů pro Flow123d, která popisuje strukturu vstupních dat, je poměrně rozsáhlá. Tištěná referenční příručka, která obsahuje tuto specifikaci formátu, má několik desítek stran. To klade na uživatele velké nároky. Pokud chce například ověřit, že byly zadány všechny povinné parametry, buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit velké množství času studiem této dokumentace a~zkoumáním souvislostí mezi parametry.
 
 Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí nové a~upřesňují stávající funkcionality softwaru Flow123d. Může dojít k~tomu, že některé změny ve formátu konfiguračních souborů nemusí být zpětně kompatibilní. Uživatel tedy potřebuje znovu prostudovat rozsáhlou referenční dokumentaci, aby zjistil, jakým způsobem zadat dříve realizovanou úlohu pro novou verzi Flow123d.
 
@@ -568,8 +568,8 @@ Posledním speciálním typem, který se používá ve struktuře konfigurační
 
 % resi se procesu, existuje nekoliik typu, ktere flow dokaze resit ; simluace jednotlivych procesu se lisi, maji jine param a data maji odlisnou strukturu;; simulovat / modelovat;; specifikace ocekava abstraktni typ; v konfiguracnim souboru musi byt konkretni datovy typ, ktery odpovida abstrakci (implemetuje dat typ)
 Jeden z~příkladů využití je při výběru typu simulovaného procesu. Existuje několik typů procesů, které Flow123d dokáže řešit. Jednotlivé procesy se však liší a~tím pádem i~vyžadují jiné parametry a~data mají odlišnou strukturu.
-V místě, kde se zadává proces očekává specifikace formátu abstraktní záznam.
-V~konfiguračním souboru se daném místě uvede konkrétní záznam, který implementuje očekávaný abstraktní záznam. U těchto záznamů je ve specifikaci formátu uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
+V~místě, kde se zadává proces očekává specifikace formátu abstraktní záznam.
+V~konfiguračním souboru se daném místě uvede konkrétní záznam, který implementuje očekávaný abstraktní záznam. U~těchto záznamů je ve specifikaci formátu uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
 
 %TODO je to takhle receno spravne z pohledu uzivatele flow?
 
@@ -828,19 +828,17 @@ input_fields:
 % big picture - pohled na aplikaci jako celek
 
 \section{Použití syntaxe YAML}
+V~této kapitole je upřesněno použití syntaxe \gls{YAML} pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu \gls{CON}, jako jsou specifikace typu záznamu a~použití referencí. Dále je popsán proces získání datové struktury z~konfiguračního souboru, který zahrnuje provedení autokonverzí. Kapitola se dále zabývá validací načtené datové struktury. V poslední části kapitoly jsou navrženy základní komponenty uživatelského rozhraní a je popsána jejich funkce.
 
-V~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} byla uvedena základní syntaxe formátu \gls{YAML}, která se používá pro zápis skalárních hodnot, sekvencí a~map. V~této kapitole je dále upřesněno použití syntaxe \gls{YAML} pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu \gls{CON}.
-%TODO v kapitole X ... v teto kapitole -- o kterou kapitolu se jedna? preformulovat
-
-Formát \gls{CON} měl vyhrazené dva speciální klíče -- \texttt{TYPE} a~\texttt{REF}. První z~nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v~datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
+%Formát \gls{CON} měl vyhrazené dva speciální klíče -- \texttt{TYPE} a~\texttt{REF}. První z~nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v~datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
 
 \subsection{Základní použití syntaxe}
 
-Pro reprezentace primitivních datových typů, polí a~záznamů v~konfiguračních souborech lze jednoduše využít výše popsanou syntaxi formátu \gls{YAML}. Primitivní datové typy lze zapsat s~využitím syntaxe pro skalární hodnoty, pole je možné reprezentovat pomocí syntaxe pro sekvence a~záznamy lze zapsat pomocí syntaxe pro mapy.
+Pro reprezentace primitivních datových typů, polí a~záznamů v~konfiguračních souborech lze využít základní syntaxi formátu \gls{YAML} popsanou v~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu}. Primitivní datové typy lze zapsat s~využitím syntaxe pro skalární hodnoty, pole je možné reprezentovat pomocí syntaxe pro sekvence a~záznamy lze zapsat pomocí syntaxe pro mapy.
 
 Pro reprezentaci polí se doporučuje použít syntaxe pro blokový zápis, kromě případů, kdy je zjednodušený zápis výrazně kratší bez újmy na čitelnosti (např. zápis pole celočíselných hodnot). Pro reprezentaci záznamů se doporučuje používat výhradně syntaxe pro blokový zápis. Zjednodušený zápis záznamů působí chaoticky a~editor nemusí podporovat některé funkce při používání tohoto zápisu.
 
-Formát \gls{YAML} nepředepisuje, jaké by mělo být odsazení při vnořování blokových zápisů, ale pouze vyžaduje, aby bylo v~rámci daného bloku stejné. V~rámci konfiguračních souborů Flow123d se ale doporučuje používat odsazení pomocí dvou mezer, aby byl styl použitý pro zápis konfiguračních souborů jednotný. Editor je optimalizován na použití odsazení pomocí dvou mezer a~znaky tabulátor automaticky převádí na toto odsazení.
+Formát \gls{YAML} nepředepisuje, jaké by mělo být odsazení při vnořování blokových zápisů, ale pouze vyžaduje, aby bylo v~rámci daného bloku jednotné. V~rámci konfiguračních souborů Flow123d se ale doporučuje používat odsazení pomocí dvou mezer, aby byl styl použitý pro zápis konfiguračních souborů jednotný. Editor je optimalizován na použití odsazení pomocí dvou mezer a~znaky tabulátor automaticky převádí na toto odsazení.
 
 \subsection{Abstraktní záznamy}
 \label{sec:navrh-yaml-abstrakni-zaznamy}
@@ -857,7 +855,7 @@ Příkladem je třeba klíč \texttt{primary\_equation} v~datovém typu \textit{
 
 V~konfiguračním souboru je nutné nějakým způsobem určit, jaká implementace byla zvolena. Formát \gls{CON} toto řešil pomocí speciálního klíče \texttt{TYPE}. Tento klíč obsahoval výběrový typ, který mohl nabývat hodnot, které odpovídaly názvům jednotlivých implementací. Nevýhoda tohoto řešení byla, že klíč \texttt{TYPE} byl uveden v~záznamu jako běžný klíč i~přes to, že pouze určoval datový typ záznamu a~měl jiný význam než ostatní klíče. Ukázka výběru konkrétní implementace ve formátu CON je na obrázku~\ref{img:abstract-record-con} na straně~\pageref{img:abstract-record-con}.
 
-Ve formátu \gls{YAML} existují takzvané tagy, které slouží pro určení datového typu. Jsou definovány některé základní tagy, které se používají pro odlišení typů, které jsou univerzální pro všechny \gls{YAML} dokumenty. Tyto předdefinované tagy byly popsány v~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} a~jejich kompletní popis lze nalézt v~dokumentaci formátu YAML~\cite{bib:yaml}. Všechny předdefinované tagy začínají \texttt{!!} (dvěma vykřičníky).
+Ve formátu \gls{YAML} existují takzvané tagy, které slouží pro určení datového typu. Jsou definovány některé základní tagy, které se používají pro odlišení typů, které jsou univerzální pro všechny \gls{YAML} dokumenty. Tyto předdefinované tagy byly popsány v~kapitole~\ref{sec:analyza-yaml-zapis-datovych-typu} a~jejich kompletní popis lze nalézt v~dokumentaci formátu \gls{YAML}~\cite{bib:yaml}. Všechny předdefinované tagy začínají \texttt{!!} (dvěma vykřičníky).
 
 Lze ovšem využít i~uživatelsky definované tagy. Ty začínají pouze jedním znakem~\texttt{!}~(vykřičník) a~poté jsou následovány uživatelsky definovaným názvem. Zpracování těchto tagů je potom aplikačně specifické a~řeší se v~rámci procesu načtení \gls{YAML} dokumentu. Použití uživatelsky definovaného tagu může vypadat následovně.
 
@@ -870,17 +868,17 @@ solver: !Petsc
 \end{lstlisting}
 \vspace{-20pt}
 
-Uživatelsky definované tagy jsou ideální pro výběr konkrétní implementace abstraktního záznamu. Jejich zápis je jednoznačně odlišuje od ostatních dat v~záznamu a~nejsou potom součástí samotných dat záznamu. Na obrázcích~\ref{img:abstract-record-con} a~\ref{img:abstract-record-yaml} na straně~\pageref{img:abstract-record-con} lze porovnat způsob výběru implementace abstraktního záznamu ve formátech \gls{CON} a \gls{YAML}.
+Uživatelsky definované tagy jsou ideální pro výběr konkrétní implementace abstraktního záznamu. Jejich zápis je jednoznačně odlišuje od ostatních dat v~záznamu a~nejsou potom součástí samotných dat záznamu. Na obrázcích~\ref{img:abstract-record-con} a~\ref{img:abstract-record-yaml} na straně~\pageref{img:abstract-record-con} lze porovnat způsob výběru implementace abstraktního záznamu ve formátech \gls{CON} a~\gls{YAML}.
 
 
 \subsection{Reference}
 \label{sec:navrh-yaml-reference}
 
-Ve formátu CON bylo možné se pomocí referencí odkázat na libovolnou část datové struktury. Tento odkaz byl pak při zpracování nahrazen daty, na které odkazoval. Dalo se tak předejít duplicitě dat. Pokud některá data byla totožná s daty v jiné části datové struktury, stačilo použít referenci.
+Ve formátu \gls{CON} bylo možné se pomocí referencí odkázat na libovolnou část datové struktury. Tento odkaz byl pak při zpracování nahrazen daty, na které odkazoval. Dalo se tak předejít duplicitě dat. Pokud byla některá data totožná s~daty v~jiné části datové struktury, stačilo použít referenci.
 
-Reference se ve formátu CON používala tak, že se do speciálního klíče REF uvedla libovolná cesta do jiné části datové struktury. Ta mohla být buď absolutní nebo relativní a mohla být v libovolné části konfiguračního souboru. Ukázka použití reference ve formátu CON je na obrázku \ref{img:reference-con} na straně \pageref{img:reference-con}.
+Reference se ve formátu \gls{CON} používaly tak, že se do speciálního klíče \texttt{REF} uvedla libovolná cesta do jiné části datové struktury. Ta mohla být buď absolutní nebo relativní a~mohla být v~libovolné části konfiguračního souboru. Ukázka použití reference ve formátu \gls{CON} je na obrázku \ref{img:reference-con} na straně \pageref{img:reference-con}.
 
-Formát YAML poskytuje podobnou funkčnost v podobě kotev a aliasů. V libovolné části souboru je možné definovat tzv. kotvu, na kterou je pak možné se odkázat ve zbývající části souboru pomocí aliasu. Kotva začíná znakem \texttt{\&} (ampersand) a za ním následuje její název, který si uživatel může zvolit. Alias začíná znakem \texttt{*} (hvězdička) a za ní je bezprostředně uveden název již existující kotvy. Definice kotvy a použití aliasu může vypadat například následovně.
+Formát \gls{YAML} poskytuje podobnou funkčnost v~podobě kotev a~aliasů. V~libovolné části souboru je možné definovat tzv. kotvu, na kterou je pak možné se odkázat ve zbývající části souboru pomocí aliasu. Kotva začíná znakem \texttt{\&} (ampersand) a~za ním následuje její název, který si uživatel může zvolit. Alias začíná znakem \texttt{*} (hvězdička) a~za ní je bezprostředně uveden název již existující kotvy. Definice kotvy a~použití aliasu může vypadat například následovně.
 
 \vspace{5pt}
 \begin{lstlisting}
@@ -893,9 +891,9 @@ time: *time
 \end{lstlisting}
 \vspace{-20pt}
 
-Použití kotev a aliasů bylo navrženo ve formátu YAML za stejným účelem jako reference ve formátu CON -- ke zrychlení zápisu duplicitních dat. Formát YAML byl ovšem navržen tak, aby byl schopný zpracovávat i proud dat, nikoli pouze kompletní soubory. To vedlo k tomu, že kotvy je nutné vždy definovat dříve, než je možné je použít jako alias.
+Použití kotev a~aliasů bylo navrženo ve formátu \gls{YAML} za stejným účelem jako reference ve formátu \gls{CON} -- ke zrychlení zápisu duplicitních dat. Formát \gls{YAML} byl ovšem navržen tak, aby byl schopný zpracovávat i~proud dat, nikoli pouze kompletní soubory. To vedlo k~tomu, že kotvy je nutné vždy definovat dříve, než je možné je použít jako alias.
 
-Tím se použití kotev a aliasů liší od referencí ve formátu CON. V tom bylo možné se odkázat i na datovou strukturu, která v dané fázi zpracování souboru ještě nebyla definovaná. Nicméně vzhledem k účelu referencí -- předejití duplicitě dat -- není tato funkcionalita zásadní. 
+Tím se použití kotev a~aliasů liší od referencí ve formátu \gls{CON}. V~tom bylo možné se odkázat i~na datovou strukturu, která v~dané fázi zpracování souboru ještě nebyla definovaná. Nicméně vzhledem k~účelu referencí -- předejití duplicitě dat -- není tato funkcionalita zásadní. 
 
 %TODO zminit operator merge?
 
@@ -904,15 +902,15 @@ Tím se použití kotev a aliasů liší od referencí ve formátu CON. V tom by
 
 \subsection{Získání datové struktury}
 
-V rámci aplikace je zapotřebí s daty, která jsou zapsaná v konfiguračním souboru, dále pracovat. Z konfiguračního souboru je tedy potřeba získat vhodnou datovou strukturu, která bude podporovat operace, které potom využijí jiné části aplikace. Proces získání datové struktury z konfiguračního souboru je znázorněn na obrázku~\ref{img:data_structure_chain}.
+V~rámci aplikace je zapotřebí s~daty, která jsou zapsaná v~konfiguračním souboru, dále pracovat. Z~konfiguračního souboru je tedy potřeba získat vhodnou datovou strukturu, která bude podporovat operace, které potom využijí jiné části aplikace. Proces získání datové struktury z~konfiguračního souboru je znázorněn na obrázku~\ref{img:data_structure_chain}.
 
 \includeimg{data_structure_chain}{Získání datové struktury z~konfiguračního souboru}
 
-Na začátku řetězce je vstupní konfigurační soubor. Z toho se získá obsah pomocí lexikální a syntaktické analýzy jazyka \gls{YAML}. Tato data se dále zpracovávají speciální vrstvou, která provede potřebné autokonverze. Výstupem z celého tohoto procesu je výsledná datová struktura, se kterou se v aplikaci dále pracuje.
+Na začátku řetězce je vstupní konfigurační soubor. Z~toho se získá obsah pomocí lexikální a~syntaktické analýzy jazyka \gls{YAML}. Tato data se dále zpracovávají speciální vrstvou, která provede potřebné autokonverze. Výstupem z~celého tohoto procesu je výsledná datová struktura, se kterou se v~aplikaci dále pracuje.
 
 \subsection{Návrh datové struktury}
 
-Datová struktura z pohledu konfiguračních souborů, resp. Flow123d, byla popsána v kapitole~\ref{sec:datova-struktura}. Jak bylo řečeno, datová struktura tvoří strom. Jednotlivé uzly tedy mohou být buď interní, což znamená, že obsahují další potomky, nebo mohou být koncové a jsou to tedy tzv. listy. Na obrázku~\ref{img:data_node} je znázorněna navržená datová struktura pomocí diagramu \gls{UML}. Více o modelovacím jazyku \gls{UML} je možné se dočíst v příslušné normě~\cite{bib:uml}.
+Datová struktura z~pohledu konfiguračních souborů, resp. Flow123d, byla popsána v~kapitole~\ref{sec:datova-struktura}. Jak bylo řečeno, datová struktura tvoří strom. Jednotlivé uzly tedy mohou být buď interní, což znamená, že obsahují další potomky, nebo mohou být koncové a~jsou to tedy tzv. listy. Na obrázku~\ref{img:data_node} je znázorněna navržená datová struktura pomocí diagramu \gls{UML}. Více o~modelovacím jazyku \gls{UML} je možné se dočíst v~příslušné normě~\cite{bib:uml}.
 
 \begin{figure}[h]
 	\centering
@@ -921,52 +919,46 @@ Datová struktura z pohledu konfiguračních souborů, resp. Flow123d, byla pops
 	\label{img:data_node}
 \end{figure}
 
-Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a \textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Existují dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a \textit{SequenceDataNode} pro pole.
+Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a~\textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a~tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Abstraktní třída \textit{CompositeDataNode} má dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a~\textit{SequenceDataNode} pro pole. Popsaná a znázorněná reprezentace datové struktury odpovídá návrhovému vzoru \textit{Composite}. Více o tomto a dalších návrhových vzorech se lze dočíst v knize Design Patterns~\cite{bib:design-patterns}.
 
-V aplikaci se pracuje s abstrakcí DataNode, která reprezentuje obecný uzel a poskytuje všechny potřebné informace o datové struktuře. Typicky se v rámci aplikace pracuje s kořenovým uzlem stromu, ze kterého je možné se dostat do všech ostatních uzlů.
+V~aplikaci se pracuje s~abstrakní třídou \textit{DataNode}, která reprezentuje obecný uzel a~poskytuje všechny potřebné informace o~datové struktuře. Typicky se v~rámci aplikace pracuje s~kořenovým uzlem stromu, ze kterého je možné se dostat do všech ostatních uzlů.
 
 \section{Autokonverze}
 
-V konfiguračních souborech se často používají zkrácené zápisy, které je potřeba zpracovat pomocí autokonverzí, které byly podrobně popsány v kapitole~\ref{sec:analyza-autokonverze}. Proces autokonverzí obdobně jako třeba validace potřebuje ke své funkci ne pouze konfigurační soubor, ale i specifikaci formátu, která předepisuje očekávané datové typy.
+V~konfiguračních souborech se často používají zkrácené zápisy, které je potřeba zpracovat pomocí autokonverzí, které byly podrobně popsány v~kapitole~\ref{sec:analyza-autokonverze}. Proces autokonverzí, obdobně jako třeba validace, potřebuje ke své funkci ne pouze konfigurační soubor, ale i~specifikaci formátu, která předepisuje očekávané datové typy.
 
-Pro zpracování autokonverzí byl v rámci aplikace navržen samostatný modul, který zkonvertuje vstupní datovou strukturu spolu se specifikací formátu dle dříve zmíněných pravidel pro autokonverze. Autokonverze pracuje vždy s nějakým uzlem v datové struktuře a funguje rekurzivně. Pokud se tedy proces autokonverze spustí na kořen stromu, dojde ke všem potřebným autokonverzím. Kompletní logika procesu autokonverzí je znázorněna na obrázcích~\ref{img:autoconversion_process},~\ref{img:autoconversion_process_2}  a~\ref{img:autoconversion_process_3} pomocí vývojových diagramů. 
-
-\clearpage
+Pro zpracování autokonverzí byl v~rámci aplikace navržen samostatný modul, který zkonvertuje vstupní datovou strukturu spolu se specifikací formátu dle dříve zmíněných pravidel pro autokonverze. Autokonverze pracuje vždy s~nějakým uzlem v~datové struktuře a~funguje rekurzivně. Pokud se tedy proces autokonverze spustí na kořen stromu, dojde ke všem potřebným autokonverzím. Kompletní logika procesu autokonverzí je znázorněna na obrázcích~\ref{img:autoconversion_process},~\ref{img:autoconversion_process_2}  a~\ref{img:autoconversion_process_3} pomocí vývojových diagramů. 
 
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.95\textwidth]{../img/autoconversion_process.pdf}
-    \caption{Proces autokonverze I.}
+    \caption[Proces autokonverze I.]{Proces autokonverze I. -- Počáteční stav, kdy se ověřuje shoda datových typů, a případné provedení autokonverze na záznam}
 	\label{img:autoconversion_process}
 \end{figure}
 
-Začátek celého procesu se nachází na obrázku~\ref{img:autoconversion_process}.  Nejprve se zkontroluje, zda datový typ uzlu odpovídá očekávanému datovému typu. Pokud je datový typ správný, tak se pro danou datovou strukturu žádná autokonverze neprovede, ale rekurzivně se stejný proces opakuje i pro všechny přímé potomky této datové struktury.
+Začátek celého procesu se nachází na obrázku~\ref{img:autoconversion_process}.  Nejprve se zkontroluje, zda datový typ uzlu odpovídá očekávanému datovému typu. Pokud je datový typ správný, tak se pro danou datovou strukturu žádná autokonverze neprovede, ale rekurzivně se stejný proces opakuje i~pro všechny přímé potomky této datové struktury.
 
-K autokonverzi může dojít v případě, že se datový typ daného uzlu neshoduje s datovým typem, který se na tomto místě v datové struktuře očekává. Pokud tato situace nastane, tak se nejprve ověří, zda se očekává záznam. Pokud tomu tak je a zároveň tento záznam podporuje funkci autokonverze, tak dojde k autokonverzi na záznam, jak bylo popsáno v kaptiole~\ref{sec:analyza-autokonverze-zaznam}.
+K~autokonverzi může dojít v~případě, že se datový typ daného uzlu neshoduje s~datovým typem, který se na tomto místě v~datové struktuře očekává. Pokud tato situace nastane, tak se nejprve ověří, zda se očekává záznam. Pokud tomu tak je a~zároveň tento záznam podporuje funkci autokonverze, tak dojde k~autokonverzi na záznam, jak bylo popsáno v~kaptiole~\ref{sec:analyza-autokonverze-zaznam}.
 
-Další fáze pokračuje na obrázku~\ref{img:autoconversion_process_2}. Zde se rozhoduje, zda je očekávaným datovým typem pole. Pokud tomu tak je, tak záleží, jakého datového typu je aktuální uzel. Pokud se jedná o skalární hodnotu, tak proběhne autokonverze na pole, která je schopná provést konverzi i na vícerozměrné pole. Funkce autokonverze na pole byla popsána v kapitole~\ref{sec:analyza-autokonverze-pole}.
-
-\clearpage
+Další fáze pokračuje na obrázku~\ref{img:autoconversion_process_2}. Zde se rozhoduje, zda je očekávaným datovým typem pole. Pokud tomu tak je, tak záleží, jakého datového typu je aktuální uzel. Pokud se jedná o~skalární hodnotu, tak proběhne autokonverze na pole, která je schopná provést konverzi i~na vícerozměrné pole. Funkce autokonverze na pole byla popsána v~kapitole~\ref{sec:analyza-autokonverze-pole}.
 
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.8\textwidth]{../img/autoconversion_process_2.pdf}
-    \caption{Proces autokonverze II.}
+    \caption[Proces autokonverze II.]{Proces autokonverze II. -- Rozhodovací logika, která určuje, zda se má provést autokonverze na pole}
 	\label{img:autoconversion_process_2}
 \end{figure}
 
-Pokud se očekává pole a místo toho je uzel typu záznam, tak situace je komplikovanější, protože je potřeba určit, zda stačí provést autokonverzi na pole, nebo zda-li se jedná o transpozici. Tento proces popisuje poslední obrázek týkající se procesu autokonverzí, obrázek~\ref{img:autoconversion_process_3}.
+Pokud se očekává pole a~místo toho je uzel typu záznam, tak situace je komplikovanější, protože je potřeba určit, zda stačí provést autokonverzi na pole, nebo zda-li se jedná o~transpozici. Tento proces popisuje poslední obrázek znázorňující proces autokonverzí, obrázek~\ref{img:autoconversion_process_3}.
 
-Detekce transpozice spočívá v následujících krocích. Za prvé se již počítá s faktem, že v této fázi musí dojít buď k transpozici nebo autokonverzi na pole (pokud nedojde k chybě transpozice díky špatným vstupním datům). Díky tomu je znám očekávaný datový typ záznamu, který se má po autokonverzi získat, a tím pádem i očekávaný datový typ jeho potomků.
+Detekce transpozice spočívá v~následujících krocích. Za prvé se již počítá s~faktem, že v~této fázi se musí provést buď transpozice nebo autokonverze na pole (pokud nedojde k~chybě transpozice díky špatným vstupním datům). Na základě toho lze odvodit datový typ očekávaného záznamu, který se má po autokonverzi získat, a~tím pádem i~očekávaný datový typ jeho potomků.
 
-U aktuálního uzlu se postupně projdou všichni přímí potomci a dojde ke kontrole jejich datového typu oproti očekávanému datovému typu. Pokud se jedná o pole, které se zde ovšem neočekává, signalizuje to použití transpozice. V tuto chvíli se délka tohoto pole uloží a zkontroluje.
+U~aktuálního uzlu se postupně projdou všichni přímí potomci a~dojde ke kontrole jejich datového typu oproti očekávanému datovému typu. Pokud se jedná o~pole, které se zde ovšem neočekává, signalizuje to použití transpozice. V~tuto chvíli se délka tohoto pole uloží a~zkontroluje. Aby transpozice mohla proběhnout, musí souhlasit délka všech neočekávaných polí -- pokud nesouhlasí, jedná se o~chybně zadaný vstup. Po zkontrolování všech přímých potomků se dorazí do větve, která rozhoduje, zda se má provést transpozice nebo autokonverze na pole. Pokud byla během procesu kontroly potomků definována délka pole a~nedošlo k~chybě, tak se provede transpozice tak, jak byla popsána v~kapitole~\ref{sec:analyza-autokonverze-transpozice}. Pokud se v~záznamu nevyskytla žádná neočekávaná pole, tak se provede autokonverze na pole.
 
-Aby transpozice mohla proběhnout, musí souhlasit délka všech neočekávaných polí -- pokud nesouhlasí, jedná se o chybně zadaný vstup. Po zkontrolování všech přímých potomků se dorazí do větve, která rozhoduje, zda se má provést transpozice nebo autokonverze na pole. Pokud byla během procesu kontroly potomků definována délka pole a nedošlo k chybě, tak se provede transpozice tak, jak byla popsána v kapitole~\ref{sec:analyza-autokonverze-transpozice}. Pokud se v záznamu nevyskytla žádná neočekávaná pole, tak se provede autokonverze na pole.
-
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{../img/autoconversion_process_3.pdf}
-    \caption{Proces autokonverze III.}
+    \caption[Proces autokonverze III.]{Proces autokonverze III. -- Rozhodovací logika, která určuje, zda lze provést transpozice}
 	\label{img:autoconversion_process_3}
 \end{figure}
 
@@ -976,9 +968,9 @@ Aby transpozice mohla proběhnout, musí souhlasit délka všech neočekávanýc
 
 \section{Validace}
 
-Jednou z hlavních funkcí a přínosů editoru je funkce validace, která umožňuje odhalit chyby a možné problémy se zadanou konfigurací již během vytváření konfiguračních souborů. Vstupem do validace je datová struktura, která vznikla z dat konfiguračního souboru po provedení výše popsaných autokonverzí. Během procesu validace se tato datová struktura rekurzivně prochází a detekované problémy či chyby se postupně ukládají. Po dokončení procesu validace je uživatel upozorněn na detekované chyby pomocí grafického uživatelského rozhraní aplikace.
+Jednou z~hlavních funkcí a~přínosů editoru je funkce validace, která umožňuje odhalit chyby a~možné problémy se zadanou konfigurací již během vytváření konfiguračních souborů. Vstupem do validace je datová struktura, která vznikla z~dat konfiguračního souboru po provedení výše popsaných autokonverzí. Během procesu validace se tato datová struktura rekurzivně prochází a~detekované problémy či chyby se postupně ukládají. Po dokončení procesu validace je uživatel upozorněn na detekované chyby pomocí grafického uživatelského rozhraní aplikace.
 
-Validace ke své funkci potřebuje obdobně jako autokonverze specifikaci formátu, na základě které ověřuje, zda se vstupní data mají předepsanou strukturu a splňují všechna omezení. Jelikož validace pracuje s dynamicky zadanou specifikací formátu, tak je možné validaci provést pro libovolnou verzi Flow123d, kterou si uživatel může zvolit v uživatelském rozhraní.
+Validace ke své funkci potřebuje obdobně jako autokonverze specifikaci formátu, na základě které ověřuje, zda se vstupní data mají předepsanou strukturu a~splňují všechna omezení. Jelikož validace pracuje s~dynamicky zadanou specifikací formátu, tak je možné validaci provést pro libovolnou verzi Flow123d, kterou si uživatel může zvolit v~uživatelském rozhraní.
 
 \begin{figure}[h]
 	\centering
@@ -987,19 +979,19 @@ Validace ke své funkci potřebuje obdobně jako autokonverze specifikaci formá
 	\label{img:validation_type}
 \end{figure}
 
-Prvním krokem validace je detekce a ověření zadaného datového typu. Tento proces je znázorněn na obrázku~\ref{img:validation_type}. Pokud neodpovídá zadaný datový typ očekávanému, aplikace se pokusí převést datový typ na očekávaný, pokud je to možné. Poté se provede validace, která závisí na datovém typu (tyto validace jsou postupně popsány dále). Pokud datový typ nelze převést na očekávaný, dojde k chybě \textit{ValidationTypeError}. 
+Prvním krokem validace je detekce a~ověření zadaného datového typu. Tento proces je znázorněn na obrázku~\ref{img:validation_type}. Pokud neodpovídá zadaný datový typ očekávanému, aplikace se pokusí převést datový typ na očekávaný, pokud je to možné. Poté se provede validace, která závisí na datovém typu (tyto validace jsou postupně popsány dále). Pokud datový typ nelze převést na očekávaný, dojde k~chybě \textit{ValidationTypeError}. 
 
 \subsection{Validace primitivních datových typů}
 
-Některé z primitivních datových typů nemají žádnou typově specifickou validaci. Aktuálně se jedná o řetězce, názvy souborů a booleovské hodnoty (\textit{String}, \textit{Filename} a \textit{Boolean}). U těchto datových typů se pouze provede kontrola datového typu a případná konverze, jak bylo popsáno výše.
+Některé z~primitivních datových typů nemají žádnou typově specifickou validaci. Aktuálně se jedná o~řetězce, názvy souborů a~booleovské hodnoty (\textit{String}, \textit{Filename} a~\textit{Boolean}). U~těchto datových typů se pouze provede kontrola datového typu a~případná konverze, jak bylo popsáno výše.
 
-Číselné datové typy pro reprezentaci celých a desetinných čísel (\textit{Integer} a \textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k chybě \textit{ValueTooSmall}. V opačném případě, kdy je hodnota větší než požadované maximum, dojdě k chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number} na straně~\pageref{img:validation_number}.
+Číselné datové typy pro reprezentaci celých a~desetinných čísel (\textit{Integer} a~\textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i~zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v~tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k~chybě \textit{ValueTooSmall}. V~opačném případě, kdy je hodnota větší než požadované maximum, dojdě k~chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number} na straně~\pageref{img:validation_number}.
 
-Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U tohoto datového typu se oveří, zda je zadaná hodnota jednou z možných hodnot,která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection} na straně~\pageref{img:validation_selection}.
+Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se oveří, zda je zadaná hodnota jednou z~možných hodnot,která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection} na straně~\pageref{img:validation_selection}.
 
 \subsection{Validace pole}
 
-U polí může být omezen počet prvků, které mohou obsahovat. Toto omezení je zadáno pomocí intervalu, který je z obou stran uzavřený. Proces validace tedy probíhá obdobně jako při validaci číselných datových typů s tím rozdílem, že se kontroluje počet prvků pole. Případná chybová hlášení se také liší. Pokud je počet prvků v poli menší než zadané minimum, dojde k chybě \textit{NotEnoughItems}. V opačném případě dojde k chybě \textit{TooManyItems}. Po kontrole počtu prvků pole se postupně prochází jeho potomci, u kterých se opět provádí validace. Validace pole je znázorněna na obrázku~\ref{img:validation_array} na straně~\pageref{img:validation_array}.
+U~polí může být omezen počet prvků, které mohou obsahovat. Toto omezení je zadáno pomocí intervalu, který je z~obou stran uzavřený. Proces validace tedy probíhá obdobně jako při validaci číselných datových typů s~tím rozdílem, že se kontroluje počet prvků pole. Případná chybová hlášení se také liší. Pokud je počet prvků v~poli menší než zadané minimum, dojde k~chybě \textit{NotEnoughItems}. V~opačném případě dojde k~chybě \textit{TooManyItems}. Po kontrole počtu prvků pole se postupně prochází jeho potomci, u~kterých se opět provádí validace. Validace pole je znázorněna na obrázku~\ref{img:validation_array} na straně~\pageref{img:validation_array}.
 
 \subsection{Validace záznamu}
 
@@ -1010,9 +1002,9 @@ U polí může být omezen počet prvků, které mohou obsahovat. Toto omezení 
 	\label{img:validation_record}
 \end{figure}
 
-Záznamy jsou opět složeným typem, takže součástí procesu je opět validace potomků. Průběh validace záznamu je znázorněn na obrázku~\ref{img:validation_record}. Během tohoto procesu se postupně ověřují všechny klíče záznamu, které obsahují jeho potomky. Pro každý z těchto klíčů se najde jeho odpovídající datový typ ve specifikaci formátu. Pokud v ní není daný klíč uveden, dojde k upozornění \textit{UnknownRecordKey} a pokračuje se dalším klíčem. Po validaci všech klíčů, resp. potomků, se ještě ověří, ze jsou v záznamu uvedeny všechny povinné klíče. Pokud tomu tak není, tak je uživatel na chybějící klíče upozorněn pomocí chyby \textit{MissingObligatoryKey}.
+Záznamy jsou opět složeným typem, takže součástí procesu je opět validace potomků. Průběh validace záznamu je znázorněn na obrázku~\ref{img:validation_record}. Během tohoto procesu se postupně ověřují všechny klíče záznamu, které obsahují jeho potomky. Pro každý z~těchto klíčů se najde jeho odpovídající datový typ ve specifikaci formátu. Pokud v~ní není daný klíč uveden, dojde k~upozornění \textit{UnknownRecordKey} a~pokračuje se dalším klíčem. Po validaci všech klíčů, resp. potomků, se ještě ověří, ze jsou v~záznamu uvedeny všechny povinné klíče. Pokud tomu tak není, tak je uživatel na chybějící klíče upozorněn pomocí chyby \textit{MissingObligatoryKey}.
 
-Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a fatální chyby. Ve výše popsaném příkladu může kromě chyb vzniknout i upozornění \textit{UnknownRecordKey}. V této situaci se nejedná o chybu, protože pokud klíč ve specifikaci formátu není uveden, neznamená to, že ho konfigurační soubor nemůže obsahovat. V praxi se však v těchto případech často jedná o překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i na tyto případy.
+Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a~fatální chyby. Ve výše popsaném příkladu může kromě chyb vzniknout i~upozornění \textit{UnknownRecordKey}. V~této situaci se nejedná o~chybu, protože pokud klíč ve specifikaci formátu není uveden, neznamená to, že ho konfigurační soubor nemůže obsahovat. V~praxi se však v~těchto případech často jedná o~překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i~na tyto případy.
 
 \subsection{Validace abstraktního záznamu}
 
@@ -1029,43 +1021,43 @@ Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ 
 
 \section{Vizualizace datové struktury}
 
-Jednou z komponent editoru je grafický strom, který slouží pro vizualizaci datové struktury. V prvotní fázi plánování editoru se uvažovalo o tom, že by se pomocí tohoto grafického stromu kompletně zadávala celá konfigurace a editor by neměl žádnou komponentu pro přímou úpravu zdrojového textu konfiguračního souboru. 
+Jednou z~komponent editoru je grafický strom, který slouží pro vizualizaci datové struktury. V~prvotní fázi plánování editoru se uvažovalo o~tom, že by se pomocí tohoto grafického stromu kompletně zadávala celá konfigurace a~editor by neměl žádnou komponentu pro přímou úpravu zdrojového textu konfiguračního souboru. 
 
-Nakonec se ovšem od tohoto návrhu upustilo z několika důvodů. Jednou z nevýhod je například to, že takový editor by uživateli neposkytoval žádnou kontrolu nad formátováním textu v konfiguračních souborech. S tím souvisí i problém komentářů, které by nebylo možné do konfiguračního souboru jednoduše zapsat na požadované místo. Dalším z důvodů bylo i to, že jsou modeláři zvyklí editovat konfigurační soubor ve formě textu.
+Nakonec se ovšem od tohoto návrhu upustilo z~několika důvodů. Jednou z~nevýhod je například to, že takový editor by uživateli neposkytoval žádnou kontrolu nad formátováním textu v~konfiguračních souborech. S~tím souvisí i~problém komentářů, které by nebylo možné do konfiguračního souboru jednoduše zapsat na požadované místo. Dalším z~důvodů bylo i~to, že jsou modeláři zvyklí editovat konfigurační soubor ve formě textu.
 
-Komponenta stromu ovšem má i určité výhody a proto byla v aplikaci nakonec použita, ale slouží primárně k zobrazení dat. Všechny úpravy probíhají v textové části editoru. Strom slouží k rychlé orientaci v konfiguračním souboru, označování hodnot a náhled jak vypadá datová struktura po provedení autokonverzí.
+Komponenta stromu ovšem má i~určité výhody a~proto byla v~aplikaci nakonec použita, ale slouží primárně k~zobrazení dat. Všechny úpravy probíhají v~textové části editoru. Strom slouží k~rychlé orientaci v~konfiguračním souboru, označování hodnot a~náhled jak vypadá datová struktura po provedení autokonverzí.
 
-Komponenta stromu je rozdělena do dvou sloupců. V levém se nachází klíče nebo indexy pole a v pravém sloupci jsou příslušné hodnoty. Stromová struktura je znázorněna pomocí odsazení v levém sloupci. Jednotlivé větve stromu je možné zabalit pro přehlednější výpis požadovaných informací. Komponentu stromu je možné vidět na obrázku~\ref{img:gui_tree} na straně~\pageref{img:gui_tree}.
+Komponenta stromu je rozdělena do dvou sloupců. V~levém se nachází klíče nebo indexy pole a~v~pravém sloupci jsou příslušné hodnoty. Stromová struktura je znázorněna pomocí odsazení v~levém sloupci. Jednotlivé větve stromu je možné zabalit pro přehlednější výpis požadovaných informací. Komponentu stromu je možné vidět na obrázku~\ref{img:gui_tree} na straně~\pageref{img:gui_tree}.
 
-Po kliknutí na libovolnou hodnotu či klíč dojde k jejímu označení v textu konfiguračního souboru. To má v zásadě dvě využití. Pokud je konfigurační soubor delší, než se vejde do okna editoru, tak se pozice okna textového editoru upraví tak, aby byla hodnota viditelná, takže uživatel se může rychle zorientovat. Díky tomu, že se zároveň označí, tak je možné ji rychle a pohodlně přepsat.
+Po kliknutí na libovolnou hodnotu či klíč dojde k~jejímu označení v~textu konfiguračního souboru. To má v~zásadě dvě využití. Pokud je konfigurační soubor delší, než se vejde do okna editoru, tak se pozice okna textového editoru upraví tak, aby byla hodnota viditelná, takže uživatel se může rychle zorientovat. Díky tomu, že se zároveň označí, tak je možné ji rychle a~pohodlně přepsat.
 
-Komponenta stromu aktuálně podporuje zvýraznění typů abstraktních záznamů. V rámci budoucích rozšíření aplikace by mohla podporovat i další zvýraznění někte\-rých hodnot či datových typů. Kromě toho by bylo pohodlné, kdyby strom dokázal lépe zobrazovat dvourozměrná pole hodnot, například pomocí matice. To je ovšem otázkou budoucích vylepšení aplikace \textit{ModelEditor}, nikoli předmětem této diplomové práce.
+Komponenta stromu aktuálně podporuje zvýraznění typů abstraktních záznamů. V~rámci budoucích rozšíření aplikace by mohla podporovat i~další zvýraznění někte\-rých hodnot či datových typů. Kromě toho by bylo pohodlné, kdyby strom dokázal lépe zobrazovat dvourozměrná pole hodnot, například pomocí matice. To je ovšem otázkou budoucích vylepšení aplikace \textit{ModelEditor}, nikoli předmětem této diplomové práce.
 
 \clearpage
 
 \section{Textový editor}
 
-Hlavní komponentou aplikace ModelEditor je textový editor, který umožňuje upravovat text konfiguračního souboru. Editor byl optimalizován pro vytváření a upravování konfiguračních souborů Flow123d ve formátu YAML.
+Hlavní komponentou aplikace ModelEditor je textový editor, který umožňuje upravovat text konfiguračního souboru. Editor byl optimalizován pro vytváření a~upravování konfiguračních souborů Flow123d ve formátu YAML.
 
-Rozhraní editoru zobrazuje čísla řádků, poskytuje základní zvýraznění syntaxe a zobrazuje vodící čáry pro lepší orientaci v úrovni odsazení. Přímo v okně textového editoru je na příslušných řádcích uživatel upozorněn na případné chyby pomocí ikony, která odpovídá závažnosti chyby. Po kliknutí na tuto ikonu se uživateli zobrazí podrobný popis chyby a označí se její lokace v textu. Ukázku grafického rozhraní komponenty textového editoru a seznamu notifikací je možné najít na obrázku~\ref{img:gui_editor_notifications}, resp.~\ref{img:gui_notifications} na straně~\pageref{img:gui_editor_notifications}. 
+Rozhraní editoru zobrazuje čísla řádků, poskytuje základní zvýraznění syntaxe a~zobrazuje vodící čáry pro lepší orientaci v~úrovni odsazení. Přímo v~okně textového editoru je na příslušných řádcích uživatel upozorněn na případné chyby pomocí ikony, která odpovídá závažnosti chyby. Po kliknutí na tuto ikonu se uživateli zobrazí podrobný popis chyby a~označí se její lokace v~textu. Ukázku grafického rozhraní komponenty textového editoru a~seznamu notifikací je možné najít na obrázku~\ref{img:gui_editor_notifications}, resp.~\ref{img:gui_notifications} na straně~\pageref{img:gui_editor_notifications}. 
 
-Editor také podporuje funkci automatického doplňování textu, které značně urychluje zápis konfiguračních souborů. Pomocí funkce automatického doplňování je možné vybrat hodnotu z nabízeného seznamu místo jejího celého zápisu. Tato funkce pracuje na základě specifikace formátu a je citlivá na pozici v datové struktuře. To znamená, že nabízí k doplnění pouze ty hodnoty, které mají na současné pozici smysl. Například při doplňování názvu klíče jsou nabízené možnosti závislé na tom, ve kterém záznamu je aktuálně umístěn kurzor. Funkce automatického doplňování umožňuje v konfiguračních souborech doplňovat:
+Editor také podporuje funkci automatického doplňování textu, které značně urychluje zápis konfiguračních souborů. Pomocí funkce automatického doplňování je možné vybrat hodnotu z~nabízeného seznamu místo jejího celého zápisu. Tato funkce pracuje na základě specifikace formátu a~je citlivá na pozici v~datové struktuře. To znamená, že nabízí k~doplnění pouze ty hodnoty, které mají na současné pozici smysl. Například při doplňování názvu klíče jsou nabízené možnosti závislé na tom, ve kterém záznamu je aktuálně umístěn kurzor. Funkce automatického doplňování umožňuje v~konfiguračních souborech doplňovat:
 
 \begin{itemize}
-\item názvy klíčů v záznamech,
+\item názvy klíčů v~záznamech,
 \item datové typy záznamů,
 \item hodnoty výčtových typů,
 \item uživatelsky definované kotvy\footnote{Slouží pro reference, viz kapitola~\ref{sec:navrh-yaml-reference}.}.
 \end{itemize}
 
-Na obrázku~\ref{img:gui_editor_autocompletion} na straně~\pageref{img:gui_editor_autocompletion} je textového editoru s vyvolanou nabídkou pro automatické doplňování textu.
+Na obrázku~\ref{img:gui_editor_autocompletion} na straně~\pageref{img:gui_editor_autocompletion} je textového editoru s~vyvolanou nabídkou pro automatické doplňování textu.
 
-Textový editor podporuje i běžné operace pro manipulaci s textem, které se od textového editoru očekávají. Editor podporuje následující operace:
+Textový editor podporuje i~běžné operace pro manipulaci s~textem, které se od textového editoru očekávají. Editor podporuje následující operace:
 
 \begin{itemize}
 \item operace vracení změn (mechanismus undo/redo);
 \item práce se schránkou -- vložení, vyjmutí, kopírování;
-\item nalezení a nahrazení\footnote{Funkce nalezení a nahrazení podporuje i regulární výrazy.};
+\item nalezení a~nahrazení\footnote{Funkce nalezení a~nahrazení podporuje i~regulární výrazy.};
 \item změna odsazení bloku;
 \item zakomentování nebo odkomentování označeného bloku.
 \end{itemize}
@@ -1073,34 +1065,34 @@ Textový editor podporuje i běžné operace pro manipulaci s textem, které se 
 
 \section{Kontextová dokumentace}
 
-Další z hlavních komponent editoru je kontextová dokumentace. Tato komponenta slouží jako nápověda k datové struktuře. Obsah této dokumentace je totožný jako kompletní referenční manuál, který má několik desítek stran. Hlavním rozdílem je ovšem to, že komponenta s kontextovou dokumentací zobrazuje uživateli pouze informace, které bezprostředně souvisí s právě editovanou částí konfiguračního souboru. Poskytuje tedy mnohem pohodlnější a příjemnější rozhraní k již existující dokumentaci.
+Další z~hlavních komponent editoru je kontextová dokumentace. Tato komponenta slouží jako nápověda k~datové struktuře. Obsah této dokumentace je totožný jako kompletní referenční manuál, který má několik desítek stran. Hlavním rozdílem je ovšem to, že komponenta s~kontextovou dokumentací zobrazuje uživateli pouze informace, které bezprostředně souvisí s~právě editovanou částí konfiguračního souboru. Poskytuje tedy mnohem pohodlnější a~příjemnější rozhraní k~již existující dokumentaci.
 
-Všechny informace potřebné pro generování dokumentace se opět nachází ve specifikaci formátu. Tím pádem i funkce kontextové dokumentace je schopná se přizpůsobit vybrané verzi Flow123d.
+Všechny informace potřebné pro generování dokumentace se opět nachází ve specifikaci formátu. Tím pádem i~funkce kontextové dokumentace je schopná se přizpůsobit vybrané verzi Flow123d.
 
-Kontextová dokumentace zároveň pracuje s pozicí kurzoru v okně editoru, na základě které se určuje aktuální pozice v datové struktuře, podle které se zobrazí příslušná část dokumentace.
+Kontextová dokumentace zároveň pracuje s~pozicí kurzoru v~okně editoru, na základě které se určuje aktuální pozice v~datové struktuře, podle které se zobrazí příslušná část dokumentace.
 
-Struktura konfiguračních souborů je taková, že prakticky všechna data mají nějaký nadřazený záznam a jsou zapsána v nějakém klíči. Z toho také vychází, co se zobrazuje v kontextové dokumentaci. V té jsou zobrazeny následující informace:
+Struktura konfiguračních souborů je taková, že prakticky všechna data mají nějaký nadřazený záznam a~jsou zapsána v~nějakém klíči. Z~toho také vychází, co se zobrazuje v~kontextové dokumentaci. V~té jsou zobrazeny následující informace:
 
 \begin{itemize}
-\item název a popis nadřazeného záznamu,
+\item název a~popis nadřazeného záznamu,
 \item seznam všech možných klíčů tohoto záznamu,
 \item popis aktuálně vybraného klíče,
-\item datový typ klíče a jeho popis.
+\item datový typ klíče a~jeho popis.
 \end{itemize}
 
-Pokud je nadřazený záznam implementací některého abstraktního záznamu, zobrazí se navíc ještě název a popis toho abstraktního záznamu včetně seznamu jeho možných implementací, které se skládají z názvu a popisu.
+Pokud je nadřazený záznam implementací některého abstraktního záznamu, zobrazí se navíc ještě název a~popis toho abstraktního záznamu včetně seznamu jeho možných implementací, které se skládají z~názvu a~popisu.
 
-Všechny názvy složených datových typů a klíče záznamů jsou odkazy, na které je možné kliknout a dokumentaci je tak možné procházet. Také je možné použít tlačítka zpět, vpřed a domů pro další navigaci, podobně jako v internetovém prohlížeči.
+Všechny názvy složených datových typů a~klíče záznamů jsou odkazy, na které je možné kliknout a~dokumentaci je tak možné procházet. Také je možné použít tlačítka zpět, vpřed a~domů pro další navigaci, podobně jako v~internetovém prohlížeči.
 
-Vzhled komponenty v grafickém rozhraní aplikace a ukázky zobrazovaných dat je možné vidět na obrázcích~\ref{img:gui_doc_mortar_method},~\ref{img:gui_doc_substances} a~\ref{img:gui_doc_format} na straně~\pageref{img:gui_doc_mortar_method}.
+Vzhled komponenty v~grafickém rozhraní aplikace a~ukázky zobrazovaných dat je možné vidět na obrázcích~\ref{img:gui_doc_mortar_method},~\ref{img:gui_doc_substances} a~\ref{img:gui_doc_format} na straně~\pageref{img:gui_doc_mortar_method}.
 
 
 \chapter{Implementace a~testování}
 
-Aplikace \textit{ModelEditor} je součástí aplikačního balíku \textit{GeoMop}, za jehož vývoj je zodpovědný Ing. Pavel Richter. V rámci této diplomové práce byly v aplikaci \textit{ModelEditor} implementovány následující funkce:
+Aplikace \textit{ModelEditor} je součástí aplikačního balíku \textit{GeoMop}, za jehož vývoj je zodpovědný Ing. Pavel Richter. V~rámci této diplomové práce byly v~aplikaci \textit{ModelEditor} implementovány následující funkce:
 
 \begin{itemize}
-\item datová struktura pro práci s konfiguračními soubory a specifikací formátu,
+\item datová struktura pro práci s~konfiguračními soubory a~specifikací formátu,
 \item zpracování konfiguračního souboru ve formátu \gls{YAML},
 \item proces autokonverzí,
 \item proces validace,
@@ -1109,34 +1101,33 @@ Aplikace \textit{ModelEditor} je součástí aplikačního balíku \textit{GeoMo
 \item grafické rozhraní aplikace včetně jeho komponent.
 \end{itemize}
 
-Kromě těchto funkcí ovšem \textit{ModelEditor} obsahuje i části, na kterých pracoval Ing.~Richter a nevznikly tedy v rámci této diplomové práce. Konkrétně se jedná o následující funkce:
+Kromě těchto funkcí ovšem \textit{ModelEditor} obsahuje i~části, na kterých pracoval Ing.~Richter a~nevznikly tedy v~rámci této diplomové práce. Konkrétně se jedná o~následující funkce:
 
 \begin{itemize}
-\item rozhodovací logika, která určuje, kdy má dojít k opětovnému načtení datové struktury,
+\item rozhodovací logika, která určuje, kdy má dojít k~opětovnému načtení datové struktury,
 \item import formátu \gls{CON},
 \item transformace.
 \end{itemize}
 
-Nejužší souvislost s touto diplomovou prací má rozhodovací logika pro opětovné načtení datové struktury. Výše popsaný proces zpracování formátu \gls{YAML}, autokonverzí, validací, generování dokumentace a reprezentace dat musí probíhat neustále dokola. Když uživatel upravuje text souboru, mění se data i pozice kurzoru. Na těchto informacích závisí všechny zmíněné funkce. Pokud by ovšem celý proces měl probíhat při každém napsaném znaku, vedlo by to ke zbytečnému vytížení procesoru a znatelnému zpomalení aplikace. Bylo tedy nutné implementovat funkčnost, která rozhodne, kdy má dojít k opětovnému načtení datové struktury a aktualizaci všech komponent, které na ní závisí.
+Nejužší souvislost s~touto diplomovou prací má rozhodovací logika pro opětovné načtení datové struktury. Výše popsaný proces zpracování formátu \gls{YAML}, autokonverzí, validací, generování dokumentace a~reprezentace dat musí probíhat neustále dokola. Když uživatel upravuje text souboru, mění se data i~pozice kurzoru. Na těchto informacích závisí všechny zmíněné funkce. Pokud by ovšem celý proces měl probíhat při každém napsaném znaku, vedlo by to ke zbytečnému vytížení procesoru a~znatelnému zpomalení aplikace. Bylo tedy nutné implementovat funkčnost, která rozhodne, kdy má dojít k~opětovnému načtení datové struktury a~aktualizaci všech komponent, které na ní závisí.
 
-Dále \textit{ModelEditor} obsahuje doplňkové funkce jako import formátu CON, ve kterém se dříve psaly konfigurační soubory, nebo transformace, které umožňují upravovat datovou strukturu (a tedy i text konfiguračního souboru) pomocí předdefinované sady pravidel. Transformace je možné využít například pro konverzi konfiguračních souborů mezi různými verzemi Flow123d, kde došlo ke změně specifikace formátu.
+Dále \textit{ModelEditor} obsahuje doplňkové funkce jako import formátu CON, ve kterém se dříve psaly konfigurační soubory, nebo transformace, které umožňují upravovat datovou strukturu (a~tedy i~text konfiguračního souboru) pomocí předdefinované sady pravidel. Transformace je možné využít například pro konverzi konfiguračních souborů mezi různými verzemi Flow123d, kde došlo ke změně specifikace formátu.
 
 
 \section{Požadavky}
 
-Na aplikaci \textit{ModelEditor} se vztahují určité požadavky, které vychází z požadavků na celý aplikační balík \textit{GeoMop}. Jedná se především o následující požadavky.
+Na aplikaci \textit{ModelEditor} se vztahují určité požadavky, které vychází z~požadavků na celý aplikační balík \textit{GeoMop}. Jedná se především o~následující požadavky.
 
 \begin{itemize}
 \item Aplikace je vyvíjena jako open-source pod licencí \acrshort{GNU} \gls{GPL} v3.0~\cite{bib:gnu-gpl3}.
-\item Aplikace musí být multiplatformní a má podporovat systémy Windows (XP a~novější) a Linux.
-\item Aplikace je napsaná v jazyce Python~3~\cite{bib:python3}.
+\item Aplikace musí být multiplatformní a~má podporovat systémy Windows (XP a~novější) a~Linux.
+\item Aplikace je napsaná v~jazyce Python~3~\cite{bib:python3}.
 \item Aplikace používá knihovnu PyQt~5~\cite{bib:pyqt5} pro grafické rozhraní.
 \item Pro vývoj aplikace se používá verzovací systém Git.
 \item Pro dokumentaci zdrojových kódů se používá nástroj Sphinx~\cite{bib:sphinx}.
 \end{itemize}
 
 %TODO odkaz na git repo GeoMop
-
 
 
 
@@ -1177,7 +1168,6 @@ Editor dále uživatelům poskytuje kontextovou dokumentaci a~našeptávač. Ob�
 V~neposlední řadě editor obsahuje komponentu pro grafické znázornění datové struktury, která poskytuje alternativní pohled na zadaná data, a~umožňuje rychlejší orientaci v~rozsáhlých konfiguračních souborech. Kromě těchto stěžejních funkcí editor poskytuje i~běžné nástroje pro manipulaci s~textem, jako jsou například operace se schránkou, možnost vracení provedených změn, vyhledávání a~nahrazení nebo změna úrovně odsazení.
 
 %TODO zmenit formulaci
-%TODO zminit GPL + odkaz na zdrojove kody
 Aplikace je multiplatformní a~podporuje systémy Windows (XP nebo novější) a~Linux. S~ohledem na požadavek multiplatformní aplikace byl pro vývoj použit jazyk Python~3 a~grafická knihovna PyQt~5. K~aplikaci byly vytvořeny instalační balíčky pro Windows a~Debian.
 
 V~rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná se např. o~zlepšení zvýraznění syntaxe, které se by se mohlo přizpůsobit přímo formátu Flow123d. Další možné vylepšení spočívá v~rozšíření funkcionality komponenty pro vizualizaci datové struktury. Ta by mohla v~budoucnu podporovat kromě zobrazení i~editaci dat nebo vylepšené zobrazení speciálních datových typů.
@@ -1207,6 +1197,9 @@ V~rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná 
 \textsc{\acrshort{OMG}.} \textit{ISO/IEC 19505-1: Information technology - Object Management Group
 Unified Modeling Language (OMG UML),
 Infrastructure}. [online]. \acrfull{OMG}, 2012. [cit. 2016-03-21]. Dostupné na: $<$\url{http://www.omg.org/spec/UML/ISO/19505-1/PDF}$>$
+
+\bibitem{bib:design-patterns}
+\textsc{Gamma, Erich et al.} \textit{Design Patterns: Elements of Reusable Object-Oriented Software}. 1st Edition. Addison-Wesley Professional, 1994. ISBN 978-0201633610.
 
 \bibitem{bib:gnu-gpl3}
 \acrshort{FSF}. \textit{\acrshort{GNU} Project: The \acrshort{GNU} \acrlong{GPL} v3.0}. [online]. \acrfull{FSF}, 2007. [cit. 2016-03-26]. Dostupné na: $<$\url{http://www.gnu.org/copyleft/gpl.html}$>$
@@ -1308,7 +1301,7 @@ time: *time
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.7\textwidth]{../img/validation_number.pdf}
-    \caption{Validace číselných datových typů -- \textit{Integer} a \textit{Double}}
+    \caption{Validace číselných datových typů -- \textit{Integer} a~\textit{Double}}
 	\label{img:validation_number}
 \end{figure}
 
@@ -1350,7 +1343,7 @@ time: *time
 \begin{figure}[ht]
 	\centering
     \includegraphics[width=\textwidth]{../img/screenshots/gui_editor_notifications.png}
-    \caption{GUI -- Komponenta textového editoru s notifikacemi}
+    \caption{GUI -- Komponenta textového editoru s~notifikacemi}
 	\label{img:gui_editor_notifications}
 \end{figure}
 
@@ -1364,7 +1357,7 @@ time: *time
 \begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{../img/screenshots/gui_editor_autocompletion.png}
-    \caption{GUI -- Komponenta textového editoru s doplňováním textu}
+    \caption{GUI -- Komponenta textového editoru s~doplňováním textu}
 	\label{img:gui_editor_autocompletion}
 \end{figure}
 
