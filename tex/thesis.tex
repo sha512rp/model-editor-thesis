@@ -210,7 +210,7 @@ Flow123d je software, který slouží k~výpočtu proudění v~porézním médiu
 
 Na obrázku~\ref{img:flow123d} jsou znázorněny vstupy a~výstupy simulátoru Flow123d spolu s~pomocnými aplikacemi, které uživatelé často používají. Vstupem do simulátoru Flow123d jsou dva soubory. První z~těchto souborů popisuje výpočetní síť pomocí seznamu uzlů a~elementů. Jedná se o~textový soubor ve formátu \texttt{.msh}. Tuto síť generují softwary GMSH\footnote{\url{http://www.gmsh.info/}} nebo SALOME\footnote{\url{http://www.salome-platform.org/}}. Druhým vstupním souborem je konfigurační soubor, který popisuje řešenou úlohu. Tento soubor si prozatím uživatelé tvořili sami pomocí obyčejných textových editorů.
 
-Pro tento konfigurační soubor vzniká v~rámci diplomové práce specializovaný editor s~označením \textit{ModelEditor}, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové dokumentace nebo automatické doplňování textu. Vytváření a~editace konfiguračních souborů se tak uživateli značně zjednoduší. \textit{ModelEditor} je jednou ze součástí aplikace GeoMop, která obsahuje i~další komponenty, které ovšem nejsou předmětem této práce.
+Pro tento konfigurační soubor vzniká v~rámci diplomové práce specializovaný editor s~označením \textit{ModelEditor}, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové nápovědy nebo automatické doplňování textu. Vytváření a~editace konfiguračních souborů se tak uživateli značně zjednoduší. \textit{ModelEditor} je jednou ze součástí aplikace GeoMop, která obsahuje i~další komponenty, které ovšem nejsou předmětem této práce.
 
 GeoMop má sloužit jako nástroj, který usnadní práci se simulátorem Flow123d. Jeho další komponenty mají za úkol např. zajišťovat vzdálené spouštění Flow123d na výpočetních clusterech. To bude zajišťovat modul JobsScheduler, který sjednotí rozhraní a~postup spouštění Flow123d na různých výpočetních clusterech. Další součástí aplikace GeoMop bude modul Analysis, který umožní úlohy parametrizovat a~dále je potom provádět pro různé sady hodnot. GeoMop je aktuálně ve vývoji a~je možné, že se bude rozšiřovat o~další funkce. 
 %TODO paragraph overflow
@@ -342,7 +342,7 @@ Aplikace editoru konfiguračních souborů vytvářená v~rámci diplomové prá
 
 \chapter{Analýza}
 
-Tato kapitola se skládá ze tří hlavních částí. V~první z~nich je popsán formát \gls{YAML}, proces jeho zpracování a~jeho základní syntaxe. Druhá část kapitoly rozebírá specifikaci konfiguračních souborů, která je stěžejní pro validaci datové struktury, generování dokumentace a~funkci automatického doplňování textu. Poslední část popisuje autokonverze, což jsou speciální zkrácené typy zápisů, které se používají v~konfiguračních souborech a~mají zásadní dopad na zpracování datové struktury.
+Tato kapitola se skládá ze tří hlavních částí. V~první z~nich je popsán formát \gls{YAML}, proces jeho zpracování a~jeho základní syntaxe. Druhá část kapitoly rozebírá specifikaci konfiguračních souborů, která je stěžejní pro validaci datové struktury, generování kontextové nápovědy a~funkci automatického doplňování textu. Poslední část popisuje autokonverze, což jsou speciální zkrácené typy zápisů, které se používají v~konfiguračních souborech a~mají zásadní dopad na zpracování datové struktury.
 
 
 \section{Formát YAML}
@@ -466,7 +466,7 @@ Zatímco formát udává syntaktická pravidla pro vytváření konfiguračních
 
 Mezi vývojáři Flow123d se specifikace formátu také označuje jako \gls{IST}. S~tím, jak se vyvíjí nová a~rozšiřuje stávající funkcionalita simulátoru Flow123d, se mění i~tato specifikace formátu. Z~toho plyne zásadní požadavek na validaci konfiguračních souborů -- \textbf{proces validace musí být možné přizpůsobit konkrétní specifikaci formátu, která je závislá na verzi Flow123d}.
 
-Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu \gls{JSON}. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce \textit{ModelEditoru}, jako je validace konfiguračních souborů, kontextová dokumentace nebo automatické doplňování textu.
+Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu \gls{JSON}. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce \textit{ModelEditoru}, jako je validace konfiguračních souborů, generování kontextové nápovědy nebo automatické doplňování textu.
 
 \subsection{Základní datové typy}
 \label{sec:analyza-specifikace-formatu-zakladni-datove-typy}
@@ -598,7 +598,7 @@ Autokonverze jsou hlavní důvodem, proč není možné použít \gls{XML} Schem
 
 Autokonverze mohou působit poněkud chaoticky, protože datová struktura obsahuje ve skutečnosti něco jiného, než je zapsáno v~konfiguračním souboru. Zkušení uživatelé Flow123d jsou ovšem zvyklí autokonverze používat a~jsou pro ně přínosem. S~přechodem na nový formát konfiguračního souboru se funkcionalita autokonverzí zachovává.
 
-Aplikace \textit{ModelEditor} tedy musí podporovat používání autokonverzí a~je nutné je zohlednit při validaci konfiguračních souborů a~určování pozice v~rámci datového stromu, která je dále použita pro funkce kontextové dokumentace nebo automatického doplňování textu. 
+Aplikace \textit{ModelEditor} tedy musí podporovat používání autokonverzí a~je nutné je zohlednit při validaci konfiguračních souborů a~určování pozice v~rámci datového stromu, která je dále použita pro funkce kontextové nápovědy nebo automatického doplňování textu. 
 
 Používají se tři základní typy autokonverzí, které jsou dále popsány. Kromě doposud používaných autokonverzí na pole a~na záznam přibyla i~nová autokonverze, která se nazývá transpozice. Transpozice zobecňuje a~rozšiřuje současně používanou autokonverzi na pole.
 
@@ -968,14 +968,14 @@ U~aktuálního uzlu se postupně projdou všichni přímí potomci a~dojde ke ko
 
 \section{Validace}
 
-Jednou z~hlavních funkcí a~přínosů editoru je funkce validace, která umožňuje odhalit chyby a~možné problémy se zadanou konfigurací již během vytváření konfiguračních souborů. Vstupem do validace je datová struktura, která vznikla z~dat konfiguračního souboru po provedení výše popsaných autokonverzí. Během procesu validace se tato datová struktura rekurzivně prochází a~detekované problémy či chyby se postupně ukládají. Po dokončení procesu validace je uživatel upozorněn na detekované chyby pomocí grafického uživatelského rozhraní aplikace.
+Jednou z~nejužitečnějších funkcí editoru je validace, která umožňuje odhalit chyby a~možné problémy se zadanou konfigurací již během vytváření konfiguračních souborů. Vstupem do validace je datová struktura, která vznikla z~dat konfiguračního souboru po provedení výše popsaných autokonverzí. Během procesu validace se tato datová struktura rekurzivně prochází a~zaznamenávají se detekované chyby. Po dokončení procesu validace je uživatel upozorněn na tyto chyby pomocí grafického uživatelského rozhraní aplikace.
 
-Validace ke své funkci potřebuje obdobně jako autokonverze specifikaci formátu, na základě které ověřuje, zda se vstupní data mají předepsanou strukturu a~splňují všechna omezení. Jelikož validace pracuje s~dynamicky zadanou specifikací formátu, tak je možné validaci provést pro libovolnou verzi Flow123d, kterou si uživatel může zvolit v~uživatelském rozhraní.
+Validace ke své funkci potřebuje specifikaci formátu, na základě které ověřuje, zda mají vstupní data předepsanou strukturu a~splňují všechna omezení. Jelikož validace pracuje s~dynamicky zadanou specifikací formátu, tak je možné validaci provést pro libovolnou verzi Flow123d, kterou si uživatel může zvolit v~uživatelském rozhraní.
 
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.65\textwidth]{../img/validation_type.pdf}
-    \caption{Validace správného datového typu}
+    \caption{Validace datového typu}
 	\label{img:validation_type}
 \end{figure}
 
@@ -983,11 +983,11 @@ Prvním krokem validace je detekce a~ověření zadaného datového typu. Tento 
 
 \subsection{Validace primitivních datových typů}
 
-Některé z~primitivních datových typů nemají žádnou typově specifickou validaci. Aktuálně se jedná o~řetězce, názvy souborů a~booleovské hodnoty (\textit{String}, \textit{Filename} a~\textit{Boolean}). U~těchto datových typů se pouze provede kontrola datového typu a~případná konverze, jak bylo popsáno výše.
+Některé z~primitivních datových typů nemají žádnou typově specifickou validaci. Aktuálně se jedná o~řetězce, názvy souborů a~booleovské hodnoty (\textit{String}, \textit{Filename} a~\textit{Boolean}). U~těchto datových typů se provede pouze kontrola datového typu a~případná konverze, jak bylo popsáno výše.
 
-Číselné datové typy pro reprezentaci celých a~desetinných čísel (\textit{Integer} a~\textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i~zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v~tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k~chybě \textit{ValueTooSmall}. V~opačném případě, kdy je hodnota větší než požadované maximum, dojdě k~chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number} na straně~\pageref{img:validation_number}.
+Číselné datové typy pro reprezentaci celých a~desetinných čísel (\textit{Integer} a~\textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i~zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v~tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k~chybě \textit{Value\-Too\-Small}. V~opačném případě, kdy je hodnota větší než požadované maximum, dojdě k~chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number} na straně~\pageref{img:validation_number}.
 
-Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se oveří, zda je zadaná hodnota jednou z~možných hodnot,která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection} na straně~\pageref{img:validation_selection}.
+Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se oveří, zda je zadaná hodnota jednou z~možných hodnot, která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection} na straně~\pageref{img:validation_selection}.
 
 \subsection{Validace pole}
 
@@ -1004,15 +1004,16 @@ U~polí může být omezen počet prvků, které mohou obsahovat. Toto omezení 
 
 Záznamy jsou opět složeným typem, takže součástí procesu je opět validace potomků. Průběh validace záznamu je znázorněn na obrázku~\ref{img:validation_record}. Během tohoto procesu se postupně ověřují všechny klíče záznamu, které obsahují jeho potomky. Pro každý z~těchto klíčů se najde jeho odpovídající datový typ ve specifikaci formátu. Pokud v~ní není daný klíč uveden, dojde k~upozornění \textit{UnknownRecordKey} a~pokračuje se dalším klíčem. Po validaci všech klíčů, resp. potomků, se ještě ověří, ze jsou v~záznamu uvedeny všechny povinné klíče. Pokud tomu tak není, tak je uživatel na chybějící klíče upozorněn pomocí chyby \textit{MissingObligatoryKey}.
 
-Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a~fatální chyby. Ve výše popsaném příkladu může kromě chyb vzniknout i~upozornění \textit{UnknownRecordKey}. V~této situaci se nejedná o~chybu, protože pokud klíč ve specifikaci formátu není uveden, neznamená to, že ho konfigurační soubor nemůže obsahovat. V~praxi se však v~těchto případech často jedná o~překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i~na tyto případy.
+Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a~fatální chyby. Ve výše popsané validaci může kromě chyb vzniknout i~upozornění \textit{UnknownRecordKey}. K tomu dojde tehdy, když se v záznamu vyskytne klíč, který není uveden ve specifikaci formátu. Z~hlediska Flow123d se nejedná o~chybu. V~praxi se však v~těchto případech často jedná o~překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i~na tyto případy.
 
 \subsection{Validace abstraktního záznamu}
 
+%TODO deleni slova abs-traktni?
 Posledním datovým typem, který se může na vstupu očekávat, je abstraktní záznam (\textit{Abstract}). Proces validace abstraktního záznamu je znázorněn na obrázku~\ref{img:validation_abstract}. Nejprve se určí, zda je explicitně zadán typ abstraktního záznamu (viz kapitola~\ref{sec:navrh-yaml-abstrakni-zaznamy}). Pokud je uveden, tak se ověří, ze tento záznam je implementací očekávaného abstraktního záznamu. Pokud by nebyl, validace skončí chybou \textit{InvalidAbstractType}.
 
 Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ implementace, pokud je uveden ve specifikaci formátu. Pokud ovšem abstraktní záznam nemá výchozí implementaci, validace skončí chybou \textit{UnknownRecordKey}. Ve chvíli, kdy je určen konkrétní datový typ záznamu, se může provést jeho validace tak, jak byla výše popsaná.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
     \includegraphics[width=0.98\textwidth]{../img/validation_abstract.pdf}
     \caption{Validace abstraktního záznamu -- \textit{Abstract}}
@@ -1021,11 +1022,9 @@ Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ 
 
 \section{Vizualizace datové struktury}
 
-Jednou z~komponent editoru je grafický strom, který slouží pro vizualizaci datové struktury. V~prvotní fázi plánování editoru se uvažovalo o~tom, že by se pomocí tohoto grafického stromu kompletně zadávala celá konfigurace a~editor by neměl žádnou komponentu pro přímou úpravu zdrojového textu konfiguračního souboru. 
+Jednou z~komponent editoru je grafický strom, který slouží pro vizualizaci datové struktury. V~prvotní fázi plánování editoru se uvažovalo o~tom, že by se pomocí tohoto grafického stromu kompletně zadávala celá konfigurace a~editor by neměl žádnou komponentu pro přímou úpravu zdrojového textu konfiguračního souboru. Nakonec se ovšem od tohoto návrhu upustilo z~několika důvodů. Jednou z~nevýhod je například to, že takový editor by uživateli neposkytoval žádnou kontrolu nad formátováním textu v~konfiguračních souborech. S~tím souvisí i~problém komentářů, které by nebylo možné do konfiguračního souboru jednoduše zapsat na požadované místo. Dalším z~důvodů bylo i~to, že jsou modeláři zvyklí editovat konfigurační soubor ve formě textu.
 
-Nakonec se ovšem od tohoto návrhu upustilo z~několika důvodů. Jednou z~nevýhod je například to, že takový editor by uživateli neposkytoval žádnou kontrolu nad formátováním textu v~konfiguračních souborech. S~tím souvisí i~problém komentářů, které by nebylo možné do konfiguračního souboru jednoduše zapsat na požadované místo. Dalším z~důvodů bylo i~to, že jsou modeláři zvyklí editovat konfigurační soubor ve formě textu.
-
-Komponenta stromu ovšem má i~určité výhody a~proto byla v~aplikaci nakonec použita, ale slouží primárně k~zobrazení dat. Všechny úpravy probíhají v~textové části editoru. Strom slouží k~rychlé orientaci v~konfiguračním souboru, označování hodnot a~náhled jak vypadá datová struktura po provedení autokonverzí.
+Komponenta stromu má ovšem oproti pouhému editoru textu i~určité výhody a~proto byla v~aplikaci nakonec použita. Zatímco zápis a všechny úpravy datové struktury se provádí editací textu, komponenta stromu slouží primárně jako vizualizace zadaných dat. Strom slouží k~rychlé orientaci v~konfiguračním souboru, označování hodnot a~poskytuje náhled, jak vypadá datová struktura po provedení autokonverzí.
 
 Komponenta stromu je rozdělena do dvou sloupců. V~levém se nachází klíče nebo indexy pole a~v~pravém sloupci jsou příslušné hodnoty. Stromová struktura je znázorněna pomocí odsazení v~levém sloupci. Jednotlivé větve stromu je možné zabalit pro přehlednější výpis požadovaných informací. Komponentu stromu je možné vidět na obrázku~\ref{img:gui_tree} na straně~\pageref{img:gui_tree}.
 
@@ -1037,20 +1036,18 @@ Komponenta stromu aktuálně podporuje zvýraznění typů abstraktních záznam
 
 \section{Textový editor}
 
-Hlavní komponentou aplikace ModelEditor je textový editor, který umožňuje upravovat text konfiguračního souboru. Editor byl optimalizován pro vytváření a~upravování konfiguračních souborů Flow123d ve formátu YAML.
+Hlavní komponentou aplikace \textit{ModelEditor} je textový editor, který umožňuje upravovat text konfiguračního souboru. Editor byl optimalizován pro vytváření a~upravování konfiguračních souborů Flow123d ve formátu \gls{YAML}.
 
 Rozhraní editoru zobrazuje čísla řádků, poskytuje základní zvýraznění syntaxe a~zobrazuje vodící čáry pro lepší orientaci v~úrovni odsazení. Přímo v~okně textového editoru je na příslušných řádcích uživatel upozorněn na případné chyby pomocí ikony, která odpovídá závažnosti chyby. Po kliknutí na tuto ikonu se uživateli zobrazí podrobný popis chyby a~označí se její lokace v~textu. Ukázku grafického rozhraní komponenty textového editoru a~seznamu notifikací je možné najít na obrázku~\ref{img:gui_editor_notifications}, resp.~\ref{img:gui_notifications} na straně~\pageref{img:gui_editor_notifications}. 
 
-Editor také podporuje funkci automatického doplňování textu, které značně urychluje zápis konfiguračních souborů. Pomocí funkce automatického doplňování je možné vybrat hodnotu z~nabízeného seznamu místo jejího celého zápisu. Tato funkce pracuje na základě specifikace formátu a~je citlivá na pozici v~datové struktuře. To znamená, že nabízí k~doplnění pouze ty hodnoty, které mají na současné pozici smysl. Například při doplňování názvu klíče jsou nabízené možnosti závislé na tom, ve kterém záznamu je aktuálně umístěn kurzor. Funkce automatického doplňování umožňuje v~konfiguračních souborech doplňovat:
+Editor také podporuje funkci automatického doplňování textu, které značně urychluje zápis konfiguračních souborů. Na obrázku~\ref{img:gui_editor_autocompletion} na straně~\pageref{img:gui_editor_autocompletion} je znázorněn textový editor s~vyvolanou nabídkou pro automatické doplňování textu. Pomocí funkce automatického doplňování je možné vybrat hodnotu z~nabízeného seznamu místo jejího celého zápisu. Tato funkce pracuje na základě specifikace formátu a~je citlivá na pozici v~datové struktuře. To znamená, že nabízí k~doplnění pouze ty hodnoty, které mají na současné pozici smysl. Například při doplňování názvu klíče jsou nabízené možnosti závislé na tom, ve kterém záznamu je aktuálně umístěn kurzor. Funkce automatického doplňování umožňuje v~konfiguračních souborech doplňovat:
 
 \begin{itemize}
 \item názvy klíčů v~záznamech,
 \item datové typy záznamů,
 \item hodnoty výčtových typů,
-\item uživatelsky definované kotvy\footnote{Slouží pro reference, viz kapitola~\ref{sec:navrh-yaml-reference}.}.
+\item uživatelsky definované kotvy\footnote{Uživatelsky definované kotvy slouží jako reference, viz kapitola~\ref{sec:navrh-yaml-reference}.}.
 \end{itemize}
-
-Na obrázku~\ref{img:gui_editor_autocompletion} na straně~\pageref{img:gui_editor_autocompletion} je textového editoru s~vyvolanou nabídkou pro automatické doplňování textu.
 
 Textový editor podporuje i~běžné operace pro manipulaci s~textem, které se od textového editoru očekávají. Editor podporuje následující operace:
 
@@ -1063,15 +1060,15 @@ Textový editor podporuje i~běžné operace pro manipulaci s~textem, které se 
 \end{itemize}
 
 
-\section{Kontextová dokumentace}
+\section{Kontextová nápověda}
 
-Další z~hlavních komponent editoru je kontextová dokumentace. Tato komponenta slouží jako nápověda k~datové struktuře. Obsah této dokumentace je totožný jako kompletní referenční manuál, který má několik desítek stran. Hlavním rozdílem je ovšem to, že komponenta s~kontextovou dokumentací zobrazuje uživateli pouze informace, které bezprostředně souvisí s~právě editovanou částí konfiguračního souboru. Poskytuje tedy mnohem pohodlnější a~příjemnější rozhraní k~již existující dokumentaci.
+Poslední z~hlavních komponent editoru je kontextová nápověda. Tato komponenta slouží pro zobrazení dokumentace k~aktuálně upravované části datové struktury. Obsah této nápovědy je totožný s~kompletním referenčním manuálem, který má několik desítek stran. Hlavním rozdílem je ovšem to, že komponenta kontextové nápovědy zobrazuje uživateli pouze informace, které bezprostředně souvisí s~právě editovanou částí konfiguračního souboru. Kontextová nápověda tedy poskytuje mnohem pohodlnější a~příjemnější rozhraní k~již existující dokumentaci.
 
 Všechny informace potřebné pro generování dokumentace se opět nachází ve specifikaci formátu. Tím pádem i~funkce kontextové dokumentace je schopná se přizpůsobit vybrané verzi Flow123d.
 
 Kontextová dokumentace zároveň pracuje s~pozicí kurzoru v~okně editoru, na základě které se určuje aktuální pozice v~datové struktuře, podle které se zobrazí příslušná část dokumentace.
 
-Struktura konfiguračních souborů je taková, že prakticky všechna data mají nějaký nadřazený záznam a~jsou zapsána v~nějakém klíči. Z~toho také vychází, co se zobrazuje v~kontextové dokumentaci. V~té jsou zobrazeny následující informace:
+Struktura konfiguračních souborů je taková, že všechna data\footnote{Kromě samotného kořenového uzlu celé datové struktury.} mají nějaký nad\-řa\-ze\-ný záznam a~jsou zapsána v~nějakém klíči. Z~toho vychází, jaké informace se zobrazují v~kontextové nápovědě. V~té jsou zobrazeny následující informace:
 
 \begin{itemize}
 \item název a~popis nadřazeného záznamu,
@@ -1080,9 +1077,9 @@ Struktura konfiguračních souborů je taková, že prakticky všechna data maj�
 \item datový typ klíče a~jeho popis.
 \end{itemize}
 
-Pokud je nadřazený záznam implementací některého abstraktního záznamu, zobrazí se navíc ještě název a~popis toho abstraktního záznamu včetně seznamu jeho možných implementací, které se skládají z~názvu a~popisu.
+Pokud je nadřazený záznam implementací některého abstraktního záznamu, zobrazí se navíc ještě název a~popis tohoto abstraktního záznamu včetně seznamu jeho možných implementací, které se skládají z~názvu a~popisu.
 
-Všechny názvy složených datových typů a~klíče záznamů jsou odkazy, na které je možné kliknout a~dokumentaci je tak možné procházet. Také je možné použít tlačítka zpět, vpřed a~domů pro další navigaci, podobně jako v~internetovém prohlížeči.
+Všechny názvy složených datových typů a~klíčů záznamů jsou odkazy, na které je možné kliknout. Dokumentaci zobrazenou v kontextové nápovědě je tak možné procházet. Dále je možné pro navigaci použít tlačítka zpět, vpřed a~domů, podobně jako v~internetových prohlížečích.
 
 Vzhled komponenty v~grafickém rozhraní aplikace a~ukázky zobrazovaných dat je možné vidět na obrázcích~\ref{img:gui_doc_mortar_method},~\ref{img:gui_doc_substances} a~\ref{img:gui_doc_format} na straně~\pageref{img:gui_doc_mortar_method}.
 
@@ -1308,7 +1305,7 @@ time: *time
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.6\textwidth]{../img/validation_selection.pdf}
-    \caption{Validace výběrového datového typu -- \textit{Selection}}
+    \caption{Validace výčtového datového typu -- \textit{Selection}}
 	\label{img:validation_selection}
 \end{figure}
 
@@ -1366,21 +1363,21 @@ time: *time
 \begin{figure}[h!]
 	\centering
     \includegraphics[width=\textwidth]{../img/screenshots/gui_doc_mortar_method.png}
-    \caption[GUI -- Kontextová dokumentace pro záznam \textit{Steady\_MH}]{GUI -- Komponenta kontextové dokumentace zobrazující nápovědu k~hodnotě \texttt{P0} výčtového typu \textit{MH\_MortartMethod} v~klíči \texttt{mortar\_method} v~záznamu \textit{Steady\_MH}, který implementuje abstraktní záznam \textit{DarcyFlow}}
+    \caption[GUI -- Kontextová nápověda pro záznam \textit{Steady\_MH}]{GUI -- Komponenta kontextové nápovědy zobrazující dokumentaci k~hodnotě \texttt{P0} výčtového typu \textit{MH\_MortartMethod} v~klíči \texttt{mortar\_method} v~záznamu \textit{Steady\_MH}, který implementuje abstraktní záznam \textit{DarcyFlow}}
 	\label{img:gui_doc_mortar_method}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
     \includegraphics[width=\textwidth]{../img/screenshots/gui_doc_substances.png}
-    \caption[GUI -- Kontextová dokumentace pro záznam \textit{SoluteTransport\_DG}]{GUI -- Komponenta kontextové dokumentace zobrazující nápovědu k~poli záznamů \textit{Substance} v~klíči \texttt{substances} v~záznamu \textit{SoluteTransport\_DG}, který implementuje abstraktní záznam \textit{Transport}}
+    \caption[GUI -- Kontextová nápověda pro záznam \textit{SoluteTransport\_DG}]{GUI -- Komponenta kontextové nápovědy zobrazující dokumentaci k~poli záznamů \textit{Substance} v~klíči \texttt{substances} v~záznamu \textit{SoluteTransport\_DG}, který implementuje abstraktní záznam \textit{Transport}}
 	\label{img:gui_doc_substances}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
     \includegraphics[width=\textwidth]{../img/screenshots/gui_doc_format.png}
-    \caption[GUI -- Kontextová dokumentace pro záznam \textit{OutputStream}]{GUI -- Komponenta kontextové dokumentace zobrazující nápovědu k~abstraktnímu záznamu \textit{OutputTime} v~klíči \texttt{format} v~záznamu \textit{OutputStream}}
+    \caption[GUI -- Kontextová nápověda pro záznam \textit{OutputStream}]{GUI -- Komponenta kontextové nápovědy zobrazující dokumentaci k~abstraktnímu záznamu \textit{OutputTime} v~klíči \texttt{format} v~záznamu \textit{OutputStream}}
 	\label{img:gui_doc_format}
 \end{figure}
 
