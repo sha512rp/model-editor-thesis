@@ -114,6 +114,7 @@
 
 % glossaries
 \setacronymstyle{long-short}
+\newacronym{API}{API}{Application Programming Interface}
 \newacronym{CON}{CON}{C++ Object Notation}
 \newacronym{JSON}{JSON}{JavaScript Object Notation}
 \newacronym{XML}{XML}{Extensible Markup Language}
@@ -132,6 +133,9 @@
 \newacronym{OMG}{OMG}{Object Management Group}
 \newacronym{PSF}{PSF}{Python Software Foundation}
 \newacronym{RCL}{RCL}{Riverbank Computing Limited}
+\newacronym{CSS}{CSS}{Cascading Style Sheets}
+\newacronym{JS}{JS}{JavaScript}
+\newacronym{TDD}{TDD}{Test Driven Development}
 
 
 
@@ -351,7 +355,7 @@ Jak již bylo zmíněno v~kapitole~\ref{sec:problematika-format-yaml}, pro zápi
 Mezi cíle formátu \gls{YAML} patří mimo jiné jednoduchá čitelnost a~přenositelnost, což jsou pro konfigurační soubory ideální vlastnosti. Dalším z~cílů je čtení pomocí jediného průchodu, což s~sebou oproti formátu \gls{CON} přináší určité komplikace a~změny, které jsou dále rozvedeny v~kapitole~\ref{sec:navrh-yaml-reference}.
 
 \subsection{Proces zpracování souboru}
-
+\label{sec:analyza-proces-zpracovani-yaml}
 Jelikož je formát \gls{YAML} navržen tak, aby k~jeho přečtení a~reprezentaci stačil jediný průchod, je možné ho zpracovávat dvěma způsoby. Buď je možné data zpracovávat proudově a~generovat seznam událostí, nebo lze přečíst celý soubor a~vytvořit z~něj datovou reprezentaci.
 
 Oficiální dokumentace formátu \gls{YAML}~\cite{bib:yaml} popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu \gls{YAML}.
@@ -367,7 +371,7 @@ V~poslední fázi se převede graf reprezentující data na datovou strukturu da
 
 V~každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o~jejich pozici v~původním textovém souboru. Také nelze určit, zda byla konkrétní data v~souboru zapsána, nebo zda-li vznikla pouhým odkazem na již existující data z~jiné části souboru.
 
-Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace \textit{ModelEditor} je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
+Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace \textit{ModelEditor} je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-zpracovani-formatu-yaml}.
 
 \subsection{Zápis datových typů}
 \label{sec:analyza-yaml-zapis-datovych-typu}
@@ -1113,44 +1117,72 @@ Dále \textit{ModelEditor} obsahuje doplňkové funkce jako import formátu CON,
 
 \section{Požadavky}
 
-Na aplikaci \textit{ModelEditor} se vztahují určité požadavky, které vychází z~požadavků na celý aplikační balík \textit{GeoMop}. Jedná se především o~následující požadavky.
+Na aplikaci \textit{ModelEditor} se vztahují určité požadavky, které vychází z~požadavků na celý aplikační balík \textit{GeoMop}. Jedná se především o~následující požadavky:
 
 \begin{itemize}
 \item Aplikace je vyvíjena jako open-source pod licencí \acrshort{GNU} \gls{GPL} v3.0~\cite{bib:gnu-gpl3}.
 \item Aplikace musí být multiplatformní a~má podporovat systémy Windows (XP a~novější) a~Linux.
 \item Aplikace je napsaná v~jazyce Python~3~\cite{bib:python3}.
 \item Aplikace používá knihovnu PyQt~5~\cite{bib:pyqt5} pro grafické rozhraní.
-\item Pro vývoj aplikace se používá verzovací systém Git.
+\item Pro vývoj aplikace se používá verzovací systém Git. Aktuální verze zdrojových kódů je veřejně dostupná na adrese: \url{https://github.com/GeoMop/GeoMop}.
 \item Pro dokumentaci zdrojových kódů se používá nástroj Sphinx~\cite{bib:sphinx}.
 \end{itemize}
 
-%TODO odkaz na git repo GeoMop
+
+\section{Zpracování formátu YAML}
+\label{sec:implementace-yaml}
+
+V kapitole~\ref{sec:analyza-proces-zpracovani-yaml} byl popsán proces zpracování formátu \gls{YAML}, který je rozdělen do čtyř vrstev -- prezentace, serializace, reprezentace a datová struktura. Uvedený postup zpracování, který je původně definován v dokumentaci \gls{YAML}~\cite{bib:yaml}, se většinou dodržuje i v konkrétních implementacích knihoven, které se používají pro zpracování \gls{YAML}. V jazyce Python je dostupná knihovna \textit{PyYAML}~\cite{bib:pyyaml}, která až na některé detaily odpovídá dokumentaci.
+%TODO PyYAML link
+
+Rozhraní nejvyšší úrovně poskytuje funkci, jejíž vstupem je text obsahující data ve formátu \gls{YAML} a výstupem jsou nativní datové struktury v jazyce Python -- slovníky, seznamy a hodnoty. Vrstva datové struktury je tedy kompletně oddělená od její prezentace\footnote{Prezentací se rozumí zápis formátu \gls{YAML} v podobě textového souboru.}, což je v souladu s dokumentací \gls{YAML}.
+
+Pro potřeby aplikace \textit{ModelEditor} je toto chování nevyhovující. V aplikaci je zásadní pozice symbolů v textu, aby bylo možné s textovým editorem interaktivně pracovat. Tato informace je dostupná pouze nižším vrstvám v rámci zpracování souboru. Dále je potřeba v rámci aplikace rozeznávat reference -- což také není možné, protože data jsou ve výsledné struktuře pouze zkopírovaná a nelze tím pádem určit, která data byla zdrojová. Posledním úskalím pak byl zápis typu abstraktních záznamů pomocí tagů. Knihovna \textit{PyYAML} se pokouší interpretovat tagy jako názvy tříd v Pythonu, což je pro účely aplikace \textit{ModelEditor} opět nežádoucí.
+
+Z knihovny \textit{PyYAML} byla tedy využita pouze nejnižší úroveň zpracování, která pouze provede lexikální a syntaktickou analýzu. Výstupem z tohoto procesu je seznam událostí. Tento seznam událostí je dále zpracováván aplikací \textit{ModelEditor}, který na jejím základě vytváří aplikačně specifickou datovou strukturu, která obsahuje všechny potřebné informace. Výsledkem je tedy modul, který vychází z knihovny \textit{PyYAML} a na nejvyšší úrovni poskytuje funkci, která umožňuje načíst vstupní text ve formátu \gls{YAML} a výstupem z této funkce je datová struktura aplikace.
 
 
+\section{Textový editor}
 
-% YAML tab vs spaces - 2 mezery
+Pro komponentu textového editoru byla použita knihovna \textit{QScintilla~2}~\cite{bib:qscintilla2-python} pro Python, což je port knihovny \textit{Scintilla}~\cite{bib:scintilla} do grafického prostředí \textit{Qt}. \textit{Scintilla} poskytuje multiplatformní komponentu, která podporuje mnoho funkcí, které se používají při editaci zdrojového kódu. Podporuje například zobrazení čísel řádků, zobrazení indikátorů chyb, zvýraznění syntaxe, doplňování textu a další.
 
+\textit{QScintilla} se snaží většinu těchto funkcí z knihovny \textit{Scintilla} obalit a poskytnout k nim vlastní \gls{API}, které by mělo zjednodušit jejich použití. Při implementaci se ovšem ukázalo, že pro některé funkce je nutné použít nízkoúrovňový přístup, při kterém se volaly přímo funkce editoru \textit{Scintilla} pomocí zasílání zpráv, které není příliš dobře zdokumentované. Pomocí tohoto přístupu bylo potřeba zajistit funkci automatického doplňování a použití správných znaků pro ukončení řádky podle platformy.
 
-\section{Funkce editoru}
+Pro automatické doplňování je poskytováno i pomocí funkcí z \textit{QScintilla}~\gls{API}. Ovšem poskytovaná funkčnost je značně omezená a neumožňovala by tak například vhodně filtrovat nabízené možnosti podle kontextu. Oproti tomu přímý přístup k rozhraní \textit{Scintilla} poskytuje plnou kontrolu nad komponentou automatického doplňováním i nad samotným textem editoru. Díky tomu bylo možné tuto funkčnost realizovat tak, aby splňovala všechny požadavky včetně chování v krajních případech.
 
-% Qscintilla
+Další implementační zajímavostí byl mechanismus vracení provedených změn. \gls{API} poskytuje funkce, které toto umožňují implementovat. Ovšem v jejich nezměněné podobě probíhá vracení operací po nejmenší možné jednotce -- tedy po napsaných znacích. To pochopitelně z uživatelského hlediska není příliš použitelné, protože zachycené změny jsou příliš drobné a často nepodstatné. Tento mechanismus byl proto rozšířen tak, aby podporoval vrácení změn po větších částech, konkrétně po částech, které vyvolají opětovné načtení datové struktury. Typicky se jedná o třeba dokončení řádku nebo vložení textu ze schránky.
 
-% dokumentace - webkit ... html/css/js
+\section{Kontextová nápověda}
 
-\section{GUI}
+Při tvorbě komponenty pro zobrazování kontextové nápovědy bylo vzato v úvahu následující:
+
+\begin{itemize}
+\item grafický vzhled nemusí být finální a měl by jít upravovat,
+\item položky nápovědy by mezi sebou měly být propojené pomocí odkazů,
+\item v rámci dokumentačních řetězců se mohou vyskytnout rovnice zapsané pomocí syntaxe \texttt{math} prostředí \TeX,
+\item v současnosti existuje knihovna, která generuje ze specifikace formátu dokumentaci ve formátu \gls{HTML}.
+\end{itemize}
+
+Vzhledem k těmto skutečnostem byla kontextová nápověda realizována pro\-střed\-nictvím komponenty \textit{QWebView}, která funguje jako primitivní internetový prohlížeč s omezenou podporou \gls{HTML}, \gls{CSS} a \gls{JS}. Ze specifikace formátu, která obsahuje dokumentační řetězce a další informace o datové struktuře, se generuje webová stránka, která se poté pomocí této komponenty zobrazí.
+
+Pro generování HTML byla využita stávající knihovna \textit{Flow123d-python-utils\footnote{\url{https://github.com/x3mSpeedy/Flow123d-python-utils}}}, jejíž autorem je Ing.~Jan Hybš. Z této knihovny byla použita odpovídající část, která slouží pro generování dokumentace, a ta byla dále upravena pro potřeby aplikace \textit{ModelEditor}. Knihovna řeší i vykreslení rovnic pomocí nástroje KaTeX\footnote{\url{https://github.com/Khan/KaTeX}}.
+
+Během implementace bylo nutné nahradit či obejít některé vlastnosti \gls{HTML}, \gls{CSS} a \gls{JS}, protože jejich podpora v komponentě \textit{QWebView} je v porovnání s moderními webovými prohlížeči značně omezená. Použití této komponenty bylo ovšem výhodné v tom, že je přímo součástí \textit{Qt} a nebyla tak zapotřebí žádná další externí knihovna, která by poskytovala komponentu okna webového prohlížeče.
 
 \section{Testování}
 
-%TODO zminit odlisnosti ve zpracovani YAML oproti standardnimu chovani - poradi klicu, aliasy, tagy?
+V rámci vývoje byly psány testy pro ověření funkčnosti aplikace. Snahou ovšem nebylo dosáhnout 100\% pokrytí kódu testy. Potřebná časová investice by byla naprosto neúměrná reálnému přínosu. Spíše byl kladen důraz na psaní testů pro moduly, které se často měnily a upravovaly, nebo se očekává, že by v se v budoucnu mohly měnit. Dále byly vytvořeny testy pro ty části aplikace, které jsou jednoznačné a snadno testovatelné a dalo by se říct, že jejich funkcionalita je pomocí testů nadefinovaná. U těchto částí aplikace byl v rámci vývoje použit přístup \gls{TDD}.
 
-% kapitoly obdobne navrhu?
-% pouzite knihovny a technologie
-% pracovni postupy?
-% implementacni uskali
-% kdo delal co
-% testy
+Bylo napsáno celkem 206 testů. Většinou se jedná o jednotkové testy, které testují nějakou konkrétní funkci, metodu, třídu či komponentu. Jsou mezi nimi ovšem i testy, které by se daly považovat za integrační testy, protože testují více komponent najednou a interakce mezi nimi. Z těchto 206 testů bylo napsáno:
 
+\begin{itemize}
+\item 72 testů pro datovou strukturu a operace, které s ní souvisí -- načtení souboru \gls{YAML}, autokonverze a validace;
+\item 115 testů pro pomocné třídy, které zajišťují především analýzu zdrojového textu;
+\item 5 testů pro uživatelské rozhraní;
+\item 14 testů pro serializaci a ukládání nastavení aplikace.
+\end{itemize}
 
+Kromě jednotkových a integračních testů bylo součástí testování i manuální ověření funkčnosti aplikace a její odladění. Manuálně bylo testováno především uživatelské rozhraní a interakce mezi komponentami. Většina chyb, které byly odhaleny během testování, byla odstraněna. Některé chyby, které nebyly zásadní a jednalo se spíše o nedostatky, byly pouze zaznamenány. Jejich odstranění je záležitostí dalšího vývoje aplikace \textit{ModelEditor} v rámci projektu \textit{GeoMop}. Aplikace byla testována i několika cílovými uživateli a jejich připomínky a náměty vedly k některým změnám a vylepšením.
 
 
 \chapter*{Závěr}
@@ -1209,6 +1241,17 @@ Infrastructure}. [online]. \acrfull{OMG}, 2012. [cit. 2016-03-21]. Dostupné na:
 
 \bibitem{bib:sphinx}
 \textsc{Brandl, Georg et al.} \textit{Sphinx 1.3.7+ Documentation}. [online]. Georg Brandl and the Sphinx team, 2016. [cit. 2016-03-26]. Dostupné na: $<$\url{http://www.sphinx-doc.org/en/stable/}$>$
+
+\bibitem{bib:pyyaml}
+\textsc{Kirill, Simonov.} \textit{PyYAML}. [online]. 2014. [cit. 2016-04-12]. Dostupné na: $<$\url{http://pyyaml.org/wiki/PyYAML}$>$
+
+\bibitem{bib:qscintilla2-python}
+\textsc{\acrshort{RCL}}. \textit{QScintilla: QScintilla -- a Port to Qt v4 and Qt v5 of Scintilla }. [online]. \acrfull{RCL}, 2016. [cit. 2016-04-11]. Dostupné na: $<$\url{http://pyqt.sourceforge.net/Docs/QScintilla2/}$>$
+
+\bibitem{bib:scintilla}
+\textsc{Scintilla}. \textit{Scintilla Documentation}. [online]. 2016. [cit. 2016-04-11]. Dostupné na: $<$\url{http://www.scintilla.org/ScintillaDoc.html}$>$
+
+
 
 \end{thebibliography}
 
@@ -1383,12 +1426,5 @@ time: *time
 
 \clearpage
 
-
-
-\chapter{ModelEditor User Manual}
-
-\begin{quote}
-To write or not to write? That is the question...
-\end{quote}
 
 \end{document}
