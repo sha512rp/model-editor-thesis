@@ -37,6 +37,9 @@
 % customize description environment
 \usepackage{enumitem}
 
+% table of contents looks
+%\usepackage[tocflat]{tocstyle}
+%\usetocstyle{standard}
 
 \renewcommand{\thetable}{\arabic{table}}
 \renewcommand{\thefigure}{\arabic{figure}}
@@ -144,7 +147,7 @@
 
 \begin{abstractCZ}
 \thispagestyle{empty}
-Český abstrakt
+Tato diplomová práce popisuje problémy spojené s tvorbou editoru konfiguračních souborů pro simulátor Flow123d. Představuje formát YAML jako náhradu staršího souborového formátu CON a popisuje jeho použití pro zápis konfiguračních souborů Flow123d. Dále práce detailně popisuje autokonverze a proces validace datové struktury. V poslední řadě jsou pak popsány samotné komponenty vzniklého editoru ModelEditor.
 \end{abstractCZ}
 
 \vspace{2cm}
@@ -153,13 +156,32 @@ English abstract
 \end{abstractEN}
 
 \clearpage
+\thispagestyle{empty}
 \begin{acknowledgement}
 
 \end{acknowledgement}
+%
+%% adjust vertical space for chapter*
+%\begingroup
+%\makeatletter
+%% Redefine the \chapter* header macro to remove vertical space
+%\def\@makeschapterhead#1{%
+%  %\vspace*{50\p@}% Remove the vertical space
+%  {\parindent \z@ \raggedright
+%    \normalfont
+%    \interlinepenalty\@M
+%    \Huge \bfseries  #1\par\nobreak
+%    \vskip 40\p@
+%  }}
+%\makeatother
 
-\renewcommand\contentsname{Obsah\vspace{-30pt}}
+
+\renewcommand\contentsname{Obsah\vspace{-15pt}}
+%\vspace{-30pt}
 \tableofcontents
 \clearpage
+
+%\endgroup
 
 \listoffigures
 \clearpage
@@ -1255,12 +1277,10 @@ Infrastructure}. [online]. \acrfull{OMG}, 2012. [cit. 2016-03-21]. Dostupné na:
 
 \end{thebibliography}
 
-
-
+\clearpage
 \appendix
 
-%TODO appendix age numbering
-
+\addcontentsline{toc}{chapter}{Přílohy}
 \counterwithin{figure}{chapter}
 
 \chapter{Ukázky kódů konfiguračních souborů}
@@ -1425,6 +1445,8 @@ time: *time
 \end{figure}
 
 \clearpage
+
+\chapter{Obsah přiloženého CD}
 
 
 \end{document}
