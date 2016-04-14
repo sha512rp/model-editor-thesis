@@ -104,7 +104,7 @@
 
 \onehalfspacing
 
-\TULtitle{Editor konfiguračních souborů Flow123d}{Editor for Flow123d configuration files}
+\TULtitle{Editor konfiguračních souborů\\Flow123d}{Flow123d configuration file editor}
 \TULprogramme{N2612}{Elektrotechnika a~informatika}%
 {Electrotechnology and informatics}
 \TULbranch{1802T007}{Informační technologie}%
@@ -145,57 +145,51 @@
 \begin{document}
 \ThesisStart{male}
 
+
+\clearpage
+%TODO page number?
+\thispagestyle{empty}
+\begin{acknowledgement}
+Rád bych poděkoval rodičům a mé rodině za podporuji při studiu. Zároveň bych chtěl poděkovat i mé vedoucí diplomové práce, paní doc. Jiřině Královcové, a mému konzultantovi, panu Ing. Pavlu Richterovi, za vedení práce a konzultace.
+\end{acknowledgement}
+
+
 \begin{abstractCZ}
 \thispagestyle{empty}
-Tato diplomová práce popisuje problémy spojené s tvorbou editoru konfiguračních souborů pro simulátor Flow123d. Představuje formát YAML jako náhradu staršího souborového formátu CON a popisuje jeho použití pro zápis konfiguračních souborů Flow123d. Dále práce detailně popisuje autokonverze a proces validace datové struktury. V poslední řadě jsou pak popsány samotné komponenty vzniklého editoru ModelEditor.
+Tato diplomová práce popisuje problematiku související s tvorbou editoru konfiguračních souborů pro simulátor Flow123d. Představuje formát \acrshort{YAML} jako náhradu staršího souborového formátu \acrshort{CON} a popisuje jeho použití jeho syntaxe. Dále práce detailně popisuje autokonverze a proces validace datové struktury. V poslední řadě jsou pak popsány samotné komponenty vzniklého editoru ModelEditor.
+
+\vspace{5pt}
+\subsection*{Klíčová slova}
+\vspace{-10pt}
+
+editor, YAML, autokonverze, validace, Flow123d
 \end{abstractCZ}
 
 \vspace{2cm}
 \begin{abstractEN}
-English abstract
+This paper describes the issues surrounding the development of the Flow123d configuration file editor. It introduces the \acrshort{YAML} format as a replacement of the previously used \acrshort{CON} format and explains the new syntax. This paper also describes the process of autoconversion and validation of the Flow123d data structure in detail. Finally, components of the developed editor, ModelEditor, are described.
+
+\vspace{5pt}
+\subsection*{Keywords}
+\vspace{-10pt}
+
+editor, YAML, autoconversion, validation, Flow123d
 \end{abstractEN}
-
-\clearpage
-\thispagestyle{empty}
-\begin{acknowledgement}
-
-\end{acknowledgement}
-%
-%% adjust vertical space for chapter*
-%\begingroup
-%\makeatletter
-%% Redefine the \chapter* header macro to remove vertical space
-%\def\@makeschapterhead#1{%
-%  %\vspace*{50\p@}% Remove the vertical space
-%  {\parindent \z@ \raggedright
-%    \normalfont
-%    \interlinepenalty\@M
-%    \Huge \bfseries  #1\par\nobreak
-%    \vskip 40\p@
-%  }}
-%\makeatother
 
 
 \renewcommand\contentsname{Obsah\vspace{-15pt}}
-%\vspace{-30pt}
 \tableofcontents
 \clearpage
 
-%\endgroup
 
 \listoffigures
 \clearpage
 
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
-%\begin{abbrList}
-%\textbf{EU} & Evropská unie \\
 
 \printnoidxglossary[type=\acronymtype,title=Seznam zkratek]
 
-%\printglossaries
-
-%\end{abbrList}
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 
 \chapter*{Úvod}
@@ -966,6 +960,8 @@ Začátek celého procesu se nachází na obrázku~\ref{img:autoconversion_proce
 
 K~autokonverzi může dojít v~případě, že se datový typ daného uzlu neshoduje s~datovým typem, který se na tomto místě v~datové struktuře očekává. Pokud tato situace nastane, tak se nejprve ověří, zda se očekává záznam. Pokud tomu tak je a~zároveň tento záznam podporuje funkci autokonverze, tak dojde k~autokonverzi na záznam, jak bylo popsáno v~kaptiole~\ref{sec:analyza-autokonverze-zaznam}.
 
+\clearpage
+
 Další fáze pokračuje na obrázku~\ref{img:autoconversion_process_2}. Zde se rozhoduje, zda je očekávaným datovým typem pole. Pokud tomu tak je, tak záleží, jakého datového typu je aktuální uzel. Pokud se jedná o~skalární hodnotu, tak proběhne autokonverze na pole, která je schopná provést konverzi i~na vícerozměrné pole. Funkce autokonverze na pole byla popsána v~kapitole~\ref{sec:analyza-autokonverze-pole}.
 
 \begin{figure}[h]
@@ -1011,14 +1007,38 @@ Prvním krokem validace je detekce a~ověření zadaného datového typu. Tento 
 
 Některé z~primitivních datových typů nemají žádnou typově specifickou validaci. Aktuálně se jedná o~řetězce, názvy souborů a~booleovské hodnoty (\textit{String}, \textit{Filename} a~\textit{Boolean}). U~těchto datových typů se provede pouze kontrola datového typu a~případná konverze, jak bylo popsáno výše.
 
-Číselné datové typy pro reprezentaci celých a~desetinných čísel (\textit{Integer} a~\textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i~zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v~tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k~chybě \textit{Value\-Too\-Small}. V~opačném případě, kdy je hodnota větší než požadované maximum, dojdě k~chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number} na straně~\pageref{img:validation_number}.
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.68\textwidth]{../img/validation_number.pdf}
+    \caption{Validace číselných datových typů -- \textit{Integer} a~\textit{Double}}
+	\label{img:validation_number}
+\end{figure}
 
-Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se oveří, zda je zadaná hodnota jednou z~možných hodnot, která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection} na straně~\pageref{img:validation_selection}.
+Číselné datové typy pro reprezentaci celých a~desetinných čísel (\textit{Integer} a~\textit{Double}) mohou mít ve specifikaci formátu zadaný interval platných hodnot, který je shora i~zdola uzavřený. Provádí se tedy kontrola, zda se zadané číslo nachází v~tomto intervalu. Pokud je hodnota menší než požadované minimum, dojde k~chybě \textit{Value\-Too\-Small}. V~opačném případě, kdy je hodnota větší než požadované maximum, dojdě k~chybě \textit{ValueTooBig}. Validaci číselných datových typů znázorňuje obrázek~\ref{img:validation_number}.
 
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.6\textwidth]{../img/validation_selection.pdf}
+    \caption{Validace výčtového datového typu -- \textit{Selection}}
+	\label{img:validation_selection}
+\end{figure}
+
+Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se oveří, zda je zadaná hodnota jednou z~možných hodnot, která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection}.
+
+\clearpage
 \subsection{Validace pole}
 
-U~polí může být omezen počet prvků, které mohou obsahovat. Toto omezení je zadáno pomocí intervalu, který je z~obou stran uzavřený. Proces validace tedy probíhá obdobně jako při validaci číselných datových typů s~tím rozdílem, že se kontroluje počet prvků pole. Případná chybová hlášení se také liší. Pokud je počet prvků v~poli menší než zadané minimum, dojde k~chybě \textit{NotEnoughItems}. V~opačném případě dojde k~chybě \textit{TooManyItems}. Po kontrole počtu prvků pole se postupně prochází jeho potomci, u~kterých se opět provádí validace. Validace pole je znázorněna na obrázku~\ref{img:validation_array} na straně~\pageref{img:validation_array}.
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.75\textwidth]{../img/validation_array.pdf}
+    \caption{Validace pole -- \textit{Array}}
+	\label{img:validation_array}
+\end{figure}
 
+U~polí může být omezen počet prvků, které mohou obsahovat. Toto omezení je zadáno pomocí intervalu, který je z~obou stran uzavřený. Proces validace tedy probíhá obdobně jako při validaci číselných datových typů s~tím rozdílem, že se kontroluje počet prvků pole. Případná chybová hlášení se také liší. Pokud je počet prvků v~poli menší než zadané minimum, dojde k~chybě \textit{NotEnoughItems}. V~opačném případě dojde k~chybě \textit{TooManyItems}. Po kontrole počtu prvků pole se postupně prochází jeho potomci, u~kterých se opět provádí validace. Validace pole je znázorněna na obrázku~\ref{img:validation_array}.
+
+\clearpage
 \subsection{Validace záznamu}
 
 \begin{figure}[h]
@@ -1354,31 +1374,117 @@ time: *time
 \label{img:reference-yaml}
 \end{figure}
 
-
-
-\chapter{Dodatečné obrázky}
-
+\clearpage
 \begin{figure}[h]
-	\centering
-    \includegraphics[width=0.7\textwidth]{../img/validation_number.pdf}
-    \caption{Validace číselných datových typů -- \textit{Integer} a~\textit{Double}}
-	\label{img:validation_number}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
+{
+  problem = {
+    TYPE = "SequentialCoupling", 
+    description = "Unsteady flow in 2D, Mixed Hybrid method", 
+    mesh = {
+      mesh_file = "${INPUT}/square_2d.msh"
+    }, 
+    primary_equation = {
+      TYPE = "Steady_MH", 
+
+      input_fields= [
+        { region = "plane",
+          conductivity = 1
+        },
+        { r_set = "BOUNDARY",
+          time=0,
+          bc_type = "dirichlet",
+          bc_pressure = {TYPE="FieldFormula", value="0"}
+        },
+        { r_set = "BOUNDARY",
+          time=1,
+          bc_type = "dirichlet",
+          bc_pressure = {TYPE="FieldFormula", value="x"}
+        },
+        { r_set = "BOUNDARY",
+          time=2,
+          bc_type = "dirichlet",
+          bc_pressure = {TYPE="FieldFormula", value="2*x"}
+        }
+      ],
+
+      n_schurs = 2, 
+      output = {
+        output_stream = {
+          add_input_times=true,
+          file = "./test09.pvd", 
+          format = {
+            TYPE = "vtk", 
+            variant = "ascii"
+          }, 
+          name = "flow_output_stream"
+        },
+        output_fields = [ "pressure_p0", "pressure_p1", "velocity_p0" ]
+      }, 
+
+      balance = true,
+      
+      solver = {
+        TYPE = "Petsc", 
+        a_tol = 1e-07
+      }
+    } 
+  } 
+}
+\end{lstlisting}
+\vspace*{-20pt}
+\caption{Konfigurační soubor \texttt{flow\_time\_dep} ve formátu CON}
+\label{img:reference-con}
 \end{figure}
 
+\clearpage
 \begin{figure}[h]
-	\centering
-    \includegraphics[width=0.6\textwidth]{../img/validation_selection.pdf}
-    \caption{Validace výčtového datového typu -- \textit{Selection}}
-	\label{img:validation_selection}
+\begin{lstlisting}
+problem: !SequentialCoupling
+  description: Unsteady flow in 2D, Mixed Hybrid method
+  mesh:
+    mesh_file: <input>/square_2d.msh
+  primary_equation: !Steady_MH
+  
+    input_fields:
+      - region: plane
+        conductivity: 1
+      - r_set: BOUNDARY
+        time: 0
+        bc_type: dirichlet
+        bc_pressure: !FieldFormula 0
+      - r_set: BOUNDARY
+        time: 1
+        bc_type: dirichlet
+        bc_pressure: !FieldFormula x
+      - r_set: BOUNDARY
+        time: 2
+        bc_type: dirichlet
+        bc_pressure: !FieldFormula 2*x
+          
+    n_schurs: 2
+    
+    output:
+      output_stream:
+        add_input_times: true
+        file: ./test09.pvd
+        format: !vtk
+          variant: ascii
+        name: flow_output_stream
+      output_fields:
+        - pressure_p0
+        - pressure_p1
+        - velocity_p0
+        
+    balance: true
+    
+    solver: !Petsc
+      a_tol: 1.0e-07
+\end{lstlisting}
+\vspace*{-20pt}
+\caption{Konfigurační soubor \texttt{flow\_time\_dep} ve formátu YAML}
+\label{img:reference-con}
 \end{figure}
-
-\begin{figure}[h]
-	\centering
-    \includegraphics[width=0.75\textwidth]{../img/validation_array.pdf}
-    \caption{Validace pole -- \textit{Array}}
-	\label{img:validation_array}
-\end{figure}
-
 
 
 \chapter{Grafické rozhraní aplikace}
