@@ -1,0 +1,33 @@
+\frametitle{Zpracování konfiguračního souboru}
+	\only<1>{
+	\hspace*{-5pt}\includegraphics[width=\textwidth]{../../img/data_structure_chain_1.pdf}\\
+	}
+	\only<2-5>{
+	\hspace*{-5pt}\includegraphics[width=\textwidth]{../../img/data_structure_chain_2.pdf}\\
+	}
+	\only<6-9>{
+	\hspace*{-5pt}\includegraphics[width=\textwidth]{../../img/data_structure_chain_3.pdf}\\
+	}
+	\only<10>{
+	\hspace*{-5pt}\includegraphics[width=\textwidth]{../../img/data_structure_chain_4.pdf}\\
+	}
+	\begin{minipage}[t]{0.45\textwidth}
+	\begin{block}{Formát YAML}
+	\begin{itemize}
+		\item<3-> nahrazuje formát CON
+		\item<4-> přehledná syntaxe
+		\item<5-> návrh použití syntaxe pro zápis (abstraktní záznamy, reference)
+		%\item<6-> vlastní implementace zpracování souboru
+	\end{itemize}
+	\end{block}
+	\end{minipage}
+	\hspace{5pt}
+	\begin{minipage}[t]{0.45\textwidth}
+	\begin{block}{Autokonverze}
+	\begin{itemize}
+		\item<7-> speciální zkrácený zápis polí či záznamů
+		\item<8-> v praxi -- jiný datový typ, než se očekává
+		\item<9-> libovolně vnořené $\rightarrow$ rekurzivní průchod datové struktury
+	\end{itemize}
+	\end{block}
+	\end{minipage}
