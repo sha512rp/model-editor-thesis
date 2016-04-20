@@ -180,7 +180,7 @@ editor, YAML, autoconversion, validation, Flow123d
 \tableofcontents
 \clearpage
 
-
+\renewcommand\listfigurename{Seznam obrázků\vspace{-5pt}}
 \listoffigures
 \clearpage
 
@@ -583,13 +583,9 @@ Z~pohledu aplikace \textit{ModelEditor} je podstatná pouze hodnota \textit{obli
 
 Posledním speciálním typem, který se používá ve struktuře konfiguračních souborů je abstraktní záznam. Jedná se o~všechny typy, které jsou odvozené ze základního typu označovaného jako \textit{Abstract}. Abstraktní záznamy slouží jako zástupný typ, který se ve specifikaci formátu datové struktury objevuje na místech, kde se mohou vyskytovat různé typy (ovšem ne zcela libovolné).
 
-
-% resi se procesu, existuje nekoliik typu, ktere flow dokaze resit ; simluace jednotlivych procesu se lisi, maji jine param a data maji odlisnou strukturu;; simulovat / modelovat;; specifikace ocekava abstraktni typ; v konfiguracnim souboru musi byt konkretni datovy typ, ktery odpovida abstrakci (implemetuje dat typ)
 Jeden z~příkladů využití je při výběru typu simulovaného procesu. Existuje několik typů procesů, které Flow123d dokáže řešit. Jednotlivé procesy se však liší a~tím pádem i~vyžadují jiné parametry a~data mají odlišnou strukturu.
 V~místě, kde se zadává proces očekává specifikace formátu abstraktní záznam.
 V~konfiguračním souboru se daném místě uvede konkrétní záznam, který implementuje očekávaný abstraktní záznam. U~těchto záznamů je ve specifikaci formátu uvedeno, které abstraktní záznamy implementují pomocí klíče \texttt{implements}.
-
-%TODO je to takhle receno spravne z pohledu uzivatele flow?
 
 Použitá terminologie se rozchází s~programátorskou terminologií, kde by se tento abstraktní záznam označil spíše jako rozhraní. Abstraktní záznamy totiž nemohou mít definované žádné klíče -- tím pádem se nepoužívají pro dědičnost. Navíc jeden konkrétní typ může implementovat více abstraktních typů, což je z~pohledu objektového programování typické spíše pro rozhraní. Pro zachování jednotné terminologie se specifikací formátu Flow123d a~její dokumentací bude ale nadále tento typ označován jako abstraktní záznam.
 
@@ -743,7 +739,6 @@ Existuje speciální případ této autokonverze, kdy se podle specifikace form�
 
 \subsection{Transpozice}
 \label{sec:analyza-autokonverze-transpozice}
-%TODO neni to celkove matouci? je z toho jasne o co se jedna a jak to funguje?
 Transpozice je nově přidaná autokonverze, která umožňuje definovat pole záznamů naráz pomocí speciálního zápisu pro jeden záznam. Transpozice může výrazně zkrátit zápis pole záznamů obzvlášť v~případech, kdy záznamy obsahují více klíčů a~mění se pouze hodnoty některých klíčů, zatímco hodnoty ostatních klíčů zůstávají totožné.
 
 
@@ -774,7 +769,7 @@ input_fields:
   - region: Region1
     time: 0.5
   - region: Region1
-    time: 1
+    time: 1.0
 \end{lstlisting}
 \vspace{-20pt}
 \begin{center}
@@ -785,13 +780,12 @@ input_fields:
 \label{img:autoconversion_transposition}
 \end{figure}	
 
-Transpozice je speciálním případem autokonverze na pole. Provádí se v~případě, kdy se v~datové struktuře očekává pole záznamů, ale místo něj je nalezen pouze jeden záznam. Pokud nastane tato situace, proběhnou další kontroly, zda je možné transpozici provést (viz kapitola~\ref{sec:implementace-autokonverze-transpozice}), a~pokud je to možné, tak se zapsaná datová struktura převede následujícím způsobem.
+Transpozice je speciálním případem autokonverze na pole. Provádí se v~případě, kdy se v~datové struktuře očekává pole záznamů, ale místo něj je nalezen pouze jeden záznam. Pokud nastane tato situace, proběhnou další kontroly, zda je možné transpozici provést (viz kapitola~\ref{sec:navrh-autokonverze}), a~pokud je to možné, tak se zapsaná datová struktura převede následujícím způsobem.
 
 Nejprve se vytvoří pole záznamů, které se očekávalo podle specifikace formátu. Dále se provede expanze polí, kdy se pro každou hodnotu v~poli původně zapsaného záznamu vytvoří samostatný záznam, který se uloží do nově vytvořeného pole záznamů. Během této expanze se do nově vytvořených záznamů vkládají kon\-krétní hodnoty místo původních polí hodnot. Pokud v~daném klíči v~původním záznamu nebylo pole, ale hodnota či jiný záznam, tak se tato hodnota zkopíruje.
 
-%TODO desetinne hodnoty - v obrazku . ale v textu , - jak sjednotit?
 Nejjednodušší případ této konverze je znázorněn na obrázku~\ref{img:autoconversion_transposition}. Zde se pomocí transpozice definuje pole \texttt{input\_fields}, které obsahuje záznamy typu \textit{Steady\_MH}. Tento záznam obsahuje klíče \texttt{region} a~\texttt{time}. Zapsaná datová struktura se transponuje tak, že se místo jediného uvedeného záznamu vytvoří pole záznamů o~dvou prvcích, protože pole \texttt{time} obsahuje dvě hodnoty. Každý z~těchto záznamů bude mít klíč \texttt{time} i~\texttt{region}. U~prvního záznamu bude klíč \texttt{time} nastaven na hodnotu~\texttt{0.5}, zatímco u~druhého záznamu bude mít klíč \texttt{time} hodnotu~\texttt{1.0}. Klíč \texttt{region} bude v~obou záznamech nastaven na totožnou hodnotu \texttt{Region1}.
-bo
+
 Pokud zapsaný záznam obsahuje více polí, tak jejich expanze probíhá souběžně. První záznam bude tedy obsahovat vždy první prvky z~polí, druhý záznam druhé prvky z~polí atd. To je znázorněno na obrázku~\ref{img:transposition_code_example}. Dále si lze všimnout, že vhodně použitá transpozice může výrazně zkrátit zápis.
 
 \lstset{style=code}
@@ -839,12 +833,8 @@ input_fields:
 
 \chapter{Návrh}
 
-% big picture - pohled na aplikaci jako celek
-
 \section{Použití syntaxe YAML}
 V~této kapitole je upřesněno použití syntaxe \gls{YAML} pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu \gls{CON}, jako jsou specifikace typu záznamu a~použití referencí. Dále je popsán proces získání datové struktury z~konfiguračního souboru, který zahrnuje provedení autokonverzí. Kapitola se dále zabývá validací načtené datové struktury. V~poslední části kapitoly jsou navrženy základní komponenty uživatelského rozhraní a~je popsána jejich funkce.
-
-%Formát \gls{CON} měl vyhrazené dva speciální klíče -- \texttt{TYPE} a~\texttt{REF}. První z~nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v~datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
 
 \subsection{Základní použití syntaxe}
 
@@ -909,8 +899,6 @@ Použití kotev a~aliasů bylo navrženo ve formátu \gls{YAML} za stejným úč
 
 Tím se použití kotev a~aliasů liší od referencí ve formátu \gls{CON}. V~tom bylo možné se odkázat i~na datovou strukturu, která v~dané fázi zpracování souboru ještě nebyla definovaná. Nicméně vzhledem k~účelu referencí -- předejití duplicitě dat -- není tato funkcionalita zásadní. 
 
-%TODO zminit operator merge?
-
 
 \section{Datová struktura}
 
@@ -938,6 +926,7 @@ Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. 
 V~aplikaci se pracuje s~abstrakní třídou \textit{DataNode}, která reprezentuje obecný uzel a~poskytuje všechny potřebné informace o~datové struktuře. Typicky se v~rámci aplikace pracuje s~kořenovým uzlem stromu, ze kterého je možné se dostat do všech ostatních uzlů.
 
 \section{Autokonverze}
+\label{sec:navrh-autokonverze}
 
 V~konfiguračních souborech se často používají zkrácené zápisy, které je potřeba zpracovat pomocí autokonverzí, které byly podrobně popsány v~kapitole~\ref{sec:analyza-autokonverze}. Proces autokonverzí, obdobně jako třeba validace, potřebuje ke své funkci ne pouze konfigurační soubor, ale i~specifikaci formátu, která předepisuje očekávané datové typy.
 
@@ -977,8 +966,6 @@ U~aktuálního uzlu se postupně projdou všichni přímí potomci a~dojde ke ko
     \caption[Proces autokonverze III.]{Proces autokonverze III. -- Rozhodovací logika, která určuje, zda lze provést transpozice}
 	\label{img:autoconversion_process_3}
 \end{figure}
-
-% vyvojovy diagram - jak se provadi autokonverze - implementace?
 
 \clearpage
 
@@ -1048,7 +1035,6 @@ Validace umožňuje různé úrovně chybových hlášení -- informativní zpr�
 
 \subsection{Validace abstraktního záznamu}
 
-%TODO deleni slova abs-traktni?
 Posledním datovým typem, který se může na vstupu očekávat, je abstraktní záznam (\textit{Abstract}). Proces validace abstraktního záznamu je znázorněn na obrázku~\ref{img:validation_abstract}. Nejprve se určí, zda je explicitně zadán typ abstraktního záznamu (viz kapitola~\ref{sec:navrh-yaml-abstrakni-zaznamy}). Pokud je uveden, tak se ověří, ze tento záznam je implementací očekávaného abstraktního záznamu. Pokud by nebyl, validace skončí chybou \textit{InvalidAbstractType}.
 
 Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ implementace, pokud je uveden ve specifikaci formátu. Pokud ovšem abstraktní záznam nemá výchozí implementaci, validace skončí chybou \textit{UnknownRecordKey}. Ve chvíli, kdy je určen konkrétní datový typ záznamu, se může provést jeho validace tak, jak byla výše popsaná.
@@ -1546,5 +1532,8 @@ problem: !SequentialCoupling
 
 \chapter{Obsah přiloženého CD}
 
+%TODO dopnit obsah
+
+Doplnit obsah CD.
 
 \end{document}
