@@ -379,7 +379,7 @@ Oficiální dokumentace formátu \gls{YAML}~\cite{bib:yaml} popisuje proces zpra
 %TODO syntakticka vs lexikalni analyza
 \includeimg{yaml}{Zpracování formátu YAML}
 
-Proces načtení souboru ve formátu \gls{YAML} prochází třemi fázemi. V~první fázi proběhne syntaktická analýza, která převede vstupní soubor na posloupnost událostí. Syntaktická analýza hledá symboly a~hodnoty na základě syntaxe \gls{YAML}, kontroluje správné odsazení a~vypustí ze vstupu komentáře.
+Proces načtení souboru ve formátu \gls{YAML} prochází třemi fázemi. V~první fázi proběhne lexikální analýza, která převede vstupní soubor na posloupnost událostí. Lexikální analýza hledá symboly a~hodnoty na základě syntaxe \gls{YAML}, kontroluje správné odsazení a~vypustí ze vstupu komentáře.
 
 V~druhé fázi proběhne kompozice, která převede posloupnost událostí na reprezentaci dat pomocí grafu. V~této fázi se z~dat odstraní kotvy a~aliasy se nahradí příslušnými daty. Použití kotev a~aliasů je dále vysvětleno v~kapitole~\ref{sec:navrh-yaml-reference}.
 
@@ -387,7 +387,7 @@ V~poslední fázi se převede graf reprezentující data na datovou strukturu da
 
 V~každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o~jejich pozici v~původním textovém souboru. Také nelze určit, zda byla konkrétní data v~souboru zapsána, nebo zda-li vznikla pouhým odkazem na již existující data z~jiné části souboru.
 
-Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace \textit{ModelEditor} je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-zpracovani-formatu-yaml}.
+Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace \textit{ModelEditor} je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
 
 \subsection{Zápis datových typů}
 \label{sec:analyza-yaml-zapis-datovych-typu}
@@ -663,7 +663,7 @@ value: [2.5]
 %TODO hodnota 2.5 se reprezentuje jako realne cislo 
 Obrázek~\ref{img:autoconversion_array_1} znázorňuje autokonverzi hodnoty na jednorozměrné pole. V~klíči \texttt{value} v~záznamu \textit{FieldConstant} se očekává jednorozměrné pole, ale místo něj se na dané pozici vyskytla hodnota \texttt{2.5}. Provede se tedy autokonverze na pole a~poté skutečná datová struktura obsahuje jednorozměrné pole o~jednom prvku, kterým je právě tato hodnota.
 
-Autokonverze na pole funguje obdobně i~pro vícerozměrná pole. Příklad této autokonverze je uveden na obrázku~\ref{img:autoconversion_array_2}. Klíč \texttt{anisotropy} v~záznamu \textit{DarcyFlowMH\_Data} má být dvourozměrné pole. Místo toho se v~datové struktuře vyskytla hodnota. Ta se zkonvertuje na dvourozměrné pole, jehož jediným prvek je právě tato hodnota.
+Autokonverze na pole funguje obdobně i~pro vícerozměrná pole. Příklad této autokonverze je uveden na obrázku~\ref{img:autoconversion_array_2}. Klíč \texttt{value} v~záznamu \textit{FieldConstant} má nyní být dvourozměrné pole.\footnote{Přes to, že tento záznam má opět název \textit{FieldConstant}, jedná se o odlišný typ záznamu od předchozího příkladu. První z nich byl implementací abstraktního záznamu \textit{Field:R3 $\rightarrow$ R}, zatímco druhý implementuje \textit{Field:R3 $\rightarrow$ R[3,3]}.} Místo toho se v~datové struktuře vyskytla hodnota. Ta se zkonvertuje na dvourozměrné pole, jehož jediným prvek je právě tato hodnota.
 
 Autokonverze na vícerozměrné pole proběhne i~v~případě, pokud je v~datové struktuře pole o~menší dimenzi, než se očekává. Pokud takový případ nastane, tak se zadané pole zkonvertuje na pole vyšší dimenze obdobně jako to bylo popsáno u~konverzí hodnot na pole.
 
@@ -676,7 +676,7 @@ Autokonverze na vícerozměrné pole proběhne i~v~případě, pokud je v~datov�
 \textbf{Zapsaná datová struktura}\\
 \vspace{-5pt}
 \begin{lstlisting}
-anisotropy: 1.5
+value: 1.5
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
@@ -689,7 +689,7 @@ anisotropy: 1.5
 \textbf{Skutečná datová struktura}\\
 \vspace{-5pt}
 \begin{lstlisting}
-anisotropy: [[1.5]]
+value: [[1.5]]
 \end{lstlisting}
 \vspace*{-20pt}
 \begin{center}
