@@ -104,7 +104,7 @@
 
 \onehalfspacing
 
-\TULtitle{Editor konfiguračních souborů\\Flow123d}{Flow123d configuration file editor}
+\TULtitle{Editor konfiguračních souborů Flow123d}{Flow123d configuration file editor}
 \TULprogramme{N2612}{Elektrotechnika a~informatika}%
 {Electrotechnology and informatics}
 \TULbranch{1802T007}{Informační technologie}%
@@ -150,13 +150,13 @@
 %TODO page number?
 \thispagestyle{empty}
 \begin{acknowledgement}
-Rád bych poděkoval rodičům a mé rodině za podporuji při studiu. Zároveň bych chtěl poděkovat i mé vedoucí diplomové práce, paní doc. Jiřině Královcové, a mému konzultantovi, panu Ing. Pavlu Richterovi, za vedení práce a konzultace.
+Rád bych poděkoval rodičům a~mé rodině za podporuji při studiu. Zároveň bych chtěl poděkovat i~mé vedoucí diplomové práce, paní doc. Jiřině Královcové, a~mému konzultantovi, panu Ing. Pavlu Richterovi, za vedení práce a~konzultace.
 \end{acknowledgement}
 
 
 \begin{abstractCZ}
 \thispagestyle{empty}
-Tato diplomová práce popisuje problematiku související s tvorbou editoru konfiguračních souborů pro simulátor Flow123d. Představuje formát \acrshort{YAML} jako náhradu staršího souborového formátu \acrshort{CON} a popisuje jeho použití jeho syntaxe. Dále práce detailně popisuje autokonverze a proces validace datové struktury. V poslední řadě jsou pak popsány samotné komponenty vzniklého editoru ModelEditor.
+Tato diplomová práce popisuje problematiku související s~tvorbou editoru konfiguračních souborů pro simulátor Flow123d. Představuje formát \acrshort{YAML} jako náhradu staršího souborového formátu \acrshort{CON} a~popisuje jeho použití jeho syntaxe. Dále práce detailně popisuje autokonverze a~proces validace datové struktury. V~poslední řadě jsou pak popsány samotné komponenty vzniklého editoru ModelEditor.
 
 \vspace{5pt}
 \subsection*{Klíčová slova}
@@ -167,7 +167,7 @@ editor, YAML, autokonverze, validace, Flow123d
 
 \vspace{2cm}
 \begin{abstractEN}
-This paper describes the issues surrounding the development of the Flow123d configuration file editor. It introduces the \acrshort{YAML} format as a replacement of the previously used \acrshort{CON} format and explains the new syntax. This paper also describes the process of autoconversion and validation of the Flow123d data structure in detail. Finally, components of the developed editor, ModelEditor, are described.
+This paper describes the issues surrounding the development of the Flow123d configuration file editor. It introduces the \acrshort{YAML} format as a~replacement of the previously used \acrshort{CON} format and explains the new syntax. This paper also describes the process of autoconversion and validation of the Flow123d data structure in detail. Finally, components of the developed editor, ModelEditor, are described.
 
 \vspace{5pt}
 \subsection*{Keywords}
@@ -848,7 +848,7 @@ input_fields:
 % big picture - pohled na aplikaci jako celek
 
 \section{Použití syntaxe YAML}
-V~této kapitole je upřesněno použití syntaxe \gls{YAML} pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu \gls{CON}, jako jsou specifikace typu záznamu a~použití referencí. Dále je popsán proces získání datové struktury z~konfiguračního souboru, který zahrnuje provedení autokonverzí. Kapitola se dále zabývá validací načtené datové struktury. V poslední části kapitoly jsou navrženy základní komponenty uživatelského rozhraní a je popsána jejich funkce.
+V~této kapitole je upřesněno použití syntaxe \gls{YAML} pro zápis konfiguračních souborů včetně speciálních případů, které se používaly ve formátu \gls{CON}, jako jsou specifikace typu záznamu a~použití referencí. Dále je popsán proces získání datové struktury z~konfiguračního souboru, který zahrnuje provedení autokonverzí. Kapitola se dále zabývá validací načtené datové struktury. V~poslední části kapitoly jsou navrženy základní komponenty uživatelského rozhraní a~je popsána jejich funkce.
 
 %Formát \gls{CON} měl vyhrazené dva speciální klíče -- \texttt{TYPE} a~\texttt{REF}. První z~nich, klíč \texttt{TYPE}, sloužil pro zadání typu konkrétního záznamu v~datové struktuře abstraktního záznamu. Pomocí klíče \texttt{REF} bylo možné se odkázat na libovolnou část datové struktury.
 
@@ -939,7 +939,7 @@ Datová struktura z~pohledu konfiguračních souborů, resp. Flow123d, byla pops
 	\label{img:data_node}
 \end{figure}
 
-Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a~\textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a~tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Abstraktní třída \textit{CompositeDataNode} má dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a~\textit{SequenceDataNode} pro pole. Popsaná a znázorněná reprezentace datové struktury odpovídá návrhovému vzoru \textit{Composite}. Více o tomto a dalších návrhových vzorech se lze dočíst v knize Design Patterns~\cite{bib:design-patterns}.
+Obecná abstrakce datového uzlu je reprezentována třídou \textit{DataNode}. Od této třídy jsou odvozeny implementace \textit{ScalarDataNode} a~\textit{CompositeDataNode}. Třída \textit{ScalarDataNode} reprezentuje list stromu a~tím pádem obsahuje nějakou skalární hodnotu. Třída \textit{CompositeDataNode} reprezentuje interní uzel stromu, který obsahuje další uzly \textit{DataNode}. Abstraktní třída \textit{CompositeDataNode} má dvě odvozené třídy -- \textit{MappingDataNode} pro záznamy a~\textit{SequenceDataNode} pro pole. Popsaná a~znázorněná reprezentace datové struktury odpovídá návrhovému vzoru \textit{Composite}. Více o~tomto a~dalších návrhových vzorech se lze dočíst v~knize Design Patterns~\cite{bib:design-patterns}.
 
 V~aplikaci se pracuje s~abstrakní třídou \textit{DataNode}, která reprezentuje obecný uzel a~poskytuje všechny potřebné informace o~datové struktuře. Typicky se v~rámci aplikace pracuje s~kořenovým uzlem stromu, ze kterého je možné se dostat do všech ostatních uzlů.
 
@@ -952,7 +952,7 @@ Pro zpracování autokonverzí byl v~rámci aplikace navržen samostatný modul,
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.95\textwidth]{../img/autoconversion_process.pdf}
-    \caption[Proces autokonverze I.]{Proces autokonverze I. -- Počáteční stav, kdy se ověřuje shoda datových typů, a případné provedení autokonverze na záznam}
+    \caption[Proces autokonverze I.]{Proces autokonverze I. -- Počáteční stav, kdy se ověřuje shoda datových typů, a~případné provedení autokonverze na záznam}
 	\label{img:autoconversion_process}
 \end{figure}
 
@@ -1050,7 +1050,7 @@ U~polí může být omezen počet prvků, které mohou obsahovat. Toto omezení 
 
 Záznamy jsou opět složeným typem, takže součástí procesu je opět validace potomků. Průběh validace záznamu je znázorněn na obrázku~\ref{img:validation_record}. Během tohoto procesu se postupně ověřují všechny klíče záznamu, které obsahují jeho potomky. Pro každý z~těchto klíčů se najde jeho odpovídající datový typ ve specifikaci formátu. Pokud v~ní není daný klíč uveden, dojde k~upozornění \textit{UnknownRecordKey} a~pokračuje se dalším klíčem. Po validaci všech klíčů, resp. potomků, se ještě ověří, ze jsou v~záznamu uvedeny všechny povinné klíče. Pokud tomu tak není, tak je uživatel na chybějící klíče upozorněn pomocí chyby \textit{MissingObligatoryKey}.
 
-Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a~fatální chyby. Ve výše popsané validaci může kromě chyb vzniknout i~upozornění \textit{UnknownRecordKey}. K tomu dojde tehdy, když se v záznamu vyskytne klíč, který není uveden ve specifikaci formátu. Z~hlediska Flow123d se nejedná o~chybu. V~praxi se však v~těchto případech často jedná o~překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i~na tyto případy.
+Validace umožňuje různé úrovně chybových hlášení -- informativní zprávy, upozornění, chyby a~fatální chyby. Ve výše popsané validaci může kromě chyb vzniknout i~upozornění \textit{UnknownRecordKey}. K~tomu dojde tehdy, když se v~záznamu vyskytne klíč, který není uveden ve specifikaci formátu. Z~hlediska Flow123d se nejedná o~chybu. V~praxi se však v~těchto případech často jedná o~překlep nebo špatný název nepovinného klíče, na který potom Flow123d nijak nereaguje. Uživatel pak musí pracně zjišťovat, proč se simulátor chová jinak, než očekává. Z~toho důvodu validace upozorňuje i~na tyto případy.
 
 \subsection{Validace abstraktního záznamu}
 
@@ -1070,7 +1070,7 @@ Jestliže není explicitně uvedený typ, tak se použije výchozí datový typ 
 
 Jednou z~komponent editoru je grafický strom, který slouží pro vizualizaci datové struktury. V~prvotní fázi plánování editoru se uvažovalo o~tom, že by se pomocí tohoto grafického stromu kompletně zadávala celá konfigurace a~editor by neměl žádnou komponentu pro přímou úpravu zdrojového textu konfiguračního souboru. Nakonec se ovšem od tohoto návrhu upustilo z~několika důvodů. Jednou z~nevýhod je například to, že takový editor by uživateli neposkytoval žádnou kontrolu nad formátováním textu v~konfiguračních souborech. S~tím souvisí i~problém komentářů, které by nebylo možné do konfiguračního souboru jednoduše zapsat na požadované místo. Dalším z~důvodů bylo i~to, že jsou modeláři zvyklí editovat konfigurační soubor ve formě textu.
 
-Komponenta stromu má ovšem oproti pouhému editoru textu i~určité výhody a~proto byla v~aplikaci nakonec použita. Zatímco zápis a všechny úpravy datové struktury se provádí editací textu, komponenta stromu slouží primárně jako vizualizace zadaných dat. Strom slouží k~rychlé orientaci v~konfiguračním souboru, označování hodnot a~poskytuje náhled, jak vypadá datová struktura po provedení autokonverzí.
+Komponenta stromu má ovšem oproti pouhému editoru textu i~určité výhody a~proto byla v~aplikaci nakonec použita. Zatímco zápis a~všechny úpravy datové struktury se provádí editací textu, komponenta stromu slouží primárně jako vizualizace zadaných dat. Strom slouží k~rychlé orientaci v~konfiguračním souboru, označování hodnot a~poskytuje náhled, jak vypadá datová struktura po provedení autokonverzí.
 
 Komponenta stromu je rozdělena do dvou sloupců. V~levém se nachází klíče nebo indexy pole a~v~pravém sloupci jsou příslušné hodnoty. Stromová struktura je znázorněna pomocí odsazení v~levém sloupci. Jednotlivé větve stromu je možné zabalit pro přehlednější výpis požadovaných informací. Komponentu stromu je možné vidět na obrázku~\ref{img:gui_tree} na straně~\pageref{img:gui_tree}.
 
@@ -1125,14 +1125,14 @@ Struktura konfiguračních souborů je taková, že všechna data\footnote{Krom�
 
 Pokud je nadřazený záznam implementací některého abstraktního záznamu, zobrazí se navíc ještě název a~popis tohoto abstraktního záznamu včetně seznamu jeho možných implementací, které se skládají z~názvu a~popisu.
 
-Všechny názvy složených datových typů a~klíčů záznamů jsou odkazy, na které je možné kliknout. Dokumentaci zobrazenou v kontextové nápovědě je tak možné procházet. Dále je možné pro navigaci použít tlačítka zpět, vpřed a~domů, podobně jako v~internetových prohlížečích.
+Všechny názvy složených datových typů a~klíčů záznamů jsou odkazy, na které je možné kliknout. Dokumentaci zobrazenou v~kontextové nápovědě je tak možné procházet. Dále je možné pro navigaci použít tlačítka zpět, vpřed a~domů, podobně jako v~internetových prohlížečích.
 
 Vzhled komponenty v~grafickém rozhraní aplikace a~ukázky zobrazovaných dat je možné vidět na obrázcích~\ref{img:gui_doc_mortar_method},~\ref{img:gui_doc_substances} a~\ref{img:gui_doc_format} na straně~\pageref{img:gui_doc_mortar_method}.
 
 
 \chapter{Implementace a~testování}
 
-Aplikace \textit{ModelEditor} je součástí aplikačního balíku \textit{GeoMop}, za jehož vývoj je zodpovědný Ing. Pavel Richter. V~rámci této diplomové práce byly v~aplikaci \textit{ModelEditor} implementovány následující funkce:
+Aplikace \textit{ModelEditor} je součástí aplikačního balíku \textit{GeoMop}, za jehož vývoj je zodpovědný Ing. Pavel Richter. V~rámci této diplomové práce byly v~aplikaci \textit{Model\-Editor} implementovány následující funkce:
 
 \begin{itemize}
 \item datová struktura pro práci s~konfiguračními soubory a~specifikací formátu,
@@ -1154,7 +1154,8 @@ Kromě těchto funkcí ovšem \textit{ModelEditor} obsahuje i~části, na který
 
 Nejužší souvislost s~touto diplomovou prací má rozhodovací logika pro opětovné načtení datové struktury. Výše popsaný proces zpracování formátu \gls{YAML}, autokonverzí, validací, generování dokumentace a~reprezentace dat musí probíhat neustále dokola. Když uživatel upravuje text souboru, mění se data i~pozice kurzoru. Na těchto informacích závisí všechny zmíněné funkce. Pokud by ovšem celý proces měl probíhat při každém napsaném znaku, vedlo by to ke zbytečnému vytížení procesoru a~znatelnému zpomalení aplikace. Bylo tedy nutné implementovat funkčnost, která rozhodne, kdy má dojít k~opětovnému načtení datové struktury a~aktualizaci všech komponent, které na ní závisí.
 
-Dále \textit{ModelEditor} obsahuje doplňkové funkce jako import formátu CON, ve kterém se dříve psaly konfigurační soubory, nebo transformace, které umožňují upravovat datovou strukturu (a~tedy i~text konfiguračního souboru) pomocí předdefinované sady pravidel. Transformace je možné využít například pro konverzi konfiguračních souborů mezi různými verzemi Flow123d, kde došlo ke změně specifikace formátu.
+Dále \textit{ModelEditor} obsahuje doplňkové funkce jako import formátu CON, ve kterém se dříve psaly konfigurační soubory, nebo transformace, které umožňují upravovat datovou strukturu (a~tedy i~text konfiguračního souboru) pomocí předdefi\-no\-va\-né sady pravidel. Transformace je možné využít například pro konverzi konfiguračních souborů mezi různými verzemi Flow123d, kde došlo ke změně specifikace formátu.
+% TODO upravit formulaci -- nebo transformace?
 
 
 \section{Požadavky}
@@ -1174,74 +1175,71 @@ Na aplikaci \textit{ModelEditor} se vztahují určité požadavky, které vychá
 \section{Zpracování formátu YAML}
 \label{sec:implementace-yaml}
 
-V kapitole~\ref{sec:analyza-proces-zpracovani-yaml} byl popsán proces zpracování formátu \gls{YAML}, který je rozdělen do čtyř vrstev -- prezentace, serializace, reprezentace a datová struktura. Uvedený postup zpracování, který je původně definován v dokumentaci \gls{YAML}~\cite{bib:yaml}, se většinou dodržuje i v konkrétních implementacích knihoven, které se používají pro zpracování \gls{YAML}. V jazyce Python je dostupná knihovna \textit{PyYAML}~\cite{bib:pyyaml}, která až na některé detaily odpovídá dokumentaci.
-%TODO PyYAML link
+V~kapitole~\ref{sec:analyza-proces-zpracovani-yaml} byl popsán proces zpracování formátu \gls{YAML}, který je rozdělen do čtyř vrstev -- prezentace, serializace, reprezentace a~datová struktura. Uvedený postup zpracování, který je původně definován v~dokumentaci \gls{YAML}~\cite{bib:yaml}, se většinou dodržuje i~v~konkrétních implementacích knihoven, které se používají pro zpracování \gls{YAML}. V~jazyce Python je dostupná knihovna \textit{PyYAML}~\cite{bib:pyyaml}, která až na některé detaily odpovídá dokumentaci.
 
-Rozhraní nejvyšší úrovně poskytuje funkci, jejíž vstupem je text obsahující data ve formátu \gls{YAML} a výstupem jsou nativní datové struktury v jazyce Python -- slovníky, seznamy a hodnoty. Vrstva datové struktury je tedy kompletně oddělená od její prezentace\footnote{Prezentací se rozumí zápis formátu \gls{YAML} v podobě textového souboru.}, což je v souladu s dokumentací \gls{YAML}.
+Rozhraní nejvyšší úrovně poskytuje funkci, jejíž vstupem je text obsahující data ve formátu \gls{YAML} a~výstupem jsou nativní datové struktury v~jazyce Python -- slovníky, seznamy a~hodnoty. Vrstva datové struktury je tedy kompletně oddělená od její prezentace\footnote{Prezentací se rozumí zápis formátu \gls{YAML} v~podobě textového souboru.}, což je v~souladu s~dokumentací \gls{YAML}.
 
-Pro potřeby aplikace \textit{ModelEditor} je toto chování nevyhovující. V aplikaci je zásadní pozice symbolů v textu, aby bylo možné s textovým editorem interaktivně pracovat. Tato informace je dostupná pouze nižším vrstvám v rámci zpracování souboru. Dále je potřeba v rámci aplikace rozeznávat reference -- což také není možné, protože data jsou ve výsledné struktuře pouze zkopírovaná a nelze tím pádem určit, která data byla zdrojová. Posledním úskalím pak byl zápis typu abstraktních záznamů pomocí tagů. Knihovna \textit{PyYAML} se pokouší interpretovat tagy jako názvy tříd v Pythonu, což je pro účely aplikace \textit{ModelEditor} opět nežádoucí.
+Pro potřeby aplikace \textit{ModelEditor} je toto chování nevyhovující. V~aplikaci je zásadní pozice symbolů v~textu, aby bylo možné s~textovým editorem interaktivně pracovat. Tato informace je dostupná pouze nižším vrstvám v~rámci zpracování souboru. Dále je potřeba v~rámci aplikace rozeznávat reference -- což také není možné, protože data jsou ve výsledné struktuře pouze zkopírovaná a~nelze tím pádem určit, která data byla zdrojová. Posledním úskalím pak byl zápis typu abstraktních záznamů pomocí tagů. Knihovna \textit{PyYAML} se pokouší interpretovat tagy jako názvy tříd v~Pythonu, což je pro účely aplikace \textit{ModelEditor} opět nežádoucí.
 
-Z knihovny \textit{PyYAML} byla tedy využita pouze nejnižší úroveň zpracování, která pouze provede lexikální a syntaktickou analýzu. Výstupem z tohoto procesu je seznam událostí. Tento seznam událostí je dále zpracováván aplikací \textit{ModelEditor}, který na jejím základě vytváří aplikačně specifickou datovou strukturu, která obsahuje všechny potřebné informace. Výsledkem je tedy modul, který vychází z knihovny \textit{PyYAML} a na nejvyšší úrovni poskytuje funkci, která umožňuje načíst vstupní text ve formátu \gls{YAML} a výstupem z této funkce je datová struktura aplikace.
+Z~knihovny \textit{PyYAML} byla tedy využita pouze nejnižší úroveň zpracování, která provede pouze lexikální analýzu. Výstupem z~tohoto procesu je seznam událostí. Tento seznam událostí je dále zpracováván aplikací \textit{ModelEditor}, který na jejím základě vytváří aplikačně specifickou datovou strukturu, která obsahuje všechny potřebné informace. Výsledkem je tedy modul, který vychází z~knihovny \textit{PyYAML} a~na nejvyšší úrovni poskytuje funkci, která umožňuje načíst vstupní text ve formátu \gls{YAML} a~výstupem z~této funkce je datová struktura aplikace.
 
 
 \section{Textový editor}
 
-Pro komponentu textového editoru byla použita knihovna \textit{QScintilla~2}~\cite{bib:qscintilla2-python} pro Python, což je port knihovny \textit{Scintilla}~\cite{bib:scintilla} do grafického prostředí \textit{Qt}. \textit{Scintilla} poskytuje multiplatformní komponentu, která podporuje mnoho funkcí, které se používají při editaci zdrojového kódu. Podporuje například zobrazení čísel řádků, zobrazení indikátorů chyb, zvýraznění syntaxe, doplňování textu a další.
+Pro komponentu textového editoru byla použita knihovna \textit{QScintilla~2}~\cite{bib:qscintilla2-python} pro Python, což je port knihovny \textit{Scintilla}~\cite{bib:scintilla} do grafického prostředí \textit{Qt}. \textit{Scintilla} poskytuje multiplatformní komponentu, která podporuje mnoho funkcí, které se používají při editaci zdrojového kódu. Podporuje například zobrazení čísel řádků, zobrazení indikátorů chyb, zvýraznění syntaxe, doplňování textu a~další.
 
-\textit{QScintilla} se snaží většinu těchto funkcí z knihovny \textit{Scintilla} obalit a poskytnout k nim vlastní \gls{API}, které by mělo zjednodušit jejich použití. Při implementaci se ovšem ukázalo, že pro některé funkce je nutné použít nízkoúrovňový přístup, při kterém se volaly přímo funkce editoru \textit{Scintilla} pomocí zasílání zpráv, které není příliš dobře zdokumentované. Pomocí tohoto přístupu bylo potřeba zajistit funkci automatického doplňování a použití správných znaků pro ukončení řádky podle platformy.
+\textit{QScintilla} se snaží většinu funkcí z~knihovny \textit{Scintilla} obalit a~poskytnout k~nim vlastní \gls{API}, které by mělo zjednodušit jejich použití. Při implementaci se ovšem ukázalo, že pro některé funkce je nutné použít nízkoúrovňový přístup, při kterém se volaly přímo funkce editoru \textit{Scintilla} pomocí zasílání zpráv, které není příliš dobře zdokumentované. Pomocí tohoto přístupu bylo potřeba zajistit funkci automatického doplňování a~použití správných znaků pro ukončení řádky podle platformy.
 
-Pro automatické doplňování je poskytováno i pomocí funkcí z \textit{QScintilla}~\gls{API}. Ovšem poskytovaná funkčnost je značně omezená a neumožňovala by tak například vhodně filtrovat nabízené možnosti podle kontextu. Oproti tomu přímý přístup k rozhraní \textit{Scintilla} poskytuje plnou kontrolu nad komponentou automatického doplňováním i nad samotným textem editoru. Díky tomu bylo možné tuto funkčnost realizovat tak, aby splňovala všechny požadavky včetně chování v krajních případech.
+Pro automatické doplňování je poskytováno i~pomocí funkcí z~\textit{QScintilla}~\gls{API}. Ovšem poskytovaná funkčnost je značně omezená a~neumožňovala by tak například vhodně filtrovat nabízené možnosti podle kontextu. Oproti tomu přímý přístup k~rozhraní \textit{Scintilla} poskytuje plnou kontrolu nad komponentou automatického doplňováním i~nad samotným textem editoru. Díky tomu bylo možné tuto funkčnost realizovat tak, aby splňovala všechny požadavky.
 
-Další implementační zajímavostí byl mechanismus vracení provedených změn. \gls{API} poskytuje funkce, které toto umožňují implementovat. Ovšem v jejich nezměněné podobě probíhá vracení operací po nejmenší možné jednotce -- tedy po napsaných znacích. To pochopitelně z uživatelského hlediska není příliš použitelné, protože zachycené změny jsou příliš drobné a často nepodstatné. Tento mechanismus byl proto rozšířen tak, aby podporoval vrácení změn po větších částech, konkrétně po částech, které vyvolají opětovné načtení datové struktury. Typicky se jedná o třeba dokončení řádku nebo vložení textu ze schránky.
+Další implementační zajímavostí byl mechanismus vracení provedených změn. \gls{API} poskytuje funkce, které toto umožňují implementovat. Ovšem v~jejich nezmě\-ně\-né podobě probíhá vracení operací po nejmenší možné jednotce -- tedy po napsaných znacích. Z~uživatelského hlediska není takové chování žádoucí, protože zachycené změny jsou příliš drobné a~často nepodstatné. Tento mechanismus byl proto rozšířen tak, aby podporoval vrácení změn po větších částech -- konkrétně po částech, které vyvolají opětovné načtení datové struktury. Typicky se jedná o~třeba dokončení řádky nebo vložení textu ze schránky.
 
 \section{Kontextová nápověda}
 
-Při tvorbě komponenty pro zobrazování kontextové nápovědy bylo vzato v úvahu následující:
+Při tvorbě komponenty pro zobrazování kontextové nápovědy bylo vzato v~úvahu následující:
 
 \begin{itemize}
-\item grafický vzhled nemusí být finální a měl by jít upravovat,
+\item grafický vzhled nemusí být finální a~měl by jít upravovat,
 \item položky nápovědy by mezi sebou měly být propojené pomocí odkazů,
-\item v rámci dokumentačních řetězců se mohou vyskytnout rovnice zapsané pomocí syntaxe \texttt{math} prostředí \TeX,
-\item v současnosti existuje knihovna, která generuje ze specifikace formátu dokumentaci ve formátu \gls{HTML}.
+\item v~rámci dokumentačních řetězců se mohou vyskytnout rovnice zapsané pomocí syntaxe \texttt{math} prostředí \TeX,
+\item v~současnosti existuje knihovna, která generuje ze specifikace formátu dokumentaci ve formátu \gls{HTML}.
 \end{itemize}
 
-Vzhledem k těmto skutečnostem byla kontextová nápověda realizována pro\-střed\-nictvím komponenty \textit{QWebView}, která funguje jako primitivní internetový prohlížeč s omezenou podporou \gls{HTML}, \gls{CSS} a \gls{JS}. Ze specifikace formátu, která obsahuje dokumentační řetězce a další informace o datové struktuře, se generuje webová stránka, která se poté pomocí této komponenty zobrazí.
+Vzhledem k~těmto skutečnostem byla kontextová nápověda realizována pro\-střed\-nictvím komponenty \textit{QWebView}, která funguje jako primitivní internetový prohlížeč s~omezenou podporou \gls{HTML}, \gls{CSS} a~\gls{JS}. Ze specifikace formátu, která obsahuje dokumentační řetězce a~další informace o~datové struktuře, se generuje webová stránka, která se poté pomocí této komponenty zobrazí.
 
-Pro generování HTML byla využita stávající knihovna \textit{Flow123d-python-utils\footnote{\url{https://github.com/x3mSpeedy/Flow123d-python-utils}}}, jejíž autorem je Ing.~Jan Hybš. Z této knihovny byla použita odpovídající část, která slouží pro generování dokumentace, a ta byla dále upravena pro potřeby aplikace \textit{ModelEditor}. Knihovna řeší i vykreslení rovnic pomocí nástroje KaTeX\footnote{\url{https://github.com/Khan/KaTeX}}.
+Pro generování HTML byla využita stávající knihovna \textit{Flow123d-python-utils\footnote{\url{https://github.com/x3mSpeedy/Flow123d-python-utils}}}, jejíž autorem je Ing.~Jan Hybš. Z~této knihovny byla použita odpovídající část, která slouží pro generování dokumentace, a~ta byla dále upravena pro potřeby aplikace \textit{ModelEditor}. Knihovna řeší i~vykreslení rovnic pomocí nástroje KaTeX\footnote{\url{https://github.com/Khan/KaTeX}}.
 
-Během implementace bylo nutné nahradit či obejít některé vlastnosti \gls{HTML}, \gls{CSS} a \gls{JS}, protože jejich podpora v komponentě \textit{QWebView} je v porovnání s moderními webovými prohlížeči značně omezená. Použití této komponenty bylo ovšem výhodné v tom, že je přímo součástí \textit{Qt} a nebyla tak zapotřebí žádná další externí knihovna, která by poskytovala komponentu okna webového prohlížeče.
+Během implementace bylo nutné nahradit či obejít některé vlastnosti \gls{HTML}, \gls{CSS} a~\gls{JS}, protože jejich podpora v~komponentě \textit{QWebView} je v~porovnání s~moderními webovými prohlížeči značně omezená. Použití této komponenty bylo ovšem výhodné v~tom, že je přímo součástí \textit{Qt} a~nebyla tak zapotřebí žádná další externí knihovna, která by poskytovala komponentu okna webového prohlížeče.
 
 \section{Testování}
 
-V rámci vývoje byly psány testy pro ověření funkčnosti aplikace. Snahou ovšem nebylo dosáhnout 100\% pokrytí kódu testy. Potřebná časová investice by byla naprosto neúměrná reálnému přínosu. Spíše byl kladen důraz na psaní testů pro moduly, které se často měnily a upravovaly, nebo se očekává, že by v se v budoucnu mohly měnit. Dále byly vytvořeny testy pro ty části aplikace, které jsou jednoznačné a snadno testovatelné a dalo by se říct, že jejich funkcionalita je pomocí testů nadefinovaná. U těchto částí aplikace byl v rámci vývoje použit přístup \gls{TDD}.
+V~rámci vývoje byly psány testy pro ověření funkčnosti aplikace. Snahou ovšem nebylo dosáhnout 100\% pokrytí kódu testy. Potřebná časová investice by byla naprosto neúměrná reálnému přínosu. Spíše byl kladen důraz na psaní testů pro moduly, které se často měnily a~upravovaly, nebo se očekává, že by v~se v~budoucnu mohly měnit. Dále byly vytvořeny testy pro ty části aplikace, které jsou jednoznačné a~snadno testovatelné a~dalo by se říct, že jejich funkcionalita je pomocí testů nadefinovaná. U~těchto částí aplikace byl v~rámci vývoje použit přístup \gls{TDD}.
 
-Bylo napsáno celkem 206 testů. Většinou se jedná o jednotkové testy, které testují nějakou konkrétní funkci, metodu, třídu či komponentu. Jsou mezi nimi ovšem i testy, které by se daly považovat za integrační testy, protože testují více komponent najednou a interakce mezi nimi. Z těchto 206 testů bylo napsáno:
+Bylo napsáno celkem 206 testů. Většinou se jedná o~jednotkové testy, které testují nějakou konkrétní funkci, metodu, třídu či komponentu. Jsou mezi nimi ovšem i~testy, které by se daly považovat za integrační testy, protože testují více komponent najednou a~interakce mezi nimi. Z~těchto 206 testů bylo napsáno:
 
 \begin{itemize}
-\item 72 testů pro datovou strukturu a operace, které s ní souvisí -- načtení souboru \gls{YAML}, autokonverze a validace;
-\item 115 testů pro pomocné třídy, které zajišťují především analýzu zdrojového textu;
+\item 72 testů pro datovou strukturu a~operace, které s~ní souvisí -- načtení souboru \gls{YAML}, autokonverze a~validace;
+\item 115 testů pro pomocné třídy, které zajišťují především analýzu textu;
 \item 5 testů pro uživatelské rozhraní;
-\item 14 testů pro serializaci a ukládání nastavení aplikace.
+\item 14 testů pro serializaci a~ukládání nastavení aplikace.
 \end{itemize}
 
-Kromě jednotkových a integračních testů bylo součástí testování i manuální ověření funkčnosti aplikace a její odladění. Manuálně bylo testováno především uživatelské rozhraní a interakce mezi komponentami. Většina chyb, které byly odhaleny během testování, byla odstraněna. Některé chyby, které nebyly zásadní a jednalo se spíše o nedostatky, byly pouze zaznamenány. Jejich odstranění je záležitostí dalšího vývoje aplikace \textit{ModelEditor} v rámci projektu \textit{GeoMop}. Aplikace byla testována i několika cílovými uživateli a jejich připomínky a náměty vedly k některým změnám a vylepšením.
+Kromě jednotkových a~integračních testů bylo součástí testování i~manuální ověření funkčnosti aplikace a~její odladění. Manuálně bylo testováno především uživatelské rozhraní a~interakce mezi komponentami. Většina chyb, které byly odhaleny během testování, byla odstraněna. Některé chyby, které nebyly zásadní a~jednalo se spíše o~nedostatky, byly pouze zaznamenány. Jejich odstranění je záležitostí dalšího vývoje aplikace \textit{ModelEditor} v~rámci projektu \textit{GeoMop}. Aplikace byla testována i~několika cílovými uživateli a~jejich připomínky a~náměty vedly k~některým změnám a~vylepšením.
 
 
 \chapter*{Závěr}
 \addcontentsline{toc}{chapter}{Závěr}
-V~rámci této diplomové práce byl vytvořen editor konfiguračních souborů pro Flow123d. Jedná se o~samostatně funkční aplikaci, která je ovšem navržena s~ohledem na její použití jako součást softwarového balíku GeoMop, který obsahuje další nástroje, které usnadňují práci uživatelům Flow123d.
-%TODO zminovat GeoMop?
+V~rámci této diplomové práce vznikl editor konfiguračních souborů pro Flow123d. Jedná se o~samostatně funkční aplikaci, která je ovšem navržena s~ohledem na její použití jako součást softwarového balíku GeoMop, který obsahuje další nástroje, které usnadňují práci uživatelům Flow123d.
 
-Editor uživatelům zjednodušuje vytváření a~upravování konfiguračních souborů. Umožňuje ověřit správnost zadané konfigurace pro zvolenou verzi Flow123d a~případně uživatele upozornit na detekované chyby. Tato funkce uživateli přináší časovou úsporu a~uživatelsky příjemnější rozhraní při odhalování chyb.
+Editor uživatelům zjednodušuje vytváření a~upravování konfiguračních souborů. Umožňuje ověřit správnost zadané konfigurace pro zvolenou verzi Flow123d a~upozorňuje uživatele na detekované chyby. Tato funkce přináší uživateli časovou úsporu a~uživatelsky příjemnější rozhraní pro odhalení a odstranění chyb.
 
-Editor dále uživatelům poskytuje kontextovou dokumentaci a~našeptávač. Obě tyto funkce přizpůsobují svůj obsah na základě pozice kurzoru v~textu, tedy oblasti, kterou uživatel zrovna upravuje. Pro uživatele to představuje značné zjednodušení, jelikož může využít tyto funkce místo prohledávání rozsáhlé dokumentace.
+Editor dále uživatelům poskytuje kontextovou nápovědu, která zobrazuje dokumentaci, které bezprostředně souvisí s částí konfiguračního souboru, kterou právě upravuje. Obsah nápovědy se interaktivně mění v závislosti na tom, jakou část konfiguračního souboru uživatel právě edituje, aby byla zobrazena vždy relevantní dokumentace. Pro uživatele to představuje značné zjednodušení, jelikož může využít tuto kontextovou nápovědu místo prohledávání rozsáhlé referenční dokumentace.
 
-V~neposlední řadě editor obsahuje komponentu pro grafické znázornění datové struktury, která poskytuje alternativní pohled na zadaná data, a~umožňuje rychlejší orientaci v~rozsáhlých konfiguračních souborech. Kromě těchto stěžejních funkcí editor poskytuje i~běžné nástroje pro manipulaci s~textem, jako jsou například operace se schránkou, možnost vracení provedených změn, vyhledávání a~nahrazení nebo změna úrovně odsazení.
+V~neposlední řadě editor obsahuje komponentu pro grafické znázornění datové struktury, která poskytuje alternativní pohled na zadaná data, a~umožňuje rychlejší orientaci v~rozsáhlých konfiguračních souborech. Kromě těchto stěžejních funkcí poskytuje editor uživateli i~běžné nástroje pro manipulaci s~textem, jako jsou například operace se schránkou, možnost vracení provedených změn, vyhledávání a~nahrazení nebo změna úrovně odsazení.
 
-%TODO zmenit formulaci
-Aplikace je multiplatformní a~podporuje systémy Windows (XP nebo novější) a~Linux. S~ohledem na požadavek multiplatformní aplikace byl pro vývoj použit jazyk Python~3 a~grafická knihovna PyQt~5. K~aplikaci byly vytvořeny instalační balíčky pro Windows a~Debian.
+Aplikace je multiplatformní a~podporuje systémy Windows (XP nebo novější) a~Linux. Pro vývoj použit jazyk Python~3 a~grafická knihovna PyQt~5. K~aplikaci byly vytvořeny instalační balíčky pro Windows a~Debian.
 
-V~rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná se např. o~zlepšení zvýraznění syntaxe, které se by se mohlo přizpůsobit přímo formátu Flow123d. Další možné vylepšení spočívá v~rozšíření funkcionality komponenty pro vizualizaci datové struktury. Ta by mohla v~budoucnu podporovat kromě zobrazení i~editaci dat nebo vylepšené zobrazení speciálních datových typů.
+V~rámci budoucího vývoje jsou plánovány další dodatečné funkce. Jedná se např. o~zlepšení zvýraznění syntaxe, které by mohlo zohledňovat datovou strukturu konfiguračních souborů Flow123d. Další možné vylepšení spočívá v~rozšíření funkcionality komponenty pro vizualizaci datové struktury, která by mohla v~budoucnu podporovat kromě i~editaci dat nebo vylepšené zobrazení speciálních datových typů.
 
 \begin{thebibliography}{99}
 % set url to non-mono style
@@ -1288,7 +1286,7 @@ Infrastructure}. [online]. \acrfull{OMG}, 2012. [cit. 2016-03-21]. Dostupné na:
 \textsc{Kirill, Simonov.} \textit{PyYAML}. [online]. 2014. [cit. 2016-04-12]. Dostupné na: $<$\url{http://pyyaml.org/wiki/PyYAML}$>$
 
 \bibitem{bib:qscintilla2-python}
-\textsc{\acrshort{RCL}}. \textit{QScintilla: QScintilla -- a Port to Qt v4 and Qt v5 of Scintilla }. [online]. \acrfull{RCL}, 2016. [cit. 2016-04-11]. Dostupné na: $<$\url{http://pyqt.sourceforge.net/Docs/QScintilla2/}$>$
+\textsc{\acrshort{RCL}}. \textit{QScintilla: QScintilla -- a~Port to Qt v4 and Qt v5 of Scintilla }. [online]. \acrfull{RCL}, 2016. [cit. 2016-04-11]. Dostupné na: $<$\url{http://pyqt.sourceforge.net/Docs/QScintilla2/}$>$
 
 \bibitem{bib:scintilla}
 \textsc{Scintilla}. \textit{Scintilla Documentation}. [online]. 2016. [cit. 2016-04-11]. Dostupné na: $<$\url{http://www.scintilla.org/ScintillaDoc.html}$>$
