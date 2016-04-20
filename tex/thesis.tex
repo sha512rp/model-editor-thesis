@@ -147,7 +147,6 @@
 
 
 \clearpage
-%TODO page number?
 \thispagestyle{empty}
 \begin{acknowledgement}
 Rád bych poděkoval rodičům a~mé rodině za podporuji při studiu. Zároveň bych chtěl poděkovat i~mé vedoucí diplomové práce, paní doc. Jiřině Královcové, a~mému konzultantovi, panu Ing. Pavlu Richterovi, za vedení práce a~konzultace.
@@ -197,45 +196,45 @@ editor, YAML, autoconversion, validation, Flow123d
 
 Existuje celá řada softwarů, která pro zajištění požadované funkce potřebuje správné nastavení, podle kterého pak daný program přizpůsobí svoji činnost. Může se jednat o~počáteční konfiguraci, jako je tomu například u~serverových aplikací nebo e-mailových klientů. Tato konfigurace se zpravidla dále nemění, pokud nedojde k~nějakým podstatným změnám.
 
+%TODO s/se sirokou skalou
 Oproti tomu existují programy, od kterých se očekává, že budou spouštěny s~širokou škálou různých nastavení. U~těchto aplikací se typicky konfigurace předává při spuštění jako jeden ze vstupních parametrů. Činnost těchto programů se pak zásadně liší dle zvolené konfigurace.
 
 Takovou aplikací je například simulátor Flow123d, který se používá pro modelování procesů v~horninovém prostředí. Vstupem do této aplikace je výpočetní síť společně se zadáním úlohy. Konkrétní úloha je definovaná pomocí konfiguračního souboru, který vytváří uživatel. Po zadání vstupních dat provede simulátor výpočty na dané síti a~výsledky uloží do datového souboru, který je výstupem z~aplikace.
 
-Software Flow123d podporuje různé typy úloh. Konfigurace jednotlivých úloh vyžaduje odlišné nastavení a~může tedy dojít k~tomu, že uživatelem zadaná konfigurace je nevalidní -- například kvůli tomu, že definice dané úlohy neobsahuje některé povinné parametry a~je tedy neúplná. V~souboru může vzniknout i~syntaktická chyba, která způsobí, že zadaná data nelze správně interpretovat.
+Simulátor Flow123d podporuje různé typy úloh. Konfigurace jednotlivých úloh vyžaduje odlišné nastavení a~může tedy dojít k~tomu, že uživatelem zadaná konfigurace je nevalidní -- například kvůli tomu, že definice dané úlohy neobsahuje některé povinné parametry a~je tedy neúplná. V~souboru může vzniknout i~syntaktická chyba, která způsobí, že zadaná data nelze správně interpretovat.
 
 Specifikace formátu konfiguračních souborů pro Flow123d, která popisuje strukturu vstupních dat, je poměrně rozsáhlá. Tištěná referenční příručka, která obsahuje tuto specifikaci formátu, má několik desítek stran. To klade na uživatele velké nároky. Pokud chce například ověřit, že byly zadány všechny povinné parametry, buď musí mít se softwarem rozsáhlé zkušenosti, nebo musí trávit velké množství času studiem této dokumentace a~zkoumáním souvislostí mezi parametry.
 
-Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí nové a~upřesňují stávající funkcionality softwaru Flow123d. Může dojít k~tomu, že některé změny ve formátu konfiguračních souborů nemusí být zpětně kompatibilní. Uživatel tedy potřebuje znovu prostudovat rozsáhlou referenční dokumentaci, aby zjistil, jakým způsobem zadat dříve realizovanou úlohu pro novou verzi Flow123d.
+Celá situace je dále komplikována tím, že formát konfiguračních souborů se mění s~tím, jak se vyvíjí nové a~upřesňují stávající funkcionality simulátoru Flow123d. Může dojít k~tomu, že některé změny ve formátu konfiguračních souborů nemusí být zpětně kompatibilní. Uživatel tedy potřebuje znovu prostudovat rozsáhlou referenční dokumentaci, aby zjistil, jakým způsobem zadat dříve realizovanou úlohu pro novou verzi Flow123d.
 
 Pokud se stane, že uživatel spustí Flow123d s~nevalidní konfigurací, potom během inicializace dojde k~chybě, o~které se uživatel dozví pomocí textového rozhraní, ve kterém se Flow123d spouští. Jelikož se může jednat o~výpočetně náročné úlohy, které se často pouští na vzdáleném výpočetním clusteru, je tento proces poměrně časově náročný a~uživatelsky nepříjemný.
 
 Při vzdáleném spouštění Flow123d se úloha zařadí do fronty na výpočetním clusteru, kde dále čeká na přidělení zdrojů. Ty se přidělují na základě aktuálního vytížení. Buď jsou k~dispozici okamžitě, nebo je nutné čekat na dokončení některých předchozích úloh. Může tedy nastat situace, kdy uživatel zařadí úlohu do fronty a~poté čeká na výsledky několik hodin nebo dokonce dní, a~teprve potom zjistí, že v~konfiguračním souboru, který vytvořil, byla chyba. Kvůli tomu nemohlo dojít k~inicializaci úlohy a~tím pádem ani neproběhla simulace.
 
-Tyto důvody byly hlavní motivací ke vzniku speciálního editoru pro konfigurační soubory Flow123d, který práci s~nimi značně zjednoduší a~usnadní. Editor zrychlí proces odstranění chyb tím, že je odhalí už v~průběhu vytváření nebo upravování konfiguračních souborů. To uživateli umožní chyby odstranit ještě před tím, než předloží konfigurační soubor softwaru Flow123d. Tím dojde ke značné časové úspoře obzvlášť v~případech, kdy se výpočetní úloha spouští vzdáleně.
+Tyto důvody byly hlavní motivací ke vzniku speciálního editoru pro konfigurační soubory Flow123d, který práci s~nimi značně zjednoduší a~usnadní. Editor zrychlí proces odstranění chyb tím, že je odhalí už v~průběhu vytváření nebo upravování konfiguračních souborů. Uživatel tedy bude moci chyby odstranit ještě před tím, než předloží konfigurační soubor simulátoru Flow123d. Tím dojde ke značné časové úspoře obzvlášť v~případech, kdy se výpočetní úloha spouští vzdáleně.
 
 Součástí editoru má být grafické uživatelské rozhraní. Jedním z~jeho hlavních přínosů bude zjednodušení přístupu k~dokumentaci. Uživatel bude mít k~dispozici tu část dokumentace, která bezprostředně souvisí s~právě upravovanou částí konfiguračního souboru. Tato forma nápovědy by měla uživateli poskytnout alternativu k~prohledávání rozsáhlé referenční dokumentace.
 
 Dále bude editor umožňovat zobrazit datovou strukturu, která tvoří konfigurační soubor. Kromě toho bude editor poskytovat základní funkce pro práci s~textovými soubory, jako je podpora operací se schránkou, možnost vrátit či opakovat změny, vyhledávání či nahrazení textu a~další. Editor má podporovat platformy Windows a~Linux.
 
-%TODO zminit strukturu prace - rozcestnik?
+Diplomová práce se dělí do čtyř hlavních kapitol. První kapitola slouží jako úvod do problematiky. Ve druhé kapitole je podrobně analyzován problém. Třetí kapitola navazuje na předchozí kapitolu a představuje konkrétní návrh řešení rozebraných problémů. V poslední kapitole jsou zmíněny implementační detaily.
 
 
 \chapter{Problematika}
 
-\section{Software Flow123d}
+\section{Simulátor Flow123d}
 
-Flow123d je software, který slouží k~výpočtu proudění v~porézním médiu, transportu látek nebo transportu tepla. Jedná se o~aplikaci, která je orientována na práci s~daty, a~vzhledem k~tomu neobsahuje žádné grafické uživatelské rozhraní. Uživatel tedy s~aplikací pracuje v~textovém režimu prostřednictvím terminálu, kde může aplikaci předat vstupní soubory a~případně další parametry.
+Flow123d je simulátor, který slouží k~výpočtu proudění v~porézním médiu, transportu látek nebo transportu tepla. Jedná se o~aplikaci, která je orientována na práci s~daty, a~vzhledem k~tomu neobsahuje žádné grafické uživatelské rozhraní. Uživatel tedy s~aplikací pracuje v~textovém režimu prostřednictvím terminálu, kde může aplikaci předat vstupní soubory a~případně další parametry.
 
 \includeimg{flow123d}{Simulátor Flow123d a~pomocný software}
 
 Na obrázku~\ref{img:flow123d} jsou znázorněny vstupy a~výstupy simulátoru Flow123d spolu s~pomocnými aplikacemi, které uživatelé často používají. Vstupem do simulátoru Flow123d jsou dva soubory. První z~těchto souborů popisuje výpočetní síť pomocí seznamu uzlů a~elementů. Jedná se o~textový soubor ve formátu \texttt{.msh}. Tuto síť generují softwary GMSH\footnote{\url{http://www.gmsh.info/}} nebo SALOME\footnote{\url{http://www.salome-platform.org/}}. Druhým vstupním souborem je konfigurační soubor, který popisuje řešenou úlohu. Tento soubor si prozatím uživatelé tvořili sami pomocí obyčejných textových editorů.
 
-Pro tento konfigurační soubor vzniká v~rámci diplomové práce specializovaný editor s~označením \textit{ModelEditor}, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové nápovědy nebo automatické doplňování textu. Vytváření a~editace konfiguračních souborů se tak uživateli značně zjednoduší. \textit{ModelEditor} je jednou ze součástí aplikace GeoMop, která obsahuje i~další komponenty, které ovšem nejsou předmětem této práce.
+Pro tento konfigurační soubor vzniká v~rámci diplomové práce specializovaný editor s~označením \textit{ModelEditor}, který má oproti obyčejnému textovému editoru poskytnout např. validaci zadaných dat, zobrazení kontextové nápovědy nebo automatické doplňování textu. Vytváření a~editace konfiguračních souborů se tak uživateli značně zjednoduší. \textit{ModelEditor} je součástí softwarového balíku \textit{GeoMop}, který obsahuje i~další aplikace, které ovšem nejsou předmětem této práce.
 
-GeoMop má sloužit jako nástroj, který usnadní práci se simulátorem Flow123d. Jeho další komponenty mají za úkol např. zajišťovat vzdálené spouštění Flow123d na výpočetních clusterech. To bude zajišťovat modul JobsScheduler, který sjednotí rozhraní a~postup spouštění Flow123d na různých výpočetních clusterech. Další součástí aplikace GeoMop bude modul Analysis, který umožní úlohy parametrizovat a~dále je potom provádět pro různé sady hodnot. GeoMop je aktuálně ve vývoji a~je možné, že se bude rozšiřovat o~další funkce. 
-%TODO paragraph overflow
+\textit{GeoMop} má sloužit jako nástroj, který usnadní práci se simulátorem Flow123d. Aplikace \textit{JobsScheduler}, která je také součástí softwarového balíku \textit{GeoMop}, bude zajišťovat vzdálené spouštění Flow123d na výpočetních clusterech. Softwarový balík \textit{GeoMop} bude dále obsahovat aplikaci \textit{Analysis}, která umožní parametrizaci úloh. \textit{GeoMop} bude obsahovat i další aplikace, které jsou aktuálně ve vývoji. Je pravděpo\-dobné, že se funkcionalita těchto aplikací bude dále rozšiřovat.
 
-Výstupem ze softwaru Flow123d je datový soubor, který obsahuje výsledky simulace. U~tohoto souboru si uživatel může vybrat požadovaný formát, podle toho, kterou aplikaci chce použít pro zpracování výsledků. Typicky uživatelé používají buď opět GMSH nebo ParaView\footnote{\url{http://www.paraview.org/}}. Existuje také celá řada jednoúčelových nástrojů, které si uživatelé často tvoří sami, nebo vznikají v~rámci různých projektů.
+Výstupem ze simulátoru Flow123d je datový soubor, který obsahuje výsledky simulace. U~tohoto souboru si uživatel může vybrat požadovaný formát, podle toho, kterou aplikaci chce použít pro zpracování výsledků. Typicky uživatelé používají buď opět GMSH nebo ParaView\footnote{\url{http://www.paraview.org/}}. Existuje také celá řada jednoúčelových nástrojů, které si uživatelé často tvoří sami, nebo vznikají v~rámci různých projektů.
 
 \section{Konfigurační soubory}
 
@@ -254,6 +253,8 @@ Použití textového formátu konfiguračních souborů s~sebou však přináš�
 Existují i~situace, kdy z~názvu atributu nelze jednoznačně určit jeho datový typ. To je způsobené použitím polymorfismu. Z~klíče lze tedy odvodit pouze jakého datového typu musí být předek. Pokud má tento předek více potomků, pak je nutné vybraný datový typ explicitně uvést. Tyto situace jsou v~této kapitole zanedbány a~jsou popsány samostatně v~kapitole~\ref{sec:navrh-yaml-abstrakni-zaznamy}.
 
 V~konfiguračních souborech je tedy potřeba ukládat dvojice klíč a~hodnota. Hodnota může být buď primitivního nebo složeného datového typu. Reprezentace primitivních datových typů je většinou triviální a~spočívá pouze v~převodu hodnoty na textový řetězec, pokud jím není. Podporované primitivní datové typy v~rámci konfiguračních souborů jsou následující:
+
+\vspace{10pt}
 
 \begin{itemize}
 	\item booleovské hodnoty,
@@ -376,7 +377,6 @@ Jelikož je formát \gls{YAML} navržen tak, aby k~jeho přečtení a~reprezenta
 
 Oficiální dokumentace formátu \gls{YAML}~\cite{bib:yaml} popisuje proces zpracování, ve kterém se využijí oba výše zmíněné způsoby, které se liší hlavně úrovní abstrakce. Na obrázku~\ref{img:yaml} lze vidět proces zpracování formátu \gls{YAML}.
 
-%TODO syntakticka vs lexikalni analyza
 \includeimg{yaml}{Zpracování formátu YAML}
 
 Proces načtení souboru ve formátu \gls{YAML} prochází třemi fázemi. V~první fázi proběhne lexikální analýza, která převede vstupní soubor na posloupnost událostí. Lexikální analýza hledá symboly a~hodnoty na základě syntaxe \gls{YAML}, kontroluje správné odsazení a~vypustí ze vstupu komentáře.
@@ -491,8 +491,6 @@ Specifikace formátu je generována simulátorem Flow123d na základě jeho inte
 \subsection{Základní datové typy}
 \label{sec:analyza-specifikace-formatu-zakladni-datove-typy}
 Jak již bylo zmíněno v~kapitole \ref{sec:datova-sturktura}, konfigurační soubory obsahují hierarchickou datovou strukturu, která tvoří strom. Specifikace formátu definuje datový typ pro každý uzel stromu, ať už se jedná o~interní uzel nebo list stromu. Datové typy definované ve specifikaci formátu mohou mít následující parametry:
-
-%TODO colon
 
 \vspace{0.5cm}
 \begin{tabular}{m{3cm}@{}l}
@@ -629,7 +627,6 @@ Používají se tři základní typy autokonverzí, které jsou dále popsány. 
 
 Autokonverze na pole je konverze, která se použije, pokud se dle specifikace formátu na dané pozici v~datové struktuře očekává pole (typ \textit{Array}) a~místo něj je nalezen libovolný jiný datový typ -- ať už se jedná o~primitivní datový typ nebo o~záznam.
 
-%TODO hodnoty na obrazcich - nejsou nesmyslne?
 \begin{figure}[ht]
 \begin{minipage}[t]{0.45\linewidth}
 \vspace{0pt}
@@ -660,14 +657,11 @@ value: [2.5]
 \label{img:autoconversion_array_1}
 \end{figure}	
 
-%TODO hodnota 2.5 se reprezentuje jako realne cislo 
 Obrázek~\ref{img:autoconversion_array_1} znázorňuje autokonverzi hodnoty na jednorozměrné pole. V~klíči \texttt{value} v~záznamu \textit{FieldConstant} se očekává jednorozměrné pole, ale místo něj se na dané pozici vyskytla hodnota \texttt{2.5}. Provede se tedy autokonverze na pole a~poté skutečná datová struktura obsahuje jednorozměrné pole o~jednom prvku, kterým je právě tato hodnota.
 
 Autokonverze na pole funguje obdobně i~pro vícerozměrná pole. Příklad této autokonverze je uveden na obrázku~\ref{img:autoconversion_array_2}. Klíč \texttt{value} v~záznamu \textit{FieldConstant} má nyní být dvourozměrné pole.\footnote{Přes to, že tento záznam má opět název \textit{FieldConstant}, jedná se o odlišný typ záznamu od předchozího příkladu. První z nich byl implementací abstraktního záznamu \textit{Field:R3 $\rightarrow$ R}, zatímco druhý implementuje \textit{Field:R3 $\rightarrow$ R[3,3]}.} Místo toho se v~datové struktuře vyskytla hodnota. Ta se zkonvertuje na dvourozměrné pole, jehož jediným prvek je právě tato hodnota.
 
 Autokonverze na vícerozměrné pole proběhne i~v~případě, pokud je v~datové struktuře pole o~menší dimenzi, než se očekává. Pokud takový případ nastane, tak se zadané pole zkonvertuje na pole vyšší dimenze obdobně jako to bylo popsáno u~konverzí hodnot na pole.
-
-%TODO value: 1.5  misto anisotropy
 
 \begin{figure}[ht]
 %\vspace{10pt}
