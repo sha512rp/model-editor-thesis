@@ -280,7 +280,8 @@ Příklad části konfiguračního souboru ve formátu \gls{CON} je znázorněn 
 
 Během používání tohoto formátu se ale jeho odlišnost od \gls{JSON} projevila jako jeden z~nedostatků. Kvůli nekompatibilitě s~formátem \gls{JSON} nelze použít pro zpracování formátu \gls{CON} standardní knihovny. To je jeden z~důvodů, proč bylo rozhodnuto, že ve verzi Flow123d~2.0 bude použit nějaký standardní formát pro výměnu dat.
 
-To však nebylo jediným nedostatkem tohoto formátu. Uživatele, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále kontrolovat správné uzávorkování objektů nebo zda na konci řádku nebyla vynechána čárka pro oddělení položek. To představovalo problém  obzvlášť u~rozsáhlejších konfiguračních souborů, které obsahují hodně úrovní vnoření. Jelikož formát \gls{JSON} sdílí tyto nedostatky, tak byl zavržen jako možný nástupce formátu \gls{CON}.
+%TODO uzavorkovani
+To však nebylo jediným nedostatkem tohoto formátu. Uživatelé, kteří tento soubor upravovali, naráželi často na dva problémy. Bylo pro ně velice nepohodlné neustále kontrolovat správné uzávorkování objektů nebo zda na konci řádku nebyla vynechána čárka pro oddělení položek. To představovalo problém  obzvlášť u~rozsáhlejších konfiguračních souborů, které obsahují hodně úrovní vnoření. Jelikož formát \gls{JSON} sdílí tyto nedostatky, tak byl zavržen jako možný nástupce formátu \gls{CON}.
 
 \subsection{Formát XML}
 
@@ -352,7 +353,7 @@ Nevýhodou formátu \gls{XML} je jeho \uv{vý\-řeč\-nost}. Té si lze na prvn�
 
 Poslední z~uvažovaných možností bylo použití formátu \gls{YAML}, který je zobecněním formátu \gls{JSON}. Kterýkoliv \gls{JSON} dokument je tím pádem i~\gls{YAML} dokumentem. Oproti formátu \gls{JSON} ovšem formát \gls{YAML} umožňuje syntaktický zápis, který byl speciálně navržen s~ohledem na to, aby ho mohli jednoduše zapisovat lidé.
 
-Toho si lze všimnou opět na obrázku~\ref{img:conf_files}. Ze všech uvedených možností je zápis v~jazyce YAML nejkratší, a~to jak počtem napsaných řádek, tak i~počtem potřebných znaků. Zároveň i~elegantně řeší problémy původně použitého formátu \gls{CON}, resp. formátu \gls{JSON}.
+Toho si lze všimnout opět na obrázku~\ref{img:conf_files}. Ze všech uvedených možností je zápis v~jazyce YAML nejkratší, a~to jak počtem napsaných řádek, tak i~počtem potřebných znaků. Zároveň i~elegantně řeší problémy původně použitého formátu \gls{CON}, resp. formátu \gls{JSON}.
 
 Jelikož se pro zápis vnořených dat používá odsazení, není nadále nutné používat závorky pro ohraničení záznamů a~polí. Dále podporuje zápis polí pomocí odrážek, což je dobře čitelné a~pohodlné pro zápis. Oproti formátu \gls{JSON} také odpadá nutnost psaní čárek na koncích řádků pro oddělení klíčů v~záznamech nebo položek v~poli. Dále není nutné psát řetězce do uvozovek, protože se datové typy rozlišují implicitně.\footnote{V případě potřeby lze datový typ specifikovat i~explicitně, viz kapitola~\ref{sec:analyza-yaml-zapis-datovych-typu}.}
 
@@ -385,7 +386,7 @@ V~druhé fázi proběhne kompozice, která převede posloupnost událostí na re
 
 V~poslední fázi se převede graf reprezentující data na datovou strukturu dané aplikace. Tato fáze představuje rozhraní mezi abstrakcí aplikace a~procesem zpracování souboru v~souborovém formátu \gls{YAML}.
 
-V~každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o~jejich pozici v~původním textovém souboru. Také nelze určit, zda byla konkrétní data v~souboru zapsána, nebo zda-li vznikla pouhým odkazem na již existující data z~jiné části souboru.
+V~každé fázi se ztratí část informace. Ve výsledné datové struktuře například nejsou žádné informace o~jejich pozici v~původním textovém souboru. Také nelze určit, zda byla konkrétní data v~souboru zapsána, nebo zda vznikla pouhým odkazem na již existující data z~jiné části souboru.
 
 Formát \gls{YAML} je takto navržen záměrně za účelem oddělení prezentace dat od jejich významu. Pro potřeby aplikace \textit{ModelEditor} je ovšem tato vlastnost nežádoucí. Například informace o~pozici hodnoty v~konfiguračním souboru je podstatná a~dále se využívá pro některé funkce. Touto problematikou se zabývá kapitola~\ref{sec:implementace-yaml}.
 
@@ -489,6 +490,7 @@ Mezi vývojáři Flow123d se specifikace formátu také označuje jako \gls{IST}
 Specifikace formátu je generována simulátorem Flow123d na základě jeho interní datové struktury. Reprezentace této struktury je exportována do formátu \gls{JSON}. Tato specifikace formátu obsahuje kromě požadavků na datovou strukturu i~dokumentační řetězce, ze kterých se vytváří referenční dokumentace. Specifikace formátu je tedy úplným popisem datové struktury konfiguračních souborů, ze kterého vychází hlavní funkce \textit{ModelEditoru}, jako je validace konfiguračních souborů, generování kontextové nápovědy nebo automatické doplňování textu.
 
 \subsection{Základní datové typy}
+%TODO doplnit kapitolu
 \label{sec:analyza-specifikace-formatu-zakladni-datove-typy}
 Jak již bylo zmíněno v~kapitole \ref{sec:datova-sturktura}, konfigurační soubory obsahují hierarchickou datovou strukturu, která tvoří strom. Specifikace formátu definuje datový typ pro každý uzel stromu, ať už se jedná o~interní uzel nebo list stromu. Datové typy definované ve specifikaci formátu mohou mít následující parametry:
 
@@ -941,7 +943,7 @@ Pro zpracování autokonverzí byl v~rámci aplikace navržen samostatný modul,
 
 Začátek celého procesu se nachází na obrázku~\ref{img:autoconversion_process}.  Nejprve se zkontroluje, zda datový typ uzlu odpovídá očekávanému datovému typu. Pokud je datový typ správný, tak se pro danou datovou strukturu žádná autokonverze neprovede, ale rekurzivně se stejný proces opakuje i~pro všechny přímé potomky této datové struktury.
 
-K~autokonverzi může dojít v~případě, že se datový typ daného uzlu neshoduje s~datovým typem, který se na tomto místě v~datové struktuře očekává. Pokud tato situace nastane, tak se nejprve ověří, zda se očekává záznam. Pokud tomu tak je a~zároveň tento záznam podporuje funkci autokonverze, tak dojde k~autokonverzi na záznam, jak bylo popsáno v~kaptiole~\ref{sec:analyza-autokonverze-zaznam}.
+K~autokonverzi může dojít v~případě, že se datový typ daného uzlu neshoduje s~datovým typem, který se na tomto místě v~datové struktuře očekává. Pokud tato situace nastane, tak se nejprve ověří, zda se očekává záznam. Pokud tomu tak je a~zároveň tento záznam podporuje funkci autokonverze, tak dojde k~autokonverzi na záznam, jak bylo popsáno v~kapitole~\ref{sec:analyza-autokonverze-zaznam}.
 
 \clearpage
 
@@ -1005,7 +1007,7 @@ Některé z~primitivních datových typů nemají žádnou typově specifickou v
 	\label{img:validation_selection}
 \end{figure}
 
-Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se oveří, zda je zadaná hodnota jednou z~možných hodnot, která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection}.
+Posledním primitivním datovým typem, který má speciální validaci, je výčtový datový typ (\textit{Selection}). U~tohoto datového typu se ověří, zda je zadaná hodnota jednou z~možných hodnot, která je uvedena ve specifikaci formátu. Pokud zadaná hodnota není uvedena ve specifikaci formátu, dojde k~chybě \textit{InvalidSelectionOption}. Validaci výčtového datového typu znáznorňuje obrázek~\ref{img:validation_selection}.
 
 \clearpage
 \subsection{Validace pole}
