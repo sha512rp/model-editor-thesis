@@ -1,4 +1,4 @@
-\documentclass[FM,bw,DP]{tulthesis}
+\documentclass[FM,DP,bw]{tulthesis}
 
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
@@ -6,7 +6,7 @@
 \usepackage[export]{adjustbox}
 \usepackage{graphicx}
 \usepackage{listings}
-\usepackage{xcolor}
+\usepackage[rgb]{xcolor}
 \usepackage[hyphens]{url}
 \usepackage[hidelinks,unicode,hyperfootnotes=false]{hyperref}
 \usepackage{float}
@@ -16,6 +16,10 @@
 \usepackage{enumitem}
 \usepackage[toc]{appendix}
 \usepackage{dirtree}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\definecolor{black}{rgb}{0, 0, 0}
 
 % no vertical spcaing between items in list
 \setlist{nosep}
@@ -142,6 +146,7 @@
 \newacronym{TDD}{TDD}{Test Driven Development}
 
 
+\color{black}
 
 \begin{document}
 \ThesisStart{male}
@@ -549,7 +554,7 @@ Všechna pole ve specifikaci datové struktury jsou homogenní -- obsahují tedy
 
 \subsection{Záznamy}
 
-Záznamy slouží pro inicializaci tříd a~jejich atributy tvoří dvojice klíč a~hodnota. Každý datový typ odvozen z~typu \textit{Record} má v~rámci specifikace formátu definován množinu klíčů \texttt{keys}. Dále mohou mít záznamy definován parametr \texttt{reducible\_to\_key}, který se používá pro autokonverzi na záznam (viz kapitola \ref{sec:analyza-autokonverze-zaznam}).
+Záznamy slouží pro inicializaci tříd a~jejich atributy tvoří dvojice klíč a~hodnota. Každý datový typ odvozen z~typu \textit{Record} má v~rámci specifikace formátu definován množinu klíčů \texttt{keys}. Záznamy mohou mít  definován parametr \texttt{reducible\_to\_key}, který se používá pro autokonverzi na záznam (viz kapitola \ref{sec:analyza-autokonverze-zaznam}).
 
 \vspace{0.5cm}
 \begin{tabular}{m{4cm}@{}l}
@@ -1412,7 +1417,6 @@ time: *time
 \end{lstlisting}
 \vspace*{-20pt}
 \caption{Konfigurační soubor \texttt{flow\_time\_dep} ve formátu CON}
-\label{img:reference-con}
 \end{figure}
 
 \clearpage
@@ -1461,7 +1465,6 @@ problem: !SequentialCoupling
 \end{lstlisting}
 \vspace*{-20pt}
 \caption{Konfigurační soubor \texttt{flow\_time\_dep} ve formátu YAML}
-\label{img:reference-con}
 \end{figure}
 
 

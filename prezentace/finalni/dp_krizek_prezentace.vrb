@@ -14,9 +14,9 @@
 	\begin{minipage}[t]{0.45\textwidth}
 	\begin{block}{Formát YAML}
 	\begin{itemize}
-		\item<3-> nahrazuje formát CON
-		\item<4-> přehledná syntaxe
-		\item<5-> návrh použití syntaxe pro zápis (abstraktní záznamy, reference)
+		\item<3-> Nahrazuje formát CON
+		\item<4-> Přehledná syntaxe
+		\item<5-> Návrh použití syntaxe pro zápis (abstraktní záznamy, reference)
 		%\item<6-> vlastní implementace zpracování souboru
 	\end{itemize}
 	\end{block}
@@ -25,9 +25,9 @@
 	\begin{minipage}[t]{0.45\textwidth}
 	\begin{block}{Autokonverze}
 	\begin{itemize}
-		\item<7-> speciální zkrácený zápis polí či záznamů
-		\item<8-> v praxi -- jiný datový typ, než se očekává
-		\item<9-> libovolně vnořené $\rightarrow$ rekurzivní průchod datové struktury
+		\item<7-> Speciální zkrácený zápis polí či záznamů
+		\item<8-> V praxi -- jiný datový typ, než se očekává
+		\item<9-> Libovolně vnořené $\rightarrow$ rekurzivní průchod datové struktury
 	\end{itemize}
 	\end{block}
 	\end{minipage}

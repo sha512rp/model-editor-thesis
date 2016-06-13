@@ -13,10 +13,12 @@
 \subtitle{Diplomová práce}
 \author[Bc. Tomáš Křížek]{Bc. Tomáš Křížek}
 \institute[TUL]{Technická univerzita v Liberci}
-\date{19.~dubna~2016}
+\date{15.~června~2016}
 \newcommand{\TextTitulniStranaPodLinkou}{\tiny
 Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.krizek1@tul.cz} {\color{FM_TUL} |} 
 \href{http://www.fm.tul.cz/}{www.fm.tul.cz}}
+
+\renewcommand{\inserttotalframenumber}{\pageref{lastslide}}
 
 \begin{document}
 %\setbeamertemplate{caption}{\insertcaption}
@@ -35,7 +37,6 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 		\item Validace
 		\item Kontextová nápověda
 		\item Grafické rozhraní
-		\item Použité technologie
 	\end{itemize}
 \end{frame}
 
@@ -44,17 +45,17 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 	\frametitle{Problematika}
 	\begin{block}{Simulátor Flow123d}
 	\begin{itemize}[<+->]
-		\item modelování procesů v horninovém prostředí
-		\item pouze textové rozhraní
-		\item výpočetně náročné $\rightarrow$ vzdálené spouštění
+		\item Modelování procesů v horninovém prostředí
+		\item Pouze textové rozhraní
+		\item Výpočetně náročné $\rightarrow$ vzdálené spouštění
 	\end{itemize}
 	\end{block}
 	
 	\begin{block}{Konfigurační soubory}
 	\begin{itemize}[<+->]
-		\item definice úlohy
-		\item rozsáhlé možnosti nastavení
-		\item záznamy, pole, primitivní datové typy, abstraktní záznamy
+		\item Definice úlohy
+		\item Rozsáhlé možnosti nastavení
+		\item Záznamy, pole, primitivní datové typy, abstraktní záznamy
 	\end{itemize}
 	\end{block}
 \end{frame}
@@ -63,21 +64,21 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 	\frametitle{Motivace}
 	\begin{block}{Chyby v konfiguračních souborech}
 	\begin{itemize}[<+->]
-		\item časově náročná detekce a odstranění
-		\item uživatelsky nepřívětivé
+		\item Časově náročná detekce a odstranění
+		\item Uživatelsky nepřívětivé
 	\end{itemize}
 	\end{block}
 	
 	\begin{block}{Vytváření a upravování konfiguračních souborů}
 	\begin{itemize}[<+->]
-		\item běžné textové editory
-		\item rozsáhlá referenční dokumentace formátu
+		\item Běžné textové editory
+		\item Rozsáhlá referenční dokumentace formátu
 	\end{itemize}
 	\end{block}
 	
 	\onslide<5>{
 	\vspace{0.5cm}
-	$\Rightarrow$ \textit{specializovaný editor}
+	$\Rightarrow$ \textit{Specializovaný editor}
 	}
 \end{frame}
 
@@ -98,9 +99,9 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 	\begin{minipage}[t]{0.45\textwidth}
 	\begin{block}{Formát YAML}
 	\begin{itemize}
-		\item<3-> nahrazuje formát CON
-		\item<4-> přehledná syntaxe
-		\item<5-> návrh použití syntaxe pro zápis (abstraktní záznamy, reference)
+		\item<3-> Nahrazuje formát CON
+		\item<4-> Přehledná syntaxe
+		\item<5-> Návrh použití syntaxe pro zápis (abstraktní záznamy, reference)
 		%\item<6-> vlastní implementace zpracování souboru
 	\end{itemize}
 	\end{block}
@@ -109,9 +110,9 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 	\begin{minipage}[t]{0.45\textwidth}
 	\begin{block}{Autokonverze}
 	\begin{itemize}
-		\item<7-> speciální zkrácený zápis polí či záznamů
-		\item<8-> v praxi -- jiný datový typ, než se očekává
-		\item<9-> libovolně vnořené $\rightarrow$ rekurzivní průchod datové struktury
+		\item<7-> Speciální zkrácený zápis polí či záznamů
+		\item<8-> V praxi -- jiný datový typ, než se očekává
+		\item<9-> Libovolně vnořené $\rightarrow$ rekurzivní průchod datové struktury
 	\end{itemize}
 	\end{block}
 	\end{minipage}
@@ -120,9 +121,9 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 \begin{frame}
 	\frametitle{Validace}
 	\begin{itemize}[<+->]
-	\item včasné odhalení chyb
-	\item přizpůsobí se verzi Flow123d
-	\item upozornění na možné problémy
+	\item Včasné odhalení chyb
+	\item Přizpůsobí se verzi Flow123d
+	\item Upozornění na možné problémy
 	\end{itemize}
 	\only<1-3>{
 		\includegraphics[width=\textwidth]{img/validation_pause.png}
@@ -136,9 +137,9 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 \begin{frame}
 	\frametitle{Kontextová nápověda}
 	\begin{itemize}[<+->]
-	\item alternativa k rozsáhlé referenční dokumentaci
-	\item zobrazuje relevantní dokumentaci k právě editované hodnotě (pozici)
-	\item možnost navigace v rámci nápovědy
+	\item Alternativa k rozsáhlé referenční dokumentaci
+	\item Zobrazuje relevantní dokumentaci k právě editované hodnotě (pozici)
+	\item Možnost navigace v rámci nápovědy
 	\end{itemize}
 	\only<1-3>{
 		\includegraphics[width=\textwidth]{img/gui_doc_mortar_method_pause.png}
@@ -154,33 +155,106 @@ Studentská 2 {\color{FM_TUL} |} 461\,17 Liberec 2 {\color{FM_TUL} |} {tomas.kri
 \end{frame}
 
 \begin{frame}
-	\frametitle{Použité technologie}
+	\frametitle{Shrnutí -- funkce editoru}
 	\begin{itemize}[<+->]
-	\item Python 3.4
-	\item grafická knihovna PyQt 5
-	\item knihovna pro textový editor QScintilla 2
-	\item knihovna pro YAML -- PyYAML
-	\item instalační balíčky pro Windows, Debian
+	\item Zpracování YAML
+	\item Autokonverze
+	\item Validace
+	\item Kontextová nápověda
+	\item Automatické doplňování textu
+	\item Vizualizace datové struktury
+	\item Přizpůsobí se verzi Flow123d
+	\item Multiplatformní aplikace (Windows XP a novější, Linux)
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Shrnutí -- funkce editoru}
-	\begin{itemize}[<+->]
-	\item zpracování YAML
-	\item autokonverze
-	\item validace
-	\item kontextová nápověda
-	\item automatické doplňování textu
-	\item vizualizace datové struktury
-	\item přizpůsobí se verzi Flow123d
-	\item multiplatformní aplikace (Windows XP a novější, Linux)
-	\end{itemize}
+\begin{center}
+\label{lastslide}
+\huge Děkuji za pozornost.
+\end{center}
 \end{frame}
 
-\begin{frame}{}{}
+\begin{frame}[noframenumbering]
 \begin{center}
-\huge Děkuji za pozornost.
+	\frametitle{Jakým způsobem je realizovaná kontrola aktuální instalace jazyka Python při instalaci editoru?}
+	\begin{itemize}[<+->]
+		\item Běhové prostředí: Python 3.4, PyQt 5, Python balíčky
+		\item Instalační balíčky: \textbf{Windows} (NSIS), Debian
+		\item Sestavení: Docker + Jenkins
+		\item Všechny závislosti součástí instalace
+		\begin{itemize}
+			\item Uživatelsky přívětivé
+			\item Offline instalace
+			\item Větší instalační soubor (zhruba 70MB)
+		\end{itemize}
+		\item Kontrola verze Pythonu
+		\begin{itemize}
+			\item Číslování Python verzí major.minor.revision (3.4.3)
+			\item Nalezení klíče v registru podle major.minor verze (3.4)
+			\item Funguje pro nestandardní umístění
+			\item Pokud se nenalezne $\rightarrow$ Instalace Pythonu 3.4.3
+		\end{itemize}
+	\end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\begin{center}
+	\frametitle{Jakým způsobem je řešen import souborů ve formátu \texttt{*.con}?}
+	\begin{itemize}[<+->]
+		\item Řešil Ing. Pavel Richter
+		\item Úprava \texttt{*.con} na \texttt{*.json} pomocí regulárních výrazů
+		\item Načtění formátu \texttt{*.json}
+		\item Vyhledání komentářů v textu
+		\item Ošetření speciálních případů (\texttt{TYPE}, \texttt{REF})
+		\item Sestavení datové struktury
+		\item Serializace datové struktury a přidání komentářů
+		\item Případné provedení transformace
+	\end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\begin{center}
+	\frametitle{Existuje možnost konverze vstupního souboru mezi jednotlivými verzemi Flow123d?}
+	\begin{itemize}[<+->]
+		\item Řešil Ing. Pavel Richter
+		\item Automaticky - při importu
+		\item Manuálně - v uživatelském rozhraní aplikace
+		\item Aktuálně 1.8.3 $\rightarrow$ 2.0.0
+		\item Budoucí verze Flow123d
+		\begin{itemize}
+			\item Přidání specifikace formátu
+			\item Vytvoření transformačního souboru
+			\item Není nutné zasahovat do kódu aplikace
+		\end{itemize}
+	\end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\begin{center}
+	\frametitle{Existuje již nějaký plán (časový, nové funkcionality) dalšího rozvoje?}
+	\begin{itemize}[<+->]
+		\item Vylepšení zvýraznění syntaxe (editor, strom)
+		\item Částečné generování kódu - šablony pro ustálené podstromy
+		\item Zabalování kódu v editoru
+		\item Zobrazování a konverze jednotek
+		\item Speciální zobrazení některých datových typů ve stromu
+		\item V projektu GeoMop má ovšem aktuálně prioritu vývoj ostatních aplikací
+	\end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\begin{center}
+	\frametitle{Jak náročná by byla úprava aplikace, pokud bude ve Flow123d např. přidán nový vstupní datový typ?}
+	\begin{itemize}[<+->]
+		\item Záleží na vstupním datovém typu
+		\item Primitivní datový typ - snadné, přidání validačních pravidel
+		\item Složený datový typ - náročné, pravděpodobně nutné zasáhnout do různých částí aplikace
+	\end{itemize}
 \end{center}
 \end{frame}
 
